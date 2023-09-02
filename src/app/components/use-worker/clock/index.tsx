@@ -99,7 +99,13 @@ const Clock: FC = () => {
   }, [clockSource]);
 
   return (
-    <StyledClock ref={supportsOffscreenCanvas ? clockCallbackRef : undefined}>
+    <StyledClock
+      ref={supportsOffscreenCanvas ? clockCallbackRef : undefined}
+      aria-label="Clock"
+      role="timer"
+      title={date}
+      suppressHydrationWarning
+    >
       {supportsOffscreenCanvas ? undefined : time}
     </StyledClock>
   );
