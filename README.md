@@ -1,3 +1,56 @@
+# This is my practices written next13 app router.
+
+# 1. structure.
+
+```
+├── README.md
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── public
+│   ├── next.svg
+│   └── vercel.svg
+├── src
+│   └── app
+│       ├── components
+│       │   ├── form-page
+│       │   │   ├── index.tsx
+│       │   │   └── schema
+│       │   │       └── zodSchema.ts
+│       │   └── use-worker
+│       │       ├── StyledTaskBar.tsx
+│       │       └── clock
+│       │           ├── StyledClock.tsx
+│       │           ├── clock.worker.ts
+│       │           ├── functions.ts
+│       │           └── index.tsx
+│       ├── favicon.ico
+│       ├── form-page
+│       │   └── page.tsx
+│       ├── globals.css
+│       ├── hooks
+│       │   └── useWorker.ts
+│       ├── layout.tsx
+│       ├── page.tsx
+│       ├── types
+│       │   └── index.ts
+│       ├── use-worker
+│       │   └── page.tsx
+│       └── utils
+│           ├── constants.ts
+│           └── functions
+│               └── index.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── turbo.json
+```
+
+form-page: for practicing New React Hook forms.(V5/V6)
+use-worker: for practicing web worker / window-like project in a browser, pirating from
+[Dustin Brett] (https://dustinbrett.com/).
+
 Monorepo!
 
 https://blog.logrocket.com/build-monorepo-next-js/
