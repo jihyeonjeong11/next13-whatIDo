@@ -47,9 +47,9 @@
 └── turbo.json
 ```
 
-form-page: for practicing New React Hook forms.(V5/V6)
-use-worker: for practicing web worker / window-like project in a browser, pirating from
-[Dustin Brett] (https://dustinbrett.com/).
+- form-page: for practicing New React Hook forms.(V5/V6)
+- use-worker: for practicing web worker / window-like project in a browser, pirating from
+  [Dustin Brett] (https://dustinbrett.com/).
 
 Monorepo!
 
