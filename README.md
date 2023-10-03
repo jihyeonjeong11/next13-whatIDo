@@ -50,6 +50,7 @@
 - form-page: for practicing New React Hook forms.(V5/V6)
 - use-worker: for practicing web worker / window-like project in a browser, pirating from
   [Dustin Brett] (https://dustinbrett.com/).
+- use-window: for making dynamic component render structure along with features(Rnd, and so on)
 
 Monorepo!
 

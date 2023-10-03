@@ -8,4 +8,15 @@ export const ONE_TIME_PASSIVE_EVENT = {
   once: true,
   passive: true,
 } as AddEventListenerOptions;
-// to prevent scroll.
+
+export const PREVENT_SCROLL = { preventScroll: true };
+
+export const PROCESS_DELIMITER = '__';
+
+export const TRANSITIONS_IN_MILLISECONDS = {
+  DOUBLE_CLICK: 500,
+  LONG_PRESS: 500,
+  MOUSE_IN_OUT: 300,
+  START_MENU: 400,
+  WINDOW: 250,
+};
