@@ -1,3 +1,4 @@
+'use client'
 import { closeProcess, openProcess } from './functions';
 import type { ProcessArguments, ProcessElements, Processes } from './types';
 import { useCallback, useState } from 'react';
@@ -50,6 +51,7 @@ const useProcessContextState = (): ProcessContextState => {
   );
   const open = useCallback(
     (id: string, processArguments?: ProcessArguments, initialIcon?: string) => {
+      console.log(id, processArguments)
       if (id === 'ExternalURL') {
         const { url: externalUrl = '' } = processArguments || {};
 

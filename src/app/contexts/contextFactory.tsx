@@ -1,3 +1,4 @@
+'use client'
 import { createContext, memo, useContext } from 'react';
 
 const contextFactory = <T,>(
