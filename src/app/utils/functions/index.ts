@@ -22,3 +22,8 @@ export const createOffscreenCanvas = (
 
   return canvas.transferControlToOffscreen();
 };
+
+export const label = (value: string): React.HTMLAttributes<HTMLElement> => ({
+  "aria-label": value,
+  title: value,
+});

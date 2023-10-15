@@ -2,6 +2,7 @@
 import { ProcessProvider, useProcesses } from "../contexts/process";
 import Window from "../components/use-window/window";
 import StyledApp from "../components/use-window/StyledApp";
+import { ErrorBoundary } from "../components/common/ErrorBoundary";
 
 export default function UseWindowPage() {
   const {processes} = useProcesses()
@@ -10,7 +11,9 @@ export default function UseWindowPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <ProcessProvider>
-        <StyledApp />
+        <ErrorBoundary>
+          <StyledApp />
+        </ErrorBoundary>
       </ProcessProvider>
     </main>
   );

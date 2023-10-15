@@ -1,14 +1,14 @@
 import type { ComponentProcessProps } from '../RenderComponent';
 import { useProcesses } from '@/app/contexts/process';
 import StyledWindow from './StyledWindow';
+import TitleBar from '../titlebar';
 
 const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   const {
     processes: { [id]: process }, processes
   } = useProcesses();
-  console.log('process', processes)
-  // const { backgroundColor, Component, hideTitlebar, peekElement } =
-  //   process || {};
+  const { backgroundColor, Component, hideTitlebar, peekElement } =
+    process || {};
   // const { foregroundId } = useSession();
   // const isForeground = id === foregroundId;
   // const { zIndex, ...focusableProps } = useFocusable(id);
@@ -23,7 +23,13 @@ const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   // );
 
   return (
-    <div>hello</div>
+    <>
+      <StyledWindow $backgroundColor={backgroundColor} style={{width: 475, height: 130}}>
+        <div>{id}</div>
+        {!hideTitlebar && <TitleBar id={id} />}
+      {children}
+      </StyledWindow>
+    </>
   )
 
   // return (

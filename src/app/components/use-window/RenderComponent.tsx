@@ -3,7 +3,7 @@ import ComponentError from '@/app/components/use-window/ComponentError';
 import dynamic from 'next/dynamic';
 import { memo } from 'react';
 
-//const Window = dynamic(() => import('components/system/Window'));
+const Window = dynamic(() => import('@/app/components/use-window/window/index'));
 
 export type ComponentProcessProps = {
   id: string;
@@ -26,9 +26,7 @@ const RenderComponent: FC<RenderComponentProps> = ({
     </ErrorBoundary>
   );
 
-  return SafeComponent
-
-  //return hasWindow ? <Window id={id}>{SafeComponent}</Window> : SafeComponent;
+  return hasWindow ? <Window id={id}>{SafeComponent}</Window> : SafeComponent;
 };
 
 export default memo(RenderComponent);

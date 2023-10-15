@@ -52,6 +52,10 @@
   [Dustin Brett] (https://dustinbrett.com/).
 - use-window: for making dynamic component render structure along with features(Rnd, and so on)
 
+how window is made?
+
+Titlebar find class=<nav className="cancel">
+
 Monorepo!
 
 https://blog.logrocket.com/build-monorepo-next-js/

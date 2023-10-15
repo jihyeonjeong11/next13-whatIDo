@@ -1,3 +1,5 @@
+import type { ThemeName } from "../styles/use-window/themes";
+
 export type ClockSource = 'local' | 'ntp';
 
 export const TASKBAR_HEIGHT = 30;
@@ -20,3 +22,7 @@ export const TRANSITIONS_IN_MILLISECONDS = {
   START_MENU: 400,
   WINDOW: 250,
 };
+
+export const WINDOW_ID = "window"
+
+export const DEFAULT_THEME: ThemeName = "defaultTheme";
