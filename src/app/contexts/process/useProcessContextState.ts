@@ -1,5 +1,6 @@
 'use client'
-import { closeProcess, openProcess } from './functions';
+import { closeProcess, openProcess,  setProcessElement,
+} from './functions';
 import type { ProcessArguments, ProcessElements, Processes } from './types';
 import { useCallback, useState } from 'react';
 import { TRANSITIONS_IN_MILLISECONDS } from 'utils/constants';
@@ -13,11 +14,11 @@ type ProcessContextState = {
   // closeProcessesByUrl: (closeUrl: string) => void;
   // closeWithTransition: (id: string) => void;
   // icon: (id: string, newIcon: string) => void;
-  // linkElement: (
-  //   id: string,
-  //   name: keyof ProcessElements,
-  //   element: HTMLElement
-  // ) => void;
+  linkElement: (
+    id: string,
+    name: keyof ProcessElements,
+    element: HTMLElement
+  ) => void;
   // maximize: (id: string) => void;
   // minimize: (id: string) => void;
   close: (id: string, closing?: boolean) => void;
@@ -51,7 +52,6 @@ const useProcessContextState = (): ProcessContextState => {
   );
   const open = useCallback(
     (id: string, processArguments?: ProcessArguments, initialIcon?: string) => {
-      console.log(id, processArguments)
       if (id === 'ExternalURL') {
         const { url: externalUrl = '' } = processArguments || {};
 
@@ -71,10 +71,18 @@ const useProcessContextState = (): ProcessContextState => {
     },
     []
   );
+
+  // const linkElement = useCallback(
+  //   (id: string, name: keyof ProcessElements, element: HTMLElement) =>
+  //     setProcesses(setProcessElement(id, name, element)),
+  //   []
+  // );
+
   return {
     close,
     open,
     processes,
+   // linkElement
   };
 };
 

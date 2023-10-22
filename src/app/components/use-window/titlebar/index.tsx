@@ -9,7 +9,7 @@ type TitlebarProps = {
   id: string;
 };
 
-const TitleBar: FC<TitlebarProps> = ({ id }) => {
+const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
   const {
     processes: { [id]: process },
     close,
@@ -27,6 +27,7 @@ const TitleBar: FC<TitlebarProps> = ({ id }) => {
         <CloseIcon />
       </Button>
       </nav>
+      {children}
     </StyledTitlebar>
   );
 };

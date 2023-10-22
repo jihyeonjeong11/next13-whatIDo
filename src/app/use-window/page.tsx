@@ -6,7 +6,6 @@ import { ErrorBoundary } from "../components/common/ErrorBoundary";
 
 export default function UseWindowPage() {
   const {processes} = useProcesses()
-  console.log(processes)
   // need ViewPortContext
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

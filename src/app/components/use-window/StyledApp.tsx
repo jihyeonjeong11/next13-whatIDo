@@ -34,7 +34,7 @@ const StyledApp: FC = ({ children }) => {
         <div>for test</div>
         <button
           aria-label="addComponent"
-          onClick={() => open(WINDOW_ID, { hasWindow: true, Component:() => <div>{"I'm component"}</div> })}
+          onClick={() => open(WINDOW_ID, { hasWindow: true, Component:() => <div style={{width: 100, height: 100}}>{"I'm component"}</div> })}
         >
           add component
         </button>

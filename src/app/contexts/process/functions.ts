@@ -1,4 +1,4 @@
-import type { Process, Processes, ProcessArguments } from './types';
+import type { Process, Processes, ProcessArguments, ProcessElements } from './types';
 import { PREVENT_SCROLL, PROCESS_DELIMITER } from 'utils/constants';
 
 const setProcessSettings =
@@ -81,3 +81,8 @@ export const openProcess =
       },
     };
   };
+
+  export const setProcessElement =
+  (processId: string, name: keyof ProcessElements, element: HTMLElement) =>
+  (currentProcesses: Processes): Processes =>
+    setProcessSettings(processId, { [name]: element })(currentProcesses);

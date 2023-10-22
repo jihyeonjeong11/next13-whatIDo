@@ -27,3 +27,7 @@ export const label = (value: string): React.HTMLAttributes<HTMLElement> => ({
   "aria-label": value,
   title: value,
 });
+
+export const viewHeight = (): number => window.innerHeight;
+
+export const viewWidth = (): number => window.innerWidth;
