@@ -27,3 +27,8 @@ export const label = (value: string): React.HTMLAttributes<HTMLElement> => ({
   "aria-label": value,
   title: value,
 });
+
+// Useful funcs pirated from here and there
+
+export const makeAnArray = (n: number) => [...Array(n)].map((x,i)=>i)
+
