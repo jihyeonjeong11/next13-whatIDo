@@ -24,9 +24,7 @@ const theme = {
 const StyledApp: FC = ({ children }) => {
   //const { themeName } = useSession();
   const { open, processes } = useProcesses();
-
-  // theme={themes[themeName] || themes[DEFAULT_THEME]}
-
+  console.log(processes);
   return (
     <StyleSheetManager enableVendorPrefixes>
       <ThemeProvider theme={themes[DEFAULT_THEME]}>
