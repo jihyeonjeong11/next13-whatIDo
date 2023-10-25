@@ -57,20 +57,20 @@ const useWindowTransitions = (
     Object.create(null) as Variant
   );
 
-    // useLayoutEffect(() => {
-    //   if (!componentWindow || closing) return;
+    useLayoutEffect(() => {
+      if (!componentWindow || closing) return;
 
-    //   const { x: windowX = 0, y: windowY = 0 } =
-    //     componentWindow.getBoundingClientRect();
+      const { x: windowX = 0, y: windowY = 0 } =
+        componentWindow.getBoundingClientRect();
 
-    //   setMaximize({
-    //     ...baseMaximize,
-    //     ...getMaxDimensions(),
-    //     x: 0 - windowX,
-    //     y: 0 - windowY,
-    //   });
+      setMaximize({
+        ...baseMaximize,
+        ...getMaxDimensions(),
+        x: 0 - windowX,
+        y: 0 - windowY,
+      });
 
-    // }, [closing, componentWindow, maximized]);
+    }, [closing, componentWindow, maximized]);
 
   useLayoutEffect(() => {
       if (!taskbarEntry || !componentWindow || closing) return;
@@ -98,7 +98,6 @@ const useWindowTransitions = (
       if (!(x === 0 && y === 0)) {
         setMinimize({ ...baseMinimize, x, y });
       }
-      // eslint-disable-next-line react-hooks-addons/no-unused-deps
     }, [closing, componentWindow, minimized, taskbarEntry]);
 
   return {
