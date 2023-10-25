@@ -9,7 +9,7 @@ const active = {
   height: 150,
   opacity: 1,
   scale: 1,
-  width: 400, // this needs to be inherit
+  width: 400, // this needs to be inherit // "inherit"
 };
 
 const exit = {
