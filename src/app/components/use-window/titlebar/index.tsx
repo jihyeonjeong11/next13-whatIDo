@@ -1,9 +1,14 @@
-import React from "react";
-import StyledTitlebar from "./StyledTitleBar";
-import Button from "../../common/Button";
-import { CloseIcon } from "./WindowActionIcons";
-import { useProcesses } from "@/app/contexts/process";
-import { label } from "@/app/utils/functions";
+import React from 'react';
+import StyledTitlebar from './StyledTitleBar';
+import Button from '../../common/Button';
+import {
+  CloseIcon,
+  MaximizeIcon,
+  MaximizedIcon,
+  MinimizeIcon,
+} from './WindowActionIcons';
+import { useProcesses } from '@/app/contexts/process';
+import { label } from '@/app/utils/functions';
 
 type TitlebarProps = {
   id: string;
@@ -22,10 +27,30 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
           <figcaption>title</figcaption>
         </figure>
       </Button>
+
       <nav className="cancel">
-      <Button className="close" onClick={() => close(id)} {...label("Close")}>
-        <CloseIcon />
-      </Button>
+        {!false && (
+          <Button
+            className="minimize"
+            //onClick={onMinimize}
+            {...label('Minimize')}
+          >
+            <MinimizeIcon />
+          </Button>
+        )}
+        {!false && (
+          <Button
+            className="maximize"
+            //disabled={!allowResizing}
+            //onClick={onMaximize}
+            {...label('Maximize')}
+          >
+            {false ? <MaximizedIcon /> : <MaximizeIcon />}
+          </Button>
+        )}
+        <Button className="close" onClick={() => close(id)} {...label('Close')}>
+          <CloseIcon />
+        </Button>
       </nav>
       {children}
     </StyledTitlebar>
