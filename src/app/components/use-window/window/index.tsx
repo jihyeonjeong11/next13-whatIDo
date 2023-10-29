@@ -1,17 +1,18 @@
-import type { ComponentProcessProps } from '../RenderComponent';
-import { useProcesses } from '@/app/contexts/process';
-import StyledWindow from './StyledWindow';
-import TitleBar from '../titlebar';
-import RndWindow from './rndwindow';
-import useWindowTransitions from '../hooks/useWindowTransition';
+import type { ComponentProcessProps } from "../RenderComponent";
+import { useProcesses } from "@/app/contexts/process";
+import StyledWindow from "./StyledWindow";
+import TitleBar from "../titlebar";
+import RndWindow from "./rndwindow";
+import useWindowTransitions from "../hooks/useWindowTransition";
 
 const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   const {
-    processes: { [id]: process }, processes
+    processes: { [id]: process },
+    processes,
   } = useProcesses();
   const { backgroundColor, Component, hideTitlebar, peekElement } =
     process || {};
-  const windowTransitions = useWindowTransitions(id)
+  const windowTransitions = useWindowTransitions(id);
 
   // const { foregroundId } = useSession();
   // const isForeground = id === foregroundId;
@@ -28,15 +29,17 @@ const Window: FC<ComponentProcessProps> = ({ children, id }) => {
 
   return (
     <RndWindow>
-      <StyledWindow style={{width: 400, height: 100}} $backgroundColor={backgroundColor} 
-      {...windowTransitions}
+      <StyledWindow
+        style={{ width: 400, height: 100 }}
+        $backgroundColor={backgroundColor}
+        {...windowTransitions}
       >
         <div>{id}</div>
         {!hideTitlebar && <TitleBar id={id} />}
-      {children}
+        {children}
       </StyledWindow>
     </RndWindow>
-  )
+  );
 
   // return (
   //   <RndWindow id={id} zIndex={zIndex}>

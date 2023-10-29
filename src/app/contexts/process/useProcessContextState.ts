@@ -1,9 +1,14 @@
-'use client'
-import { closeProcess, openProcess,  setProcessElement,
-} from './functions';
-import type { ProcessArguments, ProcessElements, Processes } from './types';
-import { useCallback, useState } from 'react';
-import { TRANSITIONS_IN_MILLISECONDS } from 'utils/constants';
+"use client";
+import {
+  closeProcess,
+  maximizeProcess,
+  minimizeProcess,
+  openProcess,
+  setProcessElement,
+} from "./functions";
+import type { ProcessArguments, ProcessElements, Processes } from "./types";
+import { useCallback, useState } from "react";
+import { TRANSITIONS_IN_MILLISECONDS } from "utils/constants";
 
 type ProcessContextState = {
   // argument: (
@@ -14,14 +19,15 @@ type ProcessContextState = {
   // closeProcessesByUrl: (closeUrl: string) => void;
   // closeWithTransition: (id: string) => void;
   // icon: (id: string, newIcon: string) => void;
-  linkElement: (
+  linkElement?: (
     id: string,
     name: keyof ProcessElements,
     element: HTMLElement
   ) => void;
-  // maximize: (id: string) => void;
-  // minimize: (id: string) => void;
+  maximize: (id: string) => void;
+  minimize: (id: string) => void;
   close: (id: string, closing?: boolean) => void;
+  closeWithTransition: (id: string) => void;
 
   open: (
     id: string,
@@ -52,23 +58,40 @@ const useProcessContextState = (): ProcessContextState => {
   );
   const open = useCallback(
     (id: string, processArguments?: ProcessArguments, initialIcon?: string) => {
-      if (id === 'ExternalURL') {
-        const { url: externalUrl = '' } = processArguments || {};
+      if (id === "ExternalURL") {
+        const { url: externalUrl = "" } = processArguments || {};
 
         if (
-          externalUrl.startsWith('http:') ||
-          externalUrl.startsWith('https:')
+          externalUrl.startsWith("http:") ||
+          externalUrl.startsWith("https:")
         ) {
           window.open(
             decodeURIComponent(externalUrl),
-            '_blank',
-            'noopener,noreferrer'
+            "_blank",
+            "noopener,noreferrer"
           );
         }
       } else {
         setProcesses(openProcess(id, processArguments || {}, initialIcon));
       }
     },
+    []
+  );
+
+  const closeWithTransition = useCallback(
+    (id: string): void => {
+      close(id, true);
+      window.setTimeout(() => close(id), TRANSITIONS_IN_MILLISECONDS.WINDOW);
+    },
+    [close]
+  );
+
+  const maximize = useCallback(
+    (id: string) => setProcesses(maximizeProcess(id)),
+    []
+  );
+  const minimize = useCallback(
+    (id: string) => setProcesses(minimizeProcess(id)),
     []
   );
 
@@ -80,9 +103,12 @@ const useProcessContextState = (): ProcessContextState => {
 
   return {
     close,
+    closeWithTransition,
     open,
+    maximize,
+    minimize,
     processes,
-   // linkElement
+    // linkElement
   };
 };
 

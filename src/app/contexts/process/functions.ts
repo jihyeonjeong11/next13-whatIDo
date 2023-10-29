@@ -3,8 +3,8 @@ import type {
   Processes,
   ProcessArguments,
   ProcessElements,
-} from './types';
-import { PREVENT_SCROLL, PROCESS_DELIMITER } from 'utils/constants';
+} from "./types";
+import { PREVENT_SCROLL, PROCESS_DELIMITER } from "utils/constants";
 
 const setProcessSettings =
   (processId: string, settings: Partial<Process>) =>
@@ -41,7 +41,7 @@ const createPid = (
 ): string => {
   const pid = url ? `${processId}${PROCESS_DELIMITER}${url}` : processId;
   const uniquePid = (instance = 0): string => {
-    const newPid = `${pid}${instance ? `${PROCESS_DELIMITER}${instance}` : ''}`;
+    const newPid = `${pid}${instance ? `${PROCESS_DELIMITER}${instance}` : ""}`;
 
     return currentProcesses[newPid] ? uniquePid(instance + 1) : newPid;
   };
@@ -52,7 +52,7 @@ const createPid = (
 export const openProcess =
   (processId: string, processArguments: ProcessArguments, icon?: string) =>
   (currentProcesses: Processes): Processes => {
-    const { url = '' } = processArguments;
+    const { url = "" } = processArguments;
 
     // if (libs) preloadLibs(libs); // later
 
@@ -81,7 +81,7 @@ export const openProcess =
     return {
       ...currentProcesses,
       [id]: {
-        ...(typeof icon === 'string' && { icon }),
+        ...(typeof icon === "string" && { icon }),
         ...processArguments,
       },
     };

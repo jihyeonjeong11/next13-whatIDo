@@ -1,14 +1,15 @@
-import React from 'react';
-import StyledTitlebar from './StyledTitleBar';
-import Button from '../../common/Button';
+import React from "react";
+import StyledTitlebar from "./StyledTitleBar";
+import Button from "../../common/Button";
 import {
   CloseIcon,
   MaximizeIcon,
   MaximizedIcon,
   MinimizeIcon,
-} from './WindowActionIcons';
-import { useProcesses } from '@/app/contexts/process';
-import { label } from '@/app/utils/functions';
+} from "./WindowActionIcons";
+import { useProcesses } from "@/app/contexts/process";
+import { label } from "@/app/utils/functions";
+import useWindowActions from "../hooks/useWindowActions";
 
 type TitlebarProps = {
   id: string;
@@ -17,8 +18,12 @@ type TitlebarProps = {
 const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
   const {
     processes: { [id]: process },
+
     close,
   } = useProcesses();
+
+  const { maximized, minimized } = process || {};
+  const { onClose, onMaximize, onMinimize } = useWindowActions(id);
 
   return (
     <StyledTitlebar>
@@ -27,13 +32,14 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
           <figcaption>title</figcaption>
         </figure>
       </Button>
+      <div>{process.maximized}</div>
 
       <nav className="cancel">
         {!false && (
           <Button
             className="minimize"
-            //onClick={onMinimize}
-            {...label('Minimize')}
+            onClick={onMinimize}
+            {...label("Minimize")}
           >
             <MinimizeIcon />
           </Button>
@@ -42,13 +48,17 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
           <Button
             className="maximize"
             //disabled={!allowResizing}
-            //onClick={onMaximize}
-            {...label('Maximize')}
+            onClick={onMaximize}
+            {...label("Maximize")}
           >
-            {false ? <MaximizedIcon /> : <MaximizeIcon />}
+            {maximized ? <MaximizedIcon /> : <MaximizeIcon />}
           </Button>
         )}
-        <Button className="close" onClick={() => close(id)} {...label('Close')}>
+        <Button
+          className="close"
+          onClick={() => onClose(id)}
+          {...label("Close")}
+        >
           <CloseIcon />
         </Button>
       </nav>
