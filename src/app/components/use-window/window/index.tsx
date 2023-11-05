@@ -1,3 +1,5 @@
+"use client";
+
 import type { ComponentProcessProps } from "../RenderComponent";
 import { useProcesses } from "@/app/contexts/process";
 import StyledWindow from "./StyledWindow";
@@ -26,9 +28,8 @@ const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   //     linkElement(id, 'peekElement', viewportEntry),
   //   [Component, id, linkElement, peekElement]
   // );
-
   return (
-    <RndWindow>
+    <RndWindow id={id}>
       <StyledWindow
         style={{ width: 400, height: 100 }}
         $backgroundColor={backgroundColor}

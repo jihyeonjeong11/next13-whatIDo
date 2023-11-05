@@ -1,3 +1,5 @@
+"use client";
+
 import { useProcesses } from "@/app/contexts/process";
 import type { MotionProps, Variant } from "framer-motion";
 import { useEffect, useLayoutEffect, useState } from "react";

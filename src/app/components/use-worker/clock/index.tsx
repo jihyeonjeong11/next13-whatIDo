@@ -1,21 +1,23 @@
-import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
-import type { FC } from 'react';
+"use client";
+
+import { useState, useCallback, useRef, useMemo, useEffect } from "react";
+import type { FC } from "react";
 import {
   BASE_CLOCK_WIDTH,
   DEFAULT_CLOCK_SOURCE,
   ONE_TIME_PASSIVE_EVENT,
   TASKBAR_HEIGHT,
-} from 'utils/constants';
-import StyledClock from './StyledClock';
-import { LocaleTimeDate } from '@/app/types';
-import useWorker from '@/app/hooks/useWorker';
-import { Size, createOffscreenCanvas } from '@/app/utils/functions';
+} from "utils/constants";
+import StyledClock from "./StyledClock";
+import { LocaleTimeDate } from "@/app/types";
+import useWorker from "@/app/hooks/useWorker";
+import { Size, createOffscreenCanvas } from "@/app/utils/functions";
 
-type ClockWorkerResponse = LocaleTimeDate | 'source';
+type ClockWorkerResponse = LocaleTimeDate | "source";
 
 const ClockSourceMap = {
-  local: 'Local',
-  ntp: 'Server',
+  local: "Local",
+  ntp: "Server",
 };
 
 const clockSize: Size = {
@@ -33,13 +35,13 @@ const Clock: FC = () => {
 
   const offScreenClockCanvas = useRef<OffscreenCanvas>();
   const supportsOffscreenCanvas = useMemo(
-    () => typeof window !== 'undefined' && 'OffscreenCanvas' in window,
+    () => typeof window !== "undefined" && "OffscreenCanvas" in window,
     []
   );
 
   const clockWorkerInit = useCallback(
     () =>
-      new Worker(new URL('./clock.worker', import.meta.url), {
+      new Worker(new URL("./clock.worker", import.meta.url), {
         name: `Clock (${ClockSourceMap[clockSource]})`,
       }),
     [clockSource]
@@ -47,7 +49,7 @@ const Clock: FC = () => {
 
   const updateTime = useCallback(
     ({ data, target: clockWorker }: MessageEvent<ClockWorkerResponse>) => {
-      if (data === 'source') {
+      if (data === "source") {
         (clockWorker as Worker).postMessage(clockSource);
       } else {
         setNow((currentNow) =>

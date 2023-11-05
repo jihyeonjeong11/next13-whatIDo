@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import StyledTitlebar from "./StyledTitleBar";
 import Button from "../../common/Button";
@@ -22,7 +23,7 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
     close,
   } = useProcesses();
 
-  const { maximized, minimized } = process || {};
+  const { maximized = false, minimized } = process || {};
   const { onClose, onMaximize, onMinimize } = useWindowActions(id);
 
   return (
@@ -32,10 +33,9 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
           <figcaption>title</figcaption>
         </figure>
       </Button>
-      <div>{process.maximized}</div>
 
       <nav className="cancel">
-        {!false && (
+        {!maximized && (
           <Button
             className="minimize"
             onClick={onMinimize}
@@ -44,7 +44,7 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
             <MinimizeIcon />
           </Button>
         )}
-        {!false && (
+        {!maximized && (
           <Button
             className="maximize"
             //disabled={!allowResizing}
@@ -54,11 +54,7 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
             {maximized ? <MaximizedIcon /> : <MaximizeIcon />}
           </Button>
         )}
-        <Button
-          className="close"
-          onClick={() => onClose(id)}
-          {...label("Close")}
-        >
+        <Button className="close" onClick={onClose} {...label("Close")}>
           <CloseIcon />
         </Button>
       </nav>

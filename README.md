@@ -53,10 +53,13 @@
 - use-window: for making dynamic component render structure along with features(Rnd, and so on)
 
 - 10-22 : useRnd study starting
-- added react-rnd along with rndwindow, need to add useRnd 
+- added react-rnd along with rndwindow, need to add useRnd
 - added windowTransition for exit open animation
 
 - need to handle some base component for window(for inherit sizing. currently it's just magic numbers.)
+- done.
+
+10-22 need to use client syntax for all new tsxs.
 
 how window is made?
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { useProcesses } from "@/app/contexts/process";
 import { useCallback } from "react";
 

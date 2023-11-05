@@ -1,5 +1,7 @@
-import { memo } from 'react';
-import styled from 'styled-components';
+"use client";
+
+import { memo } from "react";
+import styled from "styled-components";
 
 const StyledComponentError = styled.div`
   background-color: #fff;
@@ -12,7 +14,7 @@ const StyledComponentError = styled.div`
   width: 100%;
 `;
 
-const ERROR_MESSAGE = 'Error occured within component.';
+const ERROR_MESSAGE = "Error occured within component.";
 
 const ComponentError: FC = () => (
   <StyledComponentError>{ERROR_MESSAGE}</StyledComponentError>
