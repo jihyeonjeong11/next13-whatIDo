@@ -6,10 +6,10 @@ import { TASKBAR_HEIGHT, TRANSITIONS_IN_SECONDS } from "@/app/utils/constants";
 import { viewHeight, viewWidth } from "@/app/utils/functions";
 
 const active = {
-  height: 150,
+  height: "inherit",
   opacity: 1,
   scale: 1,
-  width: 400, // this needs to be inherit // "inherit"
+  width: "inherit", // this needs to be inherit // "inherit"
 };
 
 const exit = {
