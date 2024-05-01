@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { TodoType } from '../../page';
+import { BASE_ITEM_STYLE } from '../../constants/index';
 
 type ChildrenType = {
   item: TodoType;
@@ -11,7 +12,7 @@ type ChildrenType = {
 function TodoItemWithoutChildren({ item, index }: ChildrenType) {
   console.log('Without any method this will rerender');
   return (
-    <div>
+    <div className={BASE_ITEM_STYLE}>
       <span>
         {item.label}
         {index}

@@ -2,16 +2,17 @@
 
 import React, { memo } from 'react';
 import { TodoType } from '../../page';
+import { BASE_ITEM_STYLE } from '../../constants';
 
 type ChildrenType = {
   item: TodoType;
   index: number;
 };
 
-function TodoItemWithoutChildren({ item, index }: ChildrenType) {
+function TodoItemWithMemo({ item, index }: ChildrenType) {
   console.log('With memo this will not rerender');
   return (
-    <div>
+    <div className={BASE_ITEM_STYLE}>
       <span>
         {item.label}
         {index}
@@ -20,4 +21,4 @@ function TodoItemWithoutChildren({ item, index }: ChildrenType) {
   );
 }
 
-export default memo(TodoItemWithoutChildren);
+export default memo(TodoItemWithMemo);

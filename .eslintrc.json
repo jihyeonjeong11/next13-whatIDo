@@ -3,7 +3,8 @@
     "next/core-web-vitals",
     "airbnb",
     "airbnb/hooks",
-    "airbnb-typescript"
+    "airbnb-typescript",
+    "prettier" // forgot add this
   ],
   "parserOptions": {
     "project": "./tsconfig.json",

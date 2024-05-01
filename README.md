@@ -68,9 +68,14 @@ CHECKING DIRECTORY.TS(DEFAULTSETTING)
 const rndWindowElements =
 rndEntry?.resizableElement?.current?.children || [];
 
-how window is made?
+Fixing next13 errors!
 
-Titlebar find class=<nav className="cancel">
+My page keeps refreshing! : I needed to make all React.FC to function declaration.
+ClassName did not match :
+compiler: {
+styledComponents: true,
+},
+on next.config.js. But
 
 Monorepo!
 
