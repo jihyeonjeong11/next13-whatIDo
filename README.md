@@ -50,6 +50,27 @@
 - form-page: for practicing New React Hook forms.(V5/V6)
 - use-worker: for practicing web worker / window-like project in a browser, pirating from
   [Dustin Brett] (https://dustinbrett.com/).
+- use-window: for making dynamic component render structure along with features(Rnd, and so on)
+
+- 10-22 : useRnd study starting
+- added react-rnd along with rndwindow, need to add useRnd
+- added windowTransition for exit open animation
+
+- need to handle some base component for window(for inherit sizing. currently it's just magic numbers.)
+- done.
+
+10-22 need to use client syntax for all new tsxs.
+11-12 need linkELement(for storing ref) and session for size
+11-12 change Component inside Process! need to check inside of useFileManager!
+CHECKING DIRECTORY.TS(DEFAULTSETTING)
+
+11-14 check rndwindow
+const rndWindowElements =
+rndEntry?.resizableElement?.current?.children || [];
+
+how window is made?
+
+Titlebar find class=<nav className="cancel">
 
 Monorepo!
 

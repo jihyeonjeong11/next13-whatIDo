@@ -22,3 +22,16 @@ export const createOffscreenCanvas = (
 
   return canvas.transferControlToOffscreen();
 };
+
+export const label = (value: string): React.HTMLAttributes<HTMLElement> => ({
+  "aria-label": value,
+  title: value,
+});
+
+export const viewHeight = (): number => window.innerHeight;
+
+export const viewWidth = (): number => window.innerWidth;
+// Useful funcs pirated from here and there
+
+export const makeAnArray = (n: number) => [...Array(n)].map((x,i)=>i)
+

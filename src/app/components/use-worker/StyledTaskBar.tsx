@@ -1,5 +1,7 @@
-import styled from 'styled-components';
-import { TASKBAR_HEIGHT } from '../../utils/constants';
+"use client";
+
+import styled from "styled-components";
+import { TASKBAR_HEIGHT } from "../../utils/constants";
 
 const StyledTaskbar = styled.nav`
   backdrop-filter: blur(10px);
