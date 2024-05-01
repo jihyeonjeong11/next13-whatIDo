@@ -6,6 +6,17 @@
     "airbnb-typescript"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "ecmaVersion": 8
+  },
+  "rules": {
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": ["arrow-function", "function-declaration"] }
+    ],
+    "react/prop-types": "off",
+    "import/no-cycle": "off",
+    "react/react-in-jsx-scope": "off", // we already imported React without writing import statement
+    "linebreak-style": "off" // in window, CRLF, but default is LF
   }
 }
