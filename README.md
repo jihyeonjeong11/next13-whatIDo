@@ -60,6 +60,13 @@
 - done.
 
 10-22 need to use client syntax for all new tsxs.
+11-12 need linkELement(for storing ref) and session for size
+11-12 change Component inside Process! need to check inside of useFileManager!
+CHECKING DIRECTORY.TS(DEFAULTSETTING)
+
+11-14 check rndwindow
+const rndWindowElements =
+rndEntry?.resizableElement?.current?.children || [];
 
 how window is made?
 

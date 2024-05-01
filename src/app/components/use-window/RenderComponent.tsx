@@ -24,9 +24,8 @@ const RenderComponent: FC<RenderComponentProps> = ({
   hasWindow = true,
   id,
 }) => {
-  console.log(id);
   const SafeComponent = (
-    <ErrorBoundary FallbackRender={<>123123</>}>
+    <ErrorBoundary FallbackRender={<ErrorBoundary />}>
       <Component id={id} />
     </ErrorBoundary>
   );

@@ -5,6 +5,7 @@ import type {
   ProcessElements,
 } from "./types";
 import { PREVENT_SCROLL, PROCESS_DELIMITER } from "utils/constants";
+import directory from "./directory";
 
 const setProcessSettings =
   (processId: string, settings: Partial<Process>) =>
@@ -24,6 +25,7 @@ const setProcessSettings =
 export const closeProcess =
   (processId: string, closing?: boolean) =>
   (currentProcesses: Processes): Processes => {
+    console.log(currentProcesses);
     if (closing) {
       return setProcessSettings(processId, { closing })(currentProcesses);
     }
@@ -54,7 +56,8 @@ export const openProcess =
   (currentProcesses: Processes): Processes => {
     const { url = "" } = processArguments;
 
-    // if (libs) preloadLibs(libs); // later
+    //if (libs) preloadLibs(libs); // later
+    const { libs, singleton } = directory[processId] || {};
 
     // if (singleton) {
     //   const currentPid = Object.keys(currentProcesses).find(
@@ -78,13 +81,16 @@ export const openProcess =
       return currentProcesses;
     }
 
-    return {
-      ...currentProcesses,
-      [id]: {
-        ...(typeof icon === "string" && { icon }),
-        ...processArguments,
-      },
-    };
+    return directory[processId]
+      ? {
+          ...currentProcesses,
+          [id]: {
+            ...directory[processId],
+            ...(typeof icon === "string" && { icon }),
+            ...processArguments,
+          },
+        }
+      : currentProcesses;
   };
 
 export const maximizeProcess =

@@ -78,10 +78,16 @@ const useProcessContextState = (): ProcessContextState => {
     []
   );
 
+  const linkElement = useCallback(
+    (id: string, name: keyof ProcessElements, element: HTMLElement) =>
+      setProcesses(setProcessElement(id, name, element)),
+    []
+  );
+
   const closeWithTransition = useCallback(
     (id: string): void => {
       close(id, true);
-      window.setTimeout(() => close(id), TRANSITIONS_IN_MILLISECONDS.WINDOW);
+      window.setTimeout(() => close(id), 5000);
     },
     [close]
   );
@@ -95,12 +101,6 @@ const useProcessContextState = (): ProcessContextState => {
     []
   );
 
-  // const linkElement = useCallback(
-  //   (id: string, name: keyof ProcessElements, element: HTMLElement) =>
-  //     setProcesses(setProcessElement(id, name, element)),
-  //   []
-  // );
-
   return {
     close,
     closeWithTransition,
@@ -108,7 +108,7 @@ const useProcessContextState = (): ProcessContextState => {
     maximize,
     minimize,
     processes,
-    // linkElement
+    linkElement,
   };
 };
 

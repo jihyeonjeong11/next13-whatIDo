@@ -6,11 +6,13 @@ import StyledWindow from "./StyledWindow";
 import TitleBar from "../titlebar";
 import RndWindow from "./rndwindow";
 import useWindowTransitions from "../hooks/useWindowTransition";
+import { useCallback } from "react";
 
 const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   const {
     processes: { [id]: process },
     processes,
+    linkElement,
   } = useProcesses();
   const { backgroundColor, Component, hideTitlebar, peekElement } =
     process || {};
@@ -20,24 +22,21 @@ const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   // const isForeground = id === foregroundId;
   // const { zIndex, ...focusableProps } = useFocusable(id);
   // const windowTransitions = useWindowTransitions(id);
-  // const linkViewportEntry = useCallback(
-  //   (viewportEntry: HTMLDivElement) =>
-  //     Component &&
-  //     !peekElement &&
-  //     viewportEntry &&
-  //     linkElement(id, 'peekElement', viewportEntry),
-  //   [Component, id, linkElement, peekElement]
-  // );
+  const linkViewportEntry = useCallback(
+    (viewportEntry: HTMLDivElement) => {
+      Component &&
+        !peekElement &&
+        viewportEntry &&
+        linkElement(id, "peekElement", viewportEntry);
+    },
+    [Component, id, linkElement, peekElement]
+  );
   return (
     <RndWindow id={id}>
-      <StyledWindow
-        style={{ width: 400, height: 100 }}
-        $backgroundColor={backgroundColor}
-        {...windowTransitions}
-      >
+      <StyledWindow $backgroundColor={backgroundColor} {...windowTransitions}>
         <div>{id}</div>
         {!hideTitlebar && <TitleBar id={id} />}
-        {children}
+        <div ref={linkViewportEntry}>{children}</div>
       </StyledWindow>
     </RndWindow>
   );

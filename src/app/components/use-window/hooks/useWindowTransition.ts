@@ -33,6 +33,8 @@ const fullScaleInitial = {
 const baseMaximize = {
   opacity: 1,
   scale: 1,
+  width: "100%",
+  height: "100%",
 };
 
 const baseMinimize = {
@@ -60,6 +62,7 @@ const useWindowTransitions = (
   );
 
   useLayoutEffect(() => {
+    console.log(process, "afwpiojkt");
     if (!componentWindow || closing) return;
 
     const { x: windowX = 0, y: windowY = 0 } =
@@ -71,6 +74,7 @@ const useWindowTransitions = (
       x: 0 - windowX,
       y: 0 - windowY,
     });
+    console.log(id, maximize);
   }, [closing, componentWindow, maximized]);
 
   useLayoutEffect(() => {
@@ -103,8 +107,9 @@ const useWindowTransitions = (
 
   return {
     animate:
-      //(minimized ? "minimize" : "") ||
-      (!closing && maximized ? "maximize" : "") || "active",
+      (minimized ? "minimize" : "") ||
+      (!closing && maximized ? "maximize" : "") ||
+      "active",
     exit: "exit",
     initial: "initial",
     transition: {
@@ -115,7 +120,7 @@ const useWindowTransitions = (
       exit,
       initial: noInitialScaling ? fullScaleInitial : initial,
       maximize,
-      minimize,
+      //minimize,
     },
   };
 };
