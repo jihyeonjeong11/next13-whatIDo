@@ -3,18 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import dynamic from 'next/dynamic';
-
-export type TodoType = {
-  id: string;
-  label: string;
-};
-
-export type Props = {
-  list: Array<TodoType>;
-  addList: (value?: string) => void;
-  popList: () => void;
-  type: 'without' | 'withMemo' | 'withChildren';
-};
+import { Props } from './types';
 
 const RANDOMIZABLE_TODO_LIST = [
   'do dishes',
@@ -24,22 +13,20 @@ const RANDOMIZABLE_TODO_LIST = [
   'stop smoking',
 ];
 
-export const makeListEntry = (text = '') => {
-  return {
-    id: uuidv4(),
-    label: text
-      ? text
-      : RANDOMIZABLE_TODO_LIST[
-          Math.floor(Math.random() * RANDOMIZABLE_TODO_LIST.length)
-        ],
-  };
-};
+export const makeListEntry = (text = '') => ({
+  id: uuidv4(),
+  label:
+    text ||
+    RANDOMIZABLE_TODO_LIST[
+      Math.floor(Math.random() * RANDOMIZABLE_TODO_LIST.length)
+    ],
+});
 
 const Todo = dynamic(() => import('./components/index'), { ssr: false });
 
 export default function UseComponentChildren() {
   const [list, setList] = useState<Props['list']>(
-    Array.from(Array(1), () => makeListEntry()),
+    Array.from(Array(10000), () => makeListEntry()),
   );
 
   const addList = useCallback((text?: string) => {

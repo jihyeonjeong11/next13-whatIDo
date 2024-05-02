@@ -16,8 +16,8 @@
       { "namedComponents": ["arrow-function", "function-declaration"] }
     ],
     "react/prop-types": "off",
-    "import/no-cycle": "off",
     "react/react-in-jsx-scope": "off", // we already imported React without writing import statement
-    "linebreak-style": "off" // in window, CRLF, but default is LF
+    "linebreak-style": "off", // in window, CRLF, but default is LF
+    "import/prefer-default-export": "off"
   }
 }

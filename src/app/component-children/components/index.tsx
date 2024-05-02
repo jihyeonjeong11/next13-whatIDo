@@ -2,8 +2,9 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import type { Props } from '../page';
-import TodoHandle from './TodoHandle';
+import { Props } from '../types';
+
+const TodoHandle = dynamic(() => import('./TodoHandle'), { ssr: false });
 
 const TodoItemWithoutChildren = dynamic(() => import('./todoWithoutChildren'), {
   ssr: false,

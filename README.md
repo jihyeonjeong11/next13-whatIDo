@@ -77,6 +77,9 @@ styledComponents: true,
 },
 on next.config.js. But
 
+https://kentcdodds.com/blog/optimize-react-re-renders
+for velog insight meterial
+
 Monorepo!
 
 https://blog.logrocket.com/build-monorepo-next-js/
