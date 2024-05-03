@@ -91,6 +91,24 @@ withMemo
 
 rerender time: approx 1.7ms without rerender.
 
+next to do:
+
+blog above.
+
+lighthouse / performance tab check(FCP LCP) with build
+
+blog above.
+
+test them.
+
+exp: wrapper render and add loading
+
+get code review from reddit maybe?
+
+exp: use context
+
+todo: add more styles.
+
 https://kentcdodds.com/blog/optimize-react-re-renders
 for velog insight meterial
 
