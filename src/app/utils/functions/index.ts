@@ -6,7 +6,7 @@ export type Size = {
 export const createOffscreenCanvas = (
   containerElement: HTMLElement,
   devicePixelRatio = 1,
-  customSize: Size = Object.create(null) as Size
+  customSize: Size = Object.create(null) as Size,
 ): OffscreenCanvas => {
   const canvas = document.createElement('canvas');
   const height = Number(customSize?.height) || containerElement.offsetHeight;
@@ -24,7 +24,7 @@ export const createOffscreenCanvas = (
 };
 
 export const label = (value: string): React.HTMLAttributes<HTMLElement> => ({
-  "aria-label": value,
+  'aria-label': value,
   title: value,
 });
 
@@ -33,5 +33,16 @@ export const viewHeight = (): number => window.innerHeight;
 export const viewWidth = (): number => window.innerWidth;
 // Useful funcs pirated from here and there
 
-export const makeAnArray = (n: number) => [...Array(n)].map((x,i)=>i)
+export const makeAnArray = (n: number) => [...Array(n)].map((x, i) => i);
 
+export const delay = (ms = 1000, rejectChange = 0.4) =>
+  new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      const randomValue = Math.random();
+      if (randomValue < rejectChange) {
+        reject(new Error('Random Rejection'));
+      } else {
+        resolve();
+      }
+    }, ms);
+  });

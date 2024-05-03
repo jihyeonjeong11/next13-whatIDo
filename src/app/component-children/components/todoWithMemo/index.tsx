@@ -1,8 +1,8 @@
 'use client';
 
 import React, { memo } from 'react';
-import { BASE_ITEM_STYLE } from '../../constants';
 import { TodoType } from '../../types';
+import TodoItem from '../common/TodoItem';
 
 type ChildrenType = {
   item: TodoType;
@@ -11,14 +11,7 @@ type ChildrenType = {
 
 function TodoItemWithMemo({ item, index }: ChildrenType) {
   console.log('With memo this will not rerender');
-  return (
-    <div className={BASE_ITEM_STYLE}>
-      <span>
-        {item.label}
-        {index}
-      </span>
-    </div>
-  );
+  return <TodoItem item={item} index={index} />;
 }
 
 export default memo(TodoItemWithMemo);

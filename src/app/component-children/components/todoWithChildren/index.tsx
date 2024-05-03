@@ -1,8 +1,8 @@
 'use client';
 
-import React, { memo } from 'react';
-import { BASE_ITEM_STYLE } from '../../constants';
+import React from 'react';
 import { TodoType } from '../../types';
+import TodoItem from '../common/TodoItem';
 
 type ChildrenType = {
   item: TodoType;
@@ -10,11 +10,7 @@ type ChildrenType = {
 };
 
 const TodoItemWithChildren = ({ item, index }: ChildrenType) => (
-  <div className={BASE_ITEM_STYLE}>
-    <span>
-      {item.label}
-      {index}
-    </span>
-  </div>
+  <TodoItem item={item} index={index} />
 );
-export default memo(TodoItemWithChildren);
+
+export default TodoItemWithChildren;

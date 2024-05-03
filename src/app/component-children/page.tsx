@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import dynamic from 'next/dynamic';
 import { Props } from './types';
+import { INITIAL_ENTRY_NUMBER } from './constants';
 
 const RANDOMIZABLE_TODO_LIST = [
   'do dishes',
@@ -26,7 +27,7 @@ const Todo = dynamic(() => import('./components/index'), { ssr: false });
 
 export default function UseComponentChildren() {
   const [list, setList] = useState<Props['list']>(
-    Array.from(Array(100), () => makeListEntry()),
+    Array.from(Array(INITIAL_ENTRY_NUMBER), () => makeListEntry()),
   );
 
   const addList = useCallback((text?: string) => {

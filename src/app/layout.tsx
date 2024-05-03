@@ -3,6 +3,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <ErrorBoundary>
+        <body className={inter.className}>{children}</body>
+      </ErrorBoundary>
     </html>
   );
 }
