@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { BASE_ITEM_STYLE } from '../../constants/index';
 import { TodoType } from '../../types';
+import TodoItem from '../common/TodoItem';
 
 type ChildrenType = {
   item: TodoType;
@@ -11,14 +11,7 @@ type ChildrenType = {
 
 function TodoItemWithoutChildren({ item, index }: ChildrenType) {
   console.log('Without any method this will rerender');
-  return (
-    <div className={BASE_ITEM_STYLE}>
-      <span>
-        {item.label}
-        {index}
-      </span>
-    </div>
-  );
+  return <TodoItem item={item} index={index} />;
 }
 
 export default TodoItemWithoutChildren;
