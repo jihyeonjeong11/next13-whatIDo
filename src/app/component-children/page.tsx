@@ -26,7 +26,7 @@ const Todo = dynamic(() => import('./components/index'), { ssr: false });
 
 export default function UseComponentChildren() {
   const [list, setList] = useState<Props['list']>(
-    Array.from(Array(10000), () => makeListEntry()),
+    Array.from(Array(100), () => makeListEntry()),
   );
 
   const addList = useCallback((text?: string) => {
@@ -44,14 +44,14 @@ export default function UseComponentChildren() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="flex gap-4 items-center justify-center">
-        <Todo list={list} addList={addList} popList={popList} type="without" />
+        {/* <Todo list={list} addList={addList} popList={popList} type="without" /> */}
         <Todo list={list} addList={addList} popList={popList} type="withMemo" />
-        <Todo
+        {/* <Todo
           list={list}
           addList={addList}
           popList={popList}
           type="withChildren"
-        />
+        /> */}
       </div>
     </main>
   );

@@ -75,7 +75,21 @@ ClassName did not match :
 compiler: {
 styledComponents: true,
 },
-on next.config.js. But
+on next.config.js.
+
+Performance overview:
+
+withChildren:
+
+rerender time: approx 2ms without rerender.
+
+withoutChildren:
+
+rerender time: approx 600ms with rerender.
+
+withMemo
+
+rerender time: approx 1.7ms without rerender.
 
 https://kentcdodds.com/blog/optimize-react-re-renders
 for velog insight meterial
