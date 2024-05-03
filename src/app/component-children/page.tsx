@@ -27,11 +27,7 @@ const Todo = dynamic(() => import('./components/index'), { ssr: false });
 
 export default function UseComponentChildren() {
   const [list, setList] = useState<Props['list']>(
-<<<<<<< Updated upstream
-    Array.from(Array(100), () => makeListEntry()),
-=======
     Array.from(Array(INITIAL_ENTRY_NUMBER), () => makeListEntry()),
->>>>>>> Stashed changes
   );
 
   const addList = useCallback((text?: string) => {
