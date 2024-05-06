@@ -7,5 +7,4 @@ export type Props = {
   list: Array<TodoType>;
   addList: (value?: string) => void;
   popList: () => void;
-  type: 'without' | 'withMemo' | 'withChildren';
 };
