@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import dynamic from 'next/dynamic';
 import { Props } from './types';
+import TodoContextHoc from './contexts';
 
 const RANDOMIZABLE_TODO_LIST = [
   'do dishes',
@@ -44,14 +45,14 @@ export default function UseComponentChildren() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="flex gap-4 items-center justify-center">
-        {/* <Todo list={list} addList={addList} popList={popList} type="without" /> */}
-        <Todo list={list} addList={addList} popList={popList} type="withMemo" />
-        {/* <Todo
-          list={list}
-          addList={addList}
-          popList={popList}
-          type="withChildren"
-        /> */}
+        <TodoContextHoc>
+          <Todo
+            list={list}
+            addList={addList}
+            popList={popList}
+            type="withChildren"
+          />
+        </TodoContextHoc>
       </div>
     </main>
   );
