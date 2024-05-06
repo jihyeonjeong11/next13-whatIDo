@@ -9,12 +9,15 @@ type ChildrenType = {
   index: number;
 };
 
-const TodoItemWithChildren = ({ item, index }: ChildrenType) => (
-  <div className={BASE_ITEM_STYLE}>
-    <span>
-      {item.label}
-      {index}
-    </span>
-  </div>
-);
+const TodoItemWithChildren = ({ item, index }: ChildrenType) => {
+  console.log('this will rerender with context');
+  return (
+    <div className={BASE_ITEM_STYLE}>
+      <span>
+        {item.label}
+        {index}
+      </span>
+    </div>
+  );
+};
 export default memo(TodoItemWithChildren);
