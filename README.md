@@ -93,7 +93,14 @@ rerender time: approx 1.7ms without rerender.
 
 next to do:
 
-blog above.
+blog above. //done
+
+05/08: Took performance pictures not using context and using context!
+with Context HOC, children components not intended to be rerendered, are rerendered. (TodoHandle and TodoForm)
+
+Now We can check the benefit of contextFactory function!
+
+Next, TKDodo blog with context & loading and error
 
 lighthouse / performance tab check(FCP LCP) with build
 

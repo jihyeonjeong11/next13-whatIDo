@@ -4,6 +4,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 
 import TodoContextHoc from './contexts';
+import TodoSkeleton from './components/loading/TodoSkeleton';
 
 const Todo = dynamic(() => import('./components/index'), { ssr: false });
 
