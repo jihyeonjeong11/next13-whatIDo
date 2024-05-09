@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
-import { TodoContext } from '../contexts';
+import { useTodo } from '../contexts/todo';
 
 type TodoProps = {
   type: 'without' | 'withMemo' | 'withChildren';
@@ -30,7 +30,7 @@ const TodoForm = dynamic(() => import('./TodoForm'), { ssr: false });
 
 export default function Todo({ type }: TodoProps) {
   const Item = type === 'without' ? TodoItemWithoutChildren : TodoItemWithMemo;
-  const { list, addList, popList } = useContext(TodoContext);
+  const { list, addList, popList } = useTodo();
   const isWithChildren = type === 'withChildren';
   return (
     <section>

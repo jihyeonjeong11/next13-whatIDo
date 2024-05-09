@@ -1,15 +1,15 @@
-"use client";
-import { createContext, memo, useContext } from "react";
+'use client';
+
+import { createContext, memo, useContext } from 'react';
 
 const contextFactory = <T,>(
   useContextState: () => T,
-  ContextComponent?: JSX.Element
+  ContextComponent?: JSX.Element,
 ): {
   Provider: React.MemoExoticComponent<FC>;
   useContext: () => T;
 } => {
   const Context = createContext(Object.create(null) as T);
-
   const Provider = memo<FC>(({ children }) => (
     <Context.Provider value={useContextState()}>
       {children}
@@ -17,7 +17,7 @@ const contextFactory = <T,>(
     </Context.Provider>
   ));
 
-  Provider.displayName = "YourProviderComponentDisplayName";
+  Provider.displayName = 'YourProviderComponentDisplayName';
   return {
     Provider,
     useContext: () => useContext(Context),
