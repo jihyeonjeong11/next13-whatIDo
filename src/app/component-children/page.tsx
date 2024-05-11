@@ -45,13 +45,13 @@ export default function UseComponentChildren() {
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="flex gap-4 items-center justify-center">
         {/* <Todo list={list} addList={addList} popList={popList} type="without" /> */}
-        <Todo list={list} addList={addList} popList={popList} type="withMemo" />
-        {/* <Todo
+        {/* <Todo list={list} addList={addList} popList={popList} type="withMemo" /> */}
+        <Todo
           list={list}
           addList={addList}
           popList={popList}
           type="withChildren"
-        /> */}
+        />
       </div>
     </main>
   );
