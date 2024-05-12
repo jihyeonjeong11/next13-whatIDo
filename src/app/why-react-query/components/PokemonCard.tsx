@@ -4,10 +4,37 @@ import Image from 'next/image';
 import '../styles/index.css';
 import { PokeDataType } from '../types';
 
-const PokemonCard = ({ data }: { data: PokeDataType }) => {
-  if (!data) return null;
-  console.log(JSON.stringify(data));
+const PokemonCard = ({
+  isLoading,
+  error,
+  data,
+}: {
+  isLoading: boolean;
+  error: any;
+  data: PokeDataType;
+}) => {
+  if (isLoading === true) {
+    return <article className="card" />;
+  }
 
+  if (error) {
+    return (
+      <div className="card">
+        <figure>
+          <Image
+            width={200}
+            height={200}
+            src="https://ui.dev/images/courses/pokemon-unknown.png"
+            alt="pokemon error"
+          />
+          <figcaption>
+            <h4>Oops.</h4>
+            <h6>{error}</h6>
+          </figcaption>
+        </figure>
+      </div>
+    );
+  }
   return (
     <article className="card">
       <figure className="">
