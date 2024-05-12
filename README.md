@@ -102,6 +102,8 @@ with Context HOC, children components not intended to be rerendered, are rerende
 Because... since the consumer has reliability rendering two additional components, todoHandle and todoForm. these two keeps rerendering when context value changes.
 Or maybe I'm using it wrong. need more study to use it properly.
 
+05/10: added why-react-query to complete template context and useQuery,
+
 Now We can check the benefit of contextFactory function!
 
 Next, TKDodo blog with context & loading and error
