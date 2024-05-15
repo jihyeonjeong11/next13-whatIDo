@@ -10,6 +10,7 @@ export default function useQuery(url: string) {
 
   useEffect(() => {
     let ignore = false;
+    const abortControl = new AbortController();
 
     const handleFetch = async () => {
       setData(Object.create(null) as PokeDataType);
@@ -17,7 +18,7 @@ export default function useQuery(url: string) {
       setError(null);
 
       try {
-        const res = await fetch(url);
+        const res = await fetch(url, { signal: abortControl.signal });
 
         if (ignore) {
           return;
@@ -27,11 +28,15 @@ export default function useQuery(url: string) {
           throw new Error(`A network error occurred.`);
         }
 
-        const json = await res.json();
-
-        setData(json);
-        setIsLoading(false);
+        setTimeout(async () => {
+          const json = await res.json();
+          setData(json);
+          setIsLoading(false);
+        }, 1000);
       } catch (e: any) {
+        if (e.message.includes('abort')) {
+          return;
+        }
         setError(e.message);
         setIsLoading(false);
       }
@@ -40,6 +45,10 @@ export default function useQuery(url: string) {
     handleFetch();
 
     return () => {
+      if (abortControl) {
+        console.log('abour', abortControl.signal, url);
+        abortControl.abort();
+      }
       ignore = true;
     };
   }, [url]);
