@@ -9,7 +9,6 @@ export default function useQuery(url: string) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let ignore = false;
     const abortControl = new AbortController();
 
     const handleFetch = async () => {
@@ -19,10 +18,6 @@ export default function useQuery(url: string) {
 
       try {
         const res = await fetch(url, { signal: abortControl.signal });
-
-        if (ignore) {
-          return;
-        }
 
         if (res.ok === false) {
           throw new Error(`A network error occurred.`);
@@ -46,10 +41,9 @@ export default function useQuery(url: string) {
 
     return () => {
       if (abortControl) {
-        console.log('abour', abortControl.signal, url);
+        console.log('abort', abortControl.signal, url);
         abortControl.abort();
       }
-      ignore = true;
     };
   }, [url]);
 
