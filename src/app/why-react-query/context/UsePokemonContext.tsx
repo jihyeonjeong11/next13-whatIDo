@@ -27,17 +27,17 @@ export const PokemonContextProvider = ({
 }) => {
   const usePokemonQuery = usePokemon(id);
 
-  if (usePokemonQuery.isLoading) {
-    return <PokeCardLoading />;
+  if (usePokemonQuery.isSuccess) {
+    return (
+      <PokeContext.Provider value={usePokemonQuery.data}>
+        {children}
+      </PokeContext.Provider>
+    );
   }
 
   if (usePokemonQuery.isError) {
     return <PokeCardError error={usePokemonQuery.error} />;
   }
 
-  return (
-    <PokeContext.Provider value={usePokemonQuery.data as PokeDataType}>
-      {children}
-    </PokeContext.Provider>
-  );
+  return <PokeCardLoading />;
 };
