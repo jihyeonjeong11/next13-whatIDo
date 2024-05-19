@@ -3,13 +3,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import '../styles/index.css';
 
-type ButtonGroupType = {
-  handleSetId: Dispatch<SetStateAction<number>>;
-};
-
-const ButtonGroup = ({ handleSetId }: ButtonGroupType) => {
-  const handlePrevious = () => handleSetId((id) => (id > 1 ? id - 1 : id));
-  const handleNext = () => handleSetId((id) => id + 1);
+const ButtonGroup = ({
+  setId,
+}: {
+  setId: Dispatch<SetStateAction<number>>;
+}) => {
+  const handlePrevious = () => setId((id) => (id > 1 ? id - 1 : id));
+  const handleNext = () => setId((id) => id + 1);
 
   return (
     <div className="button-group">

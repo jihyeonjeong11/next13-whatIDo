@@ -1,75 +1,18 @@
 'use client';
 
-import Image from 'next/image';
-import Skeleton from 'react-loading-skeleton';
 import '../styles/index.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import PokemonImage from './PokemonImage';
-import { PokeDataType } from '../types';
+import { usePokemonContext } from '../context/UsePokemonContext';
 
-const PokemonCard = ({
-  isLoading,
-  error,
-  data,
-}: {
-  isLoading: boolean;
-  error: any;
-  data: PokeDataType;
-}) => {
-  if (isLoading) {
-    return (
-      <article className="card">
-        <figure>
-          <Skeleton
-            baseColor="gray"
-            circle
-            enableAnimation
-            width={200}
-            height={200}
-          />
-          <figcaption>
-            <Skeleton
-              baseColor="gray"
-              enableAnimation
-              height={21}
-              width={109}
-            />
-            <Skeleton
-              baseColor="gray"
-              enableAnimation
-              height={21}
-              width={109}
-            />
-          </figcaption>
-        </figure>
-      </article>
-    );
-  }
-
-  if (error) {
-    return (
-      <article className="card">
-        <figure>
-          <Image
-            width={200}
-            height={200}
-            src="https://ui.dev/images/courses/pokemon-unknown.png"
-            alt="pokemon error"
-          />
-          <figcaption>
-            <h4>Oops.</h4>
-            <h6>{error}</h6>
-          </figcaption>
-        </figure>
-      </article>
-    );
-  }
+const PokemonCard = () => {
+  const data = usePokemonContext();
   return (
     <article className="card">
-      <figure className="">
+      <figure>
         {data?.sprites?.front_default && (
           <PokemonImage
-            front_default={data?.sprites?.front_default}
+            front_default={data.sprites.front_default}
             name={data.name}
           />
         )}
