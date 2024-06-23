@@ -93,7 +93,20 @@ rerender time: approx 1.7ms without rerender.
 
 next to do:
 
-blog above.
+blog above. //done
+
+05/08: Took performance pictures not using context and using context!
+with Context HOC, children components not intended to be rerendered, are rerendered. (TodoHandle and TodoForm)
+
+05/09: Found out the contextFactory pattern is not showing any better comparing plain context pattern.
+Because... since the consumer has reliability rendering two additional components, todoHandle and todoForm. these two keeps rerendering when context value changes.
+Or maybe I'm using it wrong. need more study to use it properly.
+
+05/10: added why-react-query to complete template context and useQuery,
+
+Now We can check the benefit of contextFactory function!
+
+Next, TKDodo blog with context & loading and error
 
 lighthouse / performance tab check(FCP LCP) with build
 
