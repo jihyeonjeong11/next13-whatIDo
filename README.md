@@ -170,7 +170,7 @@ cool portfolio
 
 using vanta for 3d background
 it gives performance issue as written below:
-we need to check for my master from DaedalOs! for usage of web workered background canvas with vanta.
+we need to revisit my master,DaedalOs! for usage of web workered background canvas with vanta.
 
 https://github.com/anantJjain/Portfolio?tab=readme-ov-file
 https://www.reddit.com/r/react/comments/wn0vyh/has_anyone_used_vantajs_for_dynamic_backgrounds/
