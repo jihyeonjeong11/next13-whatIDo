@@ -174,3 +174,6 @@ we need to revisit my master,DaedalOs! for usage of web workered background canv
 
 https://github.com/anantJjain/Portfolio?tab=readme-ov-file
 https://www.reddit.com/r/react/comments/wn0vyh/has_anyone_used_vantajs_for_dynamic_backgrounds/
+
+I can make it two different ways. use Vanta and three from npm(usual), and using it in web worker(DaedalOs way.)
+can check performance comparison.
