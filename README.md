@@ -163,3 +163,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+07/09:
+
+cool portfolio
+
+using vanta for 3d background
+it gives performance issue as written below:
+we need to check for my master from DaedalOs! for usage of web workered background canvas with vanta.
+
+https://github.com/anantJjain/Portfolio?tab=readme-ov-file
+https://www.reddit.com/r/react/comments/wn0vyh/has_anyone_used_vantajs_for_dynamic_backgrounds/
