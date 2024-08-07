@@ -1,24 +1,27 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import GLOBE from 'vanta/dist/vanta.globe.min';
+import HALO from 'vanta/dist/vanta.halo.min';
 import * as THREE from 'three';
+import { useWallpaper } from '@/app/use-vanta-background/hooks/useWallpaper';
 
 export default function UseVanta() {
   const [vantaEffect, setVantaEffect] = useState(0);
   const vantaRef = useRef(null);
 
+  useWallpaper(vantaRef);
+
   useEffect(() => {
     if (!vantaEffect) {
       setVantaEffect(
-        GLOBE({
+        HALO({
           el: vantaRef.current,
           THREE: THREE,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
-          minHeight: window.innerWidth,
-          minWidth: window.innerHeight,
+          minHeight: 934,
+          minWidth: 1125,
           scale: 1.0,
           scaleMobile: 1.0,
         }),
@@ -29,7 +32,7 @@ export default function UseVanta() {
     };
   }, [vantaEffect]);
   return (
-    <main className="">
+    <main className="w-[100vw] h-[100vh] bg-tan">
       <div className="" ref={vantaRef}>
         useVanta
       </div>
