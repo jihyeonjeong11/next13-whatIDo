@@ -1,8 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import HALO from 'vanta/dist/vanta.halo.min';
-import * as THREE from 'three';
+import React, { useRef } from 'react';
 import { useWallpaper } from '@/app/use-vanta-background/hooks/useWallpaper';
 
 export default function UseVanta() {
