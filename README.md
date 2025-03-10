@@ -175,7 +175,6 @@ we need to revisit my master,DaedalOs! for usage of web workered background canv
 https://github.com/anantJjain/Portfolio?tab=readme-ov-file
 https://www.reddit.com/r/react/comments/wn0vyh/has_anyone_used_vantajs_for_dynamic_backgrounds/
 
-
 08/06:
 
 https://www.reddit.com/r/react/comments/wn0vyh/has_anyone_used_vantajs_for_dynamic_backgrounds/
@@ -184,3 +183,7 @@ Experiences using vanta background with performance issue:
 
 solution: Use vanta in web worker to detach them in a main thread. Draw it in a custom canvas.
 
+08/16
+
+https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Adding_vector_graphics_to_the_Web
+svg vs img

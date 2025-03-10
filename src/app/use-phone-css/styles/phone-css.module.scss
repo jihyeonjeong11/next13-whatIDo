@@ -1,0 +1,287 @@
+@mixin flex($dir: row, $wrap: wrap, $ai: center, $jc: center, $ac: center) {
+  display: flex;
+  flex-direction: $dir;
+  flex-wrap: $wrap;
+  align-items: $ai;
+  justify-content: $jc;
+  align-content: $ac;
+}
+@mixin imagen(
+  $url: '',
+  $size: cover,
+  $posicion: center,
+  $repeat: no-repeat,
+  $parallax: false
+) {
+  @if $url != '' {
+    background-image: url($url);
+  }
+  background-size: $size;
+  background-position: $posicion;
+  background-repeat: $repeat;
+  @if $parallax == true {
+    background-attachment: fixed;
+  }
+}
+$black: #000;
+$white: #fff;
+$mainColor: #152839;
+$grayDark: #1b1b1b;
+
+.main {
+  background: $white;
+}
+
+.iphone-mock {
+  @include flex;
+  width: 100%;
+  min-height: 100vh;
+  .container {
+    @include flex;
+    width: 90%;
+    margin: 0 auto;
+    padding: 50px 0;
+    overflow: hidden;
+    .iphone {
+      width: 320px;
+      height: 640px;
+      border-radius: 45px;
+      position: relative;
+      user-select: none;
+      transition: ease all 1s;
+      .iphone-border {
+        @include flex;
+        height: 100%;
+        width: 100%;
+        background-color: $mainColor;
+        border: 1px solid rgba($white, 0.6);
+        box-shadow: inset 0 0 3px 1px $white;
+        border-radius: 45px;
+        position: relative;
+        transition: ease all 0.5s;
+        // front widgets
+        // &:before,
+        // &:after {
+        //   content: '';
+        //   position: absolute;
+        //   top: 65px;
+        //   background-color: rgba($white, 0.1);
+        //   width: 7px;
+        //   height: 6px;
+        //   z-index: 1;
+        // }
+
+        // side buttons
+        .buttons {
+          // currently this does nothing.
+          &:before,
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 65px;
+            background-color: rgba($white, 0.1);
+            width: 7px;
+            height: 6px;
+            z-index: 1;
+          }
+          &:before {
+            left: 0px;
+          }
+          &:after {
+            right: 0px;
+          }
+          > * {
+            position: absolute;
+            left: -3px;
+            width: 3px;
+            background: linear-gradient(90deg, transparent, $mainColor);
+            border-radius: 20px 10px 10px 20px;
+          }
+          .touch-id {
+            top: 160px;
+            right: -3px;
+            left: auto;
+            height: 80px;
+            background: linear-gradient(90deg, $mainColor, transparent);
+            border-radius: 10px 20px 20px 10px;
+          }
+          .switch {
+            top: 100px;
+            height: 25px;
+          }
+          .vol {
+            top: 150px;
+            height: 45px;
+          }
+          .vol-down {
+            top: 210px;
+            height: 45px;
+          }
+        }
+        .border-black {
+          @include flex;
+          width: calc(100% - 14px);
+          height: calc(100% - 14px);
+          border-radius: 40px;
+          background-color: $black;
+          position: relative;
+          overflow: hidden;
+          &:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 40px;
+            border: 7px solid $black;
+            box-sizing: border-box;
+            pointer-events: none;
+            z-index: 100;
+          }
+          .notch {
+            @include flex;
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 32px;
+            border-bottom-left-radius: 17px;
+            border-bottom-right-radius: 17px;
+            background-color: $black;
+            z-index: 100;
+            &:before,
+            &:after {
+              content: '';
+              position: absolute;
+              top: 0;
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              border: 7px solid transparent;
+            }
+            &:before {
+              left: -17px;
+              border-right-color: $black;
+              transform: rotate(-50deg);
+            }
+            &:after {
+              right: -17px;
+              border-left-color: $black;
+              transform: rotate(50deg);
+            }
+
+            .bocina {
+              @include flex($jc: flex-start);
+              width: 40px;
+              height: 4px;
+              border-radius: 20px;
+              background-color: $grayDark;
+              border: 0.7px solid #171717;
+              box-shadow: inset 0px -0.3px 1px 0px #8c8c8c;
+              position: relative;
+              overflow: hidden;
+              &:before,
+              &:after {
+                content: '';
+                position: absolute;
+              }
+              &:before {
+                width: 0;
+                height: 60%;
+                transform: skew(-10deg);
+                box-shadow:
+                  1px 0 0px 0.2px #313131,
+                  2px 0 0px 0.2px #313131,
+                  3px 0 0px 0.2px #313131,
+                  4px 0 0px 0.2px #313131,
+                  5px 0 0px 0.2px #313131,
+                  6px 0 0px 0.2px #313131,
+                  7px 0 0px 0.2px #313131,
+                  8px 0 0px 0.2px #313131,
+                  9px 0 0px 0.2px #313131,
+                  10px 0 0px 0.2px #313131,
+                  11px 0 0px 0.2px #313131,
+                  12px 0 0px 0.2px #313131,
+                  13px 0 0px 0.2px #313131,
+                  14px 0 0px 0.2px #313131,
+                  15px 0 0px 0.2px #313131,
+                  16px 0 0px 0.2px #313131,
+                  17px 0 0px 0.2px #313131,
+                  18px 0 0px 0.2px #313131,
+                  19px 0 0px 0.2px #313131,
+                  20px 0 0px 0.2px #313131,
+                  21px 0 0px 0.2px #313131,
+                  22px 0 0px 0.2px #313131,
+                  23px 0 0px 0.2px #313131,
+                  24px 0 0px 0.2px #313131,
+                  25px 0 0px 0.2px #313131,
+                  26px 0 0px 0.2px #313131,
+                  27px 0 0px 0.2px #313131,
+                  28px 0 0px 0.2px #313131,
+                  29px 0 0px 0.2px #313131,
+                  30px 0 0px 0.2px #313131,
+                  31px 0 0px 0.2px #313131,
+                  32px 0 0px 0.2px #313131,
+                  33px 0 0px 0.2px #313131,
+                  34px 0 0px 0.2px #313131,
+                  35px 0 0px 0.2px #313131,
+                  36px 0 0px 0.2px #313131,
+                  37px 0 0px 0.2px #313131,
+                  38px 0 0px 0.2px #313131,
+                  39px 0 0px 0.2px #313131;
+              }
+              &:after {
+                width: 95%;
+                height: 0;
+                box-shadow:
+                  1px -0.8px 0px 0.2px #313131,
+                  1px 0px 0px 0.2px #313131,
+                  1px 0.8px 0px 0.2px #313131;
+              }
+            }
+
+            .camera {
+              @include flex;
+              position: absolute;
+              right: 35px;
+              width: 14px;
+              height: 14px;
+              border-radius: 50%;
+              background-color: $grayDark;
+              &:before,
+              &:after {
+                content: '';
+                position: absolute;
+                border-radius: 50%;
+              }
+              &:before {
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                background: radial-gradient($black, $mainColor 60%);
+              }
+              &:after {
+                width: 4px;
+                height: 4px;
+                margin-top: 2px;
+                margin-right: 2px;
+                background-color: rgba($white, 0.1);
+              }
+            }
+          }
+          .mainScreen {
+            @include imagen(
+              'https://firebasestorage.googleapis.com/v0/b/fotos-3cba1.appspot.com/o/wallpaper.jpg?alt=media&token=059229cc-3823-4d27-834a-7b62cabd69d2'
+            );
+            width: calc(100% - 14px);
+            height: calc(100% - 14px);
+            border-radius: 32px;
+            background-color: $white;
+            background-color: transparent;
+            background-blend-mode: soft-light;
+            position: relative;
+            overflow: hidden;
+            transition: ease all 1s;
+          }
+        }
+      }
+    }
+  }
+}
