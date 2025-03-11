@@ -6,7 +6,8 @@
   justify-content: $jc;
   align-content: $ac;
 }
-@mixin imagen(
+
+@mixin image(
   $url: '',
   $size: cover,
   $posicion: center,
@@ -59,7 +60,7 @@ $grayDark: #1b1b1b;
         border-radius: 45px;
         position: relative;
         transition: ease all 0.5s;
-        // front widgets
+        // front lock and clock icons
         // &:before,
         // &:after {
         //   content: '';
@@ -73,7 +74,7 @@ $grayDark: #1b1b1b;
 
         // side buttons
         .buttons {
-          // currently this does nothing.
+          // ?????
           &:before,
           &:after {
             content: '';
@@ -126,6 +127,7 @@ $grayDark: #1b1b1b;
           background-color: $black;
           position: relative;
           overflow: hidden;
+          // z-index overlay
           &:after {
             content: '';
             position: absolute;
@@ -147,26 +149,7 @@ $grayDark: #1b1b1b;
             border-bottom-right-radius: 17px;
             background-color: $black;
             z-index: 100;
-            &:before,
-            &:after {
-              content: '';
-              position: absolute;
-              top: 0;
-              width: 10px;
-              height: 10px;
-              border-radius: 50%;
-              border: 7px solid transparent;
-            }
-            &:before {
-              left: -17px;
-              border-right-color: $black;
-              transform: rotate(-50deg);
-            }
-            &:after {
-              right: -17px;
-              border-left-color: $black;
-              transform: rotate(50deg);
-            }
+            // 3d notch effect
 
             .bocina {
               @include flex($jc: flex-start);
@@ -237,7 +220,6 @@ $grayDark: #1b1b1b;
                   1px 0.8px 0px 0.2px #313131;
               }
             }
-
             .camera {
               @include flex;
               position: absolute;
@@ -246,6 +228,7 @@ $grayDark: #1b1b1b;
               height: 14px;
               border-radius: 50%;
               background-color: $grayDark;
+              // camera 3d effects
               &:before,
               &:after {
                 content: '';
@@ -267,7 +250,7 @@ $grayDark: #1b1b1b;
             }
           }
           .mainScreen {
-            @include imagen(
+            @include image(
               'https://firebasestorage.googleapis.com/v0/b/fotos-3cba1.appspot.com/o/wallpaper.jpg?alt=media&token=059229cc-3823-4d27-834a-7b62cabd69d2'
             );
             width: calc(100% - 14px);
@@ -279,6 +262,200 @@ $grayDark: #1b1b1b;
             position: relative;
             overflow: hidden;
             transition: ease all 1s;
+            &.blocked {
+              opacity: 0;
+              pointer-events: none;
+              transition: ease all 0.2s;
+            }
+            &.blur {
+              background-image: url(https://firebasestorage.googleapis.com/v0/b/fotos-3cba1.appspot.com/o/wallpaperBlur.jpg?alt=media&token=22c91194-dfa0-4ebb-870e-9f585bf35b01);
+              transition-duration: 0.5s;
+            }
+            .status-bar {
+              @include flex($jc: space-between);
+              height: 20px;
+              padding: 5px 20px 0px 20px;
+              padding-right: 12px;
+              transition: ease all 0.1s;
+              position: relative;
+              z-index: 1;
+              .leftside {
+                color: $white;
+                font-size: 10px;
+                text-transform: uppercase;
+                position: relative;
+              }
+              .rightside {
+                @include flex($jc: flex-end);
+                position: relative;
+                color: $white;
+                font-size: 10px;
+                // 4 wifi signal meters
+                .signal {
+                  @include flex;
+                  width: 18px;
+                  height: 10px;
+                  position: relative;
+                  overflow: hidden;
+
+                  &.mid {
+                    &:before {
+                      opacity: 0.4;
+                    }
+                  }
+                  &.low {
+                    &:before,
+                    &:after,
+                    .bar::before {
+                      opacity: 0.4;
+                    }
+                  }
+                  // last 2 meters
+                  &:before,
+                  &:after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    width: 3px;
+                    border-radius: 5px;
+                    background-color: $white;
+                  }
+                  &:before {
+                    right: 0;
+                    height: 100%;
+                  }
+                  &:after {
+                    right: 4px;
+                    height: 80%;
+                  }
+                  // first two meters
+                  .bar {
+                    &:before,
+                    &:after {
+                      content: '';
+                      position: absolute;
+                      bottom: 0;
+                      width: 3px;
+                      border-radius: 5px;
+                      background-color: $white;
+                    }
+                    &:before {
+                      right: 8px;
+                      height: 60%;
+                    }
+                    &:after {
+                      right: 12px;
+                      height: 40%;
+                    }
+                  }
+                }
+                .data {
+                  margin: 0 3px;
+                  color: $white;
+                  font-size: 10px;
+                }
+                .battery {
+                  @include flex;
+                  width: 15px;
+                  height: 8px;
+                  border-radius: 2px;
+                  border: 1px solid rgba($white, 0.5);
+                  position: relative;
+                  &.mid {
+                    &:after {
+                      width: 50%;
+                    }
+                  }
+                  &.low {
+                    &:after {
+                      width: 20%;
+                      background-color: #ffe600;
+                    }
+                  }
+                  &:before,
+                  &:after {
+                    content: '';
+                    position: absolute;
+                    background-color: $white;
+                  }
+                  &:before {
+                    right: -2px;
+                    width: 2px;
+                    height: 50%;
+                    border-top-right-radius: 1px;
+                    border-bottom-right-radius: 1px;
+                  }
+                  &:after {
+                    left: 1px;
+                    width: 100%;
+                    height: 6px;
+                    border-radius: 1px;
+                    max-width: calc(100% - 2px);
+                  }
+                }
+              }
+            }
+          }
+          .lockScreen {
+            @include flex(column, $jc: space-between);
+            position: absolute;
+            width: 100%;
+            height: calc(100% - 25px);
+            padding: 30px;
+            box-sizing: border-box;
+
+            cursor: grab;
+            transition: ease all 0.4s;
+            .up {
+              text-align: center;
+              color: $white;
+              .lockIcon {
+                width: 18px;
+                height: 14px;
+                margin: 10px auto 5px auto;
+                border-radius: 2px;
+                background-color: $white;
+                position: relative;
+                &:before {
+                  content: '';
+                  position: absolute;
+                  top: -10px;
+                  left: 0;
+                  right: 0;
+                  margin: auto;
+                  width: 10px;
+                  height: 20px;
+                  border-radius: 10px;
+                  border: 2px solid $white;
+                }
+              }
+              .time {
+                font-size: 60px;
+                font-weight: 300;
+              }
+              .date {
+                font-size: 14px;
+              }
+            }
+            .down {
+              @include flex($jc: space-between);
+              width: 100%;
+              .sysIcon {
+                padding: 10px;
+                border-radius: 50%;
+                background-color: rgba($black, 0.5);
+                color: $white;
+                cursor: pointer;
+                svg {
+                  width: 20px;
+                  height: 20px;
+                  path,
+                  circle {
+                    fill: currentColor;
+                  }
+                }
+              }
+            }
           }
         }
       }
