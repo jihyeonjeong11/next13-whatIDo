@@ -60,17 +60,17 @@ $grayDark: #1b1b1b;
         border-radius: 45px;
         position: relative;
         transition: ease all 0.5s;
-        // front lock and clock icons
-        // &:before,
-        // &:after {
-        //   content: '';
-        //   position: absolute;
-        //   top: 65px;
-        //   background-color: rgba($white, 0.1);
-        //   width: 7px;
-        //   height: 6px;
-        //   z-index: 1;
-        // }
+        // currently this does nothing
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          top: 65px;
+          background-color: rgba($white, 0.1);
+          width: 7px;
+          height: 6px;
+          z-index: 1;
+        }
 
         // side buttons
         .buttons {
