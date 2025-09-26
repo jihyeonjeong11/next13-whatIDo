@@ -1,9 +1,3 @@
-import React from 'react'
-
-const UseParellelTabNavPage = () => {
-  return (
-    <div>UseParellelTabNavPage</div>
-  )
+export default function DashboardPage() {
+  return null
 }
-
-export default UseParellelTabNavPage
