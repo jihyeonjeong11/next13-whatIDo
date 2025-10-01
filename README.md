@@ -1,5 +1,12 @@
 # This is my practices written next13 app router.
 
+## TODO: 무슨 프로젝트인지 설명하기!
+
+## 1. nextjs tab navigation
+
+- [] dynamic routing을 이용한 방법 use-dynamic-routes 참고,
+- @ parellel routing을 이용한 방법 https://ariakit.org/examples/tab-next-router 1에 비해서 너무 복잡함.
+
 # 1. structure.
 
 ```
