@@ -2,6 +2,8 @@
 
 ## TODO: 무슨 프로젝트인지 설명하기!
 
+- 1018 https://github.com/webdevcody/webdevcody.com/blob/main/src/app/(landing)/page.tsx pirate good structure
+
 ## 1. nextjs tab navigation
 
 - [] dynamic routing을 이용한 방법 use-dynamic-routes 참고,
