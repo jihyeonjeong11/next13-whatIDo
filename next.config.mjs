@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-
-import { createMDX } from "fumadocs-mdx/next";
-
-const withMDX = createMDX();
-
 const nextConfig = {
   compiler: {
     styledComponents: true, // That also fixes with classname did not match using TailwindCSS! Don't know why tho.
@@ -26,5 +21,4 @@ const nextConfig = {
   },
 };
 
-export default withMDX(nextConfig);
-
+export default nextConfig;

@@ -1,0 +1,174 @@
+[?9001h[?1004h[?25l[2J[m[2;1H> next-whaticando@0.1.0 dev D:\dev\sides\lab-mono\apps\next13-whatIDo
+> next dev[5;1H]0;C:\WINDOWS\system32\cmd.exe[?25h[?25l[33m [1m⚠[m Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of D:\dev\sides\lab-mono\pnpm-lock.yaml as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * D:\dev\sides\lab-mono\apps\next13-whatIDo\yarn.lock[15;1H[?25h]0;next-server (v15.5.6)[33m [1m⚠[m Port 3000 is in use by process 36672, using available port 3002 instead.
+   [38;2;173;127;168m[1m▲ Next.js 15.5.6
+[?25l[m   - Local:        http://localhost:3002
+   - Network:      http://192.168.0.101:3002[20;1H [32m[1m✓[m Starting...
+[?25h [32m[1m✓[m Ready in 3.3s
+ [37m[1m○[m Compiling / ...
+[Error: Can't resolve 'fumadocs-ui/css/neutral.css' in 'D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app'] {
+  details: [32m"resolve 'fumadocs-ui/css/neutral.css' in 'D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\app'\n" [m+
+    [32m'  Parsed request is a module\n' [m+
+    [32m'  using description file: D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\package.json (relati[m
+[32m[27;99Hive path: ./src/app)\n' [m+[K
+    [32m'    resolve as module\n' [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\app\\node_modules doesn't exist or [m
+[32m[27;99H is not a directory\n" [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\node_modules doesn't exist or is no[m
+[32m[27;99Hot a directory\n" [m+[K
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\node_modules\n' [m+[28;1H
+    [32m"        D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\node_modules\\fumadocs-ui doesn't exis[m
+[32m[27;99Hst\n" [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\node_modules doesn't exist or is not a directory\n" [m+   [28;1H
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\node_modules\n' [m+[K
+    [32m"        D:\\dev\\sides\\lab-mono\\node_modules\\fumadocs-ui doesn't exist\n" [m+[K
+    [32m"      D:\\dev\\sides\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m"      D:\\dev\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m"      D:\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel[m
+[32m[27;99Hl+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\bin[m
+[32m[27;99Hn\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-[m
+[32m[27;99H-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\node_modules;D:\\dev\\[m
+[32m[27;99H\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0_[m
+[32m[27;99H__react@19.2.0_sass@1.93.2\\node_modules\\next\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\[m
+[32m[27;99H\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\nod[m
+[32m[27;99Hde_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\node_modules\n' [m+[K
+    [32m"        D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-do[m
+[32m[27;99Hom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\bin\\node_modules;D:\\de[m
+[32m[27;99Hev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2[m
+[32m[27;99H2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\node_modules;D:\\dev\\sides\\lab-mono\\node[m
+[32m[27;99He_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.[m
+[32m[27;99H.93.2\\node_modules\\next\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@[m
+[32m[27;99H@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules;D:\\dev\\si[m
+[32m[27;99Hides\\lab-mono\\node_modules\\.pnpm\\node_modules\\fumadocs-ui doesn't exist"[m
+}
+[31m [1m⨯[m ./src/app/globals.css:1:1
+[31m[1mSyntax error[m: tailwindcss: D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app\globals.css Can't reso
+[27;99Holve 'fumadocs-ui/css/neutral.css' in 'D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app'
+
+[31m[1m>[90m[22m 1 | [36m@import [32m'tailwindcss'[33m;[K[m
+    [90m| [31m[1m^[m[K
+  [90m2 |[K[m
+  [90m3 | [36m@import [32m'fumadocs-ui/css/neutral.css'[33m;[K[m
+[Error: Can't resolve 'fumadocs-ui/css/neutral.css' in 'D:\dev\sides\lab-mono\apps\next13-whatIDo\s
+[27;99Hsrc\app'] {
+  details: [32m"resolve 'fumadocs-ui/css/neutral.css' in 'D:\\dev\\sides\\lab-mono\\apps\\next13-whatID[m
+[32m[27;99HDo\\src\\app'\n" [m+[K
+    [32m'  Parsed request is a module\n' [m+[K
+    [32m'  using description file: D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\package.json (relati[m
+[32m[27;99Hive path: ./src/app)\n' [m+[K
+    [32m'    resolve as module\n' [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\app\\node_modules doesn't exist or [m
+[32m[27;99H is not a directory\n" [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\node_modules doesn't exist or is no[m
+[32m[27;99Hot a directory\n" [m+[K
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\node_modules\n' [m+[28;1H
+    [32m"        D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\node_modules\\fumadocs-ui doesn't exis[m
+[32m[27;99Hst\n" [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\node_modules doesn't exist or is not a directory\n" [m+   [28;1H
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\node_modules\n' [m+[K
+    [32m"        D:\\dev\\sides\\lab-mono\\node_modules\\fumadocs-ui doesn't exist\n" [m+[K
+    [32m"      D:\\dev\\sides\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m"      D:\\dev\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m"      D:\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel[m
+[32m[27;99Hl+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\bin[m
+[32m[27;99Hn\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-[m
+[32m[27;99H-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\node_modules;D:\\dev\\[m
+[32m[27;99H\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0_[m
+[32m[27;99H__react@19.2.0_sass@1.93.2\\node_modules\\next\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\[m
+[32m[27;99H\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\nod[m
+[32m[27;99Hde_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\node_modules\n' [m+[K
+    [32m"        D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-do[m
+[32m[27;99Hom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\bin\\node_modules;D:\\de[m
+[32m[27;99Hev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2[m
+[32m[27;99H2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\node_modules;D:\\dev\\sides\\lab-mono\\node[m
+[32m[27;99He_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.[m
+[32m[27;99H.93.2\\node_modules\\next\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@[m
+[32m[27;99H@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules;D:\\dev\\si[m
+[32m[27;99Hides\\lab-mono\\node_modules\\.pnpm\\node_modules\\fumadocs-ui doesn't exist"[m
+}
+[31m [1m⨯[m ./src/app/globals.css:1:1
+[31m[1mSyntax error[m: tailwindcss: D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app\globals.css Can't reso
+[27;99Holve 'fumadocs-ui/css/neutral.css' in 'D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app'
+
+[31m[1m>[90m[22m 1 | [36m@import [32m'tailwindcss'[33m;[K[m
+    [90m| [31m[1m^[m[K
+  [90m2 |[K[m
+  [90m3 | [36m@import [32m'fumadocs-ui/css/neutral.css'[33m;[K[m
+<w> [33m[1m[webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|[m
+[33m[1m[27;99H|D:\dev\sides\lab-mono\node_modules\.pnpm\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2[m
+[33m[1m[27;99H2.0__react@19.2.0_sass@1.93.2\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??[m
+[33m[1m[27;99H?ruleSet[1].rules[14].oneOf[10].use[2]!D:\dev\sides\lab-mono\node_modules\.pnpm\next@15.5.6_@babel+c[m
+[33m[1m[27;99Hcore@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\node_modules\next\dist\build\web[m
+[33m[1m[27;99Hbpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[14].oneOf[10].use[3]!D:\dev\sides\lab-mo[m
+[33m[1m[27;99Hono\apps\next13-whatIDo\src\app\globals.css': No serializer registered for PostCSSSyntaxError[22m       [28;1H[m
+<w> [33m[1mwhile serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/Norma[m
+[33m[1m[27;99HalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError[22m[K[m
+[Error: Can't resolve 'fumadocs-ui/css/neutral.css' in 'D:\dev\sides\lab-mono\apps\next13-whatIDo\s
+[27;99Hsrc\app'] {
+  details: [32m"resolve 'fumadocs-ui/css/neutral.css' in 'D:\\dev\\sides\\lab-mono\\apps\\next13-whatID[m
+[32m[27;99HDo\\src\\app'\n" [m+[K
+    [32m'  Parsed request is a module\n' [m+[K
+    [32m'  using description file: D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\package.json (relati[m
+[32m[27;99Hive path: ./src/app)\n' [m+[K
+    [32m'    resolve as module\n' [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\app\\node_modules doesn't exist or [m
+[32m[27;99H is not a directory\n" [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\src\\node_modules doesn't exist or is no[m
+[32m[27;99Hot a directory\n" [m+[K
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\node_modules\n' [m+[28;1H
+    [32m"        D:\\dev\\sides\\lab-mono\\apps\\next13-whatIDo\\node_modules\\fumadocs-ui doesn't exis[m
+[32m[27;99Hst\n" [m+[K
+    [32m"      D:\\dev\\sides\\lab-mono\\apps\\node_modules doesn't exist or is not a directory\n" [m+   [28;1H
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\node_modules\n' [m+[K
+    [32m"        D:\\dev\\sides\\lab-mono\\node_modules\\fumadocs-ui doesn't exist\n" [m+[K
+    [32m"      D:\\dev\\sides\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m"      D:\\dev\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m"      D:\\node_modules doesn't exist or is not a directory\n" [m+[K
+    [32m'      looking for modules in D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel[m
+[32m[27;99Hl+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\bin[m
+[32m[27;99Hn\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-[m
+[32m[27;99H-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\node_modules;D:\\dev\\[m
+[32m[27;99H\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0_[m
+[32m[27;99H__react@19.2.0_sass@1.93.2\\node_modules\\next\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\[m
+[32m[27;99H\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\nod[m
+[32m[27;99Hde_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\node_modules\n' [m+[K
+    [32m"        D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-do[m
+[32m[27;99Hom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\bin\\node_modules;D:\\de[m
+[32m[27;99Hev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2[m
+[32m[27;99H2.0__react@19.2.0_sass@1.93.2\\node_modules\\next\\dist\\node_modules;D:\\dev\\sides\\lab-mono\\node[m
+[32m[27;99He_modules\\.pnpm\\next@15.5.6_@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.[m
+[32m[27;99H.93.2\\node_modules\\next\\node_modules;D:\\dev\\sides\\lab-mono\\node_modules\\.pnpm\\next@15.5.6_@[m
+[32m[27;99H@babel+core@7.28.5_react-dom@19.2.0_react@19.2.0__react@19.2.0_sass@1.93.2\\node_modules;D:\\dev\\si[m
+[32m[27;99Hides\\lab-mono\\node_modules\\.pnpm\\node_modules\\fumadocs-ui doesn't exist"[m
+}
+[31m [1m⨯[m ./src/app/globals.css:1:1
+[31m[1mSyntax error[m: tailwindcss: D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app\globals.css Can't reso
+[27;99Holve 'fumadocs-ui/css/neutral.css' in 'D:\dev\sides\lab-mono\apps\next13-whatIDo\src\app'
+
+[31m[1m>[90m[22m 1 | [36m@import [32m'tailwindcss'[33m;[K[m
+    [90m| [31m[1m^[m[K
+  [90m2 |[K[m
+  [90m3 | [36m@import [32m'fumadocs-ui/css/neutral.css'[33m;[K[m
+ GET / [31m500 [min 8163ms
+[31m [1m⨯[m ./src/app/layout.tsx:4:1
+[31m[1mModule not found[m: Can't resolve '[32mfumadocs-ui/provider/next[m'[K
+  [90m2 | [36mimport [mtype { [33mMetadata [m} [36mfrom [32m'next'[33m;[K[m
+  [90m3 | [36mimport [m{ [33mInter [m} [36mfrom [32m'next/font/google'[33m;[K[m
+[31m[1m>[90m[22m 4 | [36mimport [m{ [33mRootProvider [m} [36mfrom [32m'fumadocs-ui/provider/next'[33m;[K[m
+    [90m| [31m[1m^[m[K
+  [90m5 |[K[m
+  [90m6 |[K[m
+  [90m7 | [36mconst [minter [33m= Inter[m({ subsets[33m: [m[[32m'latin'[m] })[33m;[K[m
+
+https://nextjs.org/docs/messages/module-not-found
+ [32m[1m✓[m Compiled /favicon.ico in 200ms (566 modules)
+ [32m[1m✓[m Compiled in 478ms (964 modules)
+[33m [1m⚠[m Fast Refresh had to perform a full reload due to a runtime error.
+ GET / [32m200 [min 14ms
+ GET / [32m200 [min 56ms
