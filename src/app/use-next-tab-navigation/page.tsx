@@ -1,5 +1,5 @@
 const UseNextTabPage = () => {
-  return <>page</>;
+  return null;
 };
 
 export default UseNextTabPage;

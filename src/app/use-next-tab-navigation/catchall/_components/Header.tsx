@@ -9,7 +9,11 @@ const Header = () => {
     {
       name: '주식 분석 (Stock)',
       href: '/use-next-tab-navigation/catchall/stock',
-    }, // 경로 설정은 실제 프로젝트에 맞춰 수정하세요
+    },
+    {
+      name: '주식 분석 delay (Stock)',
+      href: '/use-next-tab-navigation/catchall/delayed-stock',
+    },
     {
       name: '재무 감사 (Audit)',
       href: '/use-next-tab-navigation/catchall/audit',

@@ -3,6 +3,7 @@ import useLastPath from '../_hooks/useLastPath';
 import Stock from '../_components/Stock';
 import FinancialAudit from '../_components/FinancialAudit';
 import Header from '../_components/Header';
+import DelayedStock from '../_components/DelayedStock';
 
 const CatchallTabPage = () => {
   const lastSegment = useLastPath();
@@ -10,6 +11,8 @@ const CatchallTabPage = () => {
     switch (lastSegment) {
       case 'stock':
         return <Stock />;
+      case 'delayed-stock':
+        return <DelayedStock />;
       case 'audit':
         return <FinancialAudit />;
       default:

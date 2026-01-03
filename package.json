@@ -30,6 +30,7 @@
     "sass": "^1.85.1",
     "styled-component": "^2.8.0",
     "styled-components": "^6.0.7",
+    "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.14",
     "three": "^0.167.1",
     "typescript": "5.2.2",
@@ -42,8 +43,5 @@
     "@types/uuid": "^9.0.8",
     "biome": "^0.3.3",
     "husky": "^9.1.7"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }
