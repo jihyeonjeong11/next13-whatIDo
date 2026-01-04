@@ -1,6 +1,6 @@
-// [id]/@tabs/layout.tsx
 
 import ContestTabs from '../_components/ContestTabs';
+import Header from '../_components/Header';
 
 export default function Layout({
   children,
@@ -9,10 +9,9 @@ export default function Layout({
   children: React.ReactNode;
   params: any;
 }) {
-  const { id } = params;
   return (
     <>
-      <ContestTabs contestId={id}></ContestTabs>
+      <Header />
       {children}
     </>
   );
