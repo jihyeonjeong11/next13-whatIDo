@@ -5,7 +5,6 @@ import type { FC } from "react";
 import {
   BASE_CLOCK_WIDTH,
   DEFAULT_CLOCK_SOURCE,
-  ONE_TIME_PASSIVE_EVENT,
   TASKBAR_HEIGHT,
 } from "utils/constants";
 import StyledClock from "./StyledClock";
@@ -31,7 +30,7 @@ const Clock: FC = () => {
   );
 
   const { time, date } = now;
-  const [clockSource, setClockSource] = useState(DEFAULT_CLOCK_SOURCE);
+  const [clockSource] = useState(DEFAULT_CLOCK_SOURCE);
 
   const offScreenClockCanvas = useRef<OffscreenCanvas>();
   const supportsOffscreenCanvas = useMemo(
