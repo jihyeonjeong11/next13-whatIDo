@@ -1,7 +1,4 @@
 
-import ContestTabs from '../_components/ContestTabs';
-import Header from '../_components/Header';
-
 export default function Layout({
   children,
   params,
@@ -11,7 +8,6 @@ export default function Layout({
 }) {
   return (
     <>
-      <Header />
       {children}
     </>
   );

@@ -1,4 +1,6 @@
-// [id]/layout.tsx
+import Header from "./_components/Header";
+
+//layout.tsx
 export default async function Layout({
   params,
   tabs,
@@ -6,10 +8,14 @@ export default async function Layout({
   params: any;
   tabs: React.ReactNode;
 }) {
-  // 중략
   return (
+    <>
+    <Header />
     <article>
       {tabs}
     </article>
+
+    </>
+ 
   );
 }

@@ -7,6 +7,12 @@
       "style": { "noNonNullAssertion": "error" }
     }
   },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always"
+    }
+  },
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,

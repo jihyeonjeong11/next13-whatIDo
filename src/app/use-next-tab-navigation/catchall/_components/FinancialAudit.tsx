@@ -73,13 +73,13 @@ const FinancialAudit = () => {
           Compliance Disclosures
         </h3>
         <div className="columns-3 gap-10 text-[10px] text-slate-500 leading-relaxed">
-          {Array.from({ length: 15 }).map((_, i) => (
+          {Array.from({ length: 15 }).map((_, i) => (  
             <p key={i} className="mb-4">
               Section {i + 1}.4.2: Pursuant to the Financial Transparency Act of
               2024, the assets listed herein reflect the fair market value at
               the time of snapshot. All valuations are subject to market
               volatility. This document does not constitute financial advice.
-              The user acknowledges that rendering this large dataset may impact
+              The user acknowledges that rendering this large dataset may impact     
               client-side performance. Re-evaluating the 15-year growth
               trajectory requires secondary verification through the Internal
               Revenue Service standardized protocols. This text is duplicated to
