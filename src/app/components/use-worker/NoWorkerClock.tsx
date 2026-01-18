@@ -1,54 +1,63 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { LocaleTimeDate } from "@/app/types";
-import StyledClock from "./clock/StyledClock";
+import { useEffect, useRef, useState } from 'react';
+import type { LocaleTimeDate } from '@/app/types';
+import StyledClock from './clock/StyledClock';
 
 const getLocaleTimeDate = (): LocaleTimeDate => {
   const now = new Date();
   return {
-    time: now.toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit', 
+    time: now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
       second: '2-digit',
-      hour12: false
+      hour12: false,
     }),
-    date: now.toLocaleDateString([], { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric', 
-      weekday: 'long' 
+    date: now.toLocaleDateString([], {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
     }),
   };
 };
 
 const NoWorkerClock = () => {
   const [now, setNow] = useState<LocaleTimeDate>(() => ({
-    time: "",
-    date: "",
+    time: '',
+    date: '',
   }));
 
   const { time, date } = now;
+  const requestRef = useRef<number>();
+  const lastSecondRef = useRef<number>(new Date().getSeconds());
 
   useEffect(() => {
     setNow(getLocaleTimeDate());
 
-    const timer = setInterval(() => {
-      const nextTimeDate = getLocaleTimeDate();
-      
-      setNow(nextTimeDate);
-    }, 1000);
+    const update = () => {
+      const currentTime = new Date();
+      const currentSecond = currentTime.getSeconds();
 
-    return () => clearInterval(timer);
+      if (lastSecondRef.current !== currentSecond) {
+        lastSecondRef.current = currentSecond;
+        setNow(getLocaleTimeDate());
+      }
+
+      requestRef.current = requestAnimationFrame(update);
+    };
+
+    requestRef.current = requestAnimationFrame(update);
+
+    return () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+    };
   }, []);
 
   return (
-    <StyledClock
-      aria-label="Clock"
-      role="timer"
-      title={date}
-      suppressHydrationWarning
-    >
+    <StyledClock aria-label="Clock" role="timer" title={date} suppressHydrationWarning>
       {time}
     </StyledClock>
   );

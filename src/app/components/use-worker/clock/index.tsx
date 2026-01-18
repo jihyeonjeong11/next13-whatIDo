@@ -1,22 +1,18 @@
-"use client";
+'use client';
 
-import { useState, useCallback, useRef, useMemo, useEffect } from "react";
-import type { FC } from "react";
-import {
-  BASE_CLOCK_WIDTH,
-  DEFAULT_CLOCK_SOURCE,
-  TASKBAR_HEIGHT,
-} from "utils/constants";
-import StyledClock from "./StyledClock";
-import { LocaleTimeDate } from "@/app/types";
-import useWorker from "@/app/hooks/useWorker";
-import { Size, createOffscreenCanvas } from "@/app/utils/functions";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { BASE_CLOCK_WIDTH, DEFAULT_CLOCK_SOURCE, TASKBAR_HEIGHT } from 'utils/constants';
+import StyledClock from './StyledClock';
+import type { LocaleTimeDate } from '@/app/types';
+import useWorker from '@/app/hooks/useWorker';
+import { type Size, createOffscreenCanvas } from '@/app/utils/functions';
 
-type ClockWorkerResponse = LocaleTimeDate | "source";
+type ClockWorkerResponse = LocaleTimeDate | 'source';
 
 const ClockSourceMap = {
-  local: "Local",
-  ntp: "Server",
+  local: 'Local',
+  ntp: 'Server',
 };
 
 const clockSize: Size = {
@@ -25,47 +21,41 @@ const clockSize: Size = {
 };
 
 const Clock: FC = () => {
-  const [now, setNow] = useState<LocaleTimeDate>(
-    Object.create(null) as LocaleTimeDate
-  );
+  const [now, setNow] = useState<LocaleTimeDate>(Object.create(null) as LocaleTimeDate);
 
   const { time, date } = now;
   const [clockSource] = useState(DEFAULT_CLOCK_SOURCE);
 
   const offScreenClockCanvas = useRef<OffscreenCanvas>();
   const supportsOffscreenCanvas = useMemo(
-    () => typeof window !== "undefined" && "OffscreenCanvas" in window,
-    []
+    () => typeof window !== 'undefined' && 'OffscreenCanvas' in window,
+    [],
   );
 
   const clockWorkerInit = useCallback(
     () =>
-      new Worker(new URL("./clock.worker", import.meta.url), {
+      new Worker(new URL('./clock.worker', import.meta.url), {
         name: `Clock (${ClockSourceMap[clockSource]})`,
       }),
-    [clockSource]
+    [clockSource],
   );
 
   const updateTime = useCallback(
     ({ data, target: clockWorker }: MessageEvent<ClockWorkerResponse>) => {
-      if (data === "source") {
+      if (data === 'source') {
         (clockWorker as Worker).postMessage(clockSource);
       } else {
         setNow((currentNow) =>
-          !offScreenClockCanvas.current || currentNow.date !== data.date
-            ? data
-            : currentNow
+          !offScreenClockCanvas.current || currentNow.date !== data.date ? data : currentNow,
         );
       }
     },
-    [clockSource]
+    [clockSource],
   );
 
-  const currentWorker = useWorker<ClockWorkerResponse>(
-    clockWorkerInit,
-    updateTime
-  );
+  const currentWorker = useWorker<ClockWorkerResponse>(clockWorkerInit, updateTime);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <NOTE: Need `now` in the dependency array to ensure the clock is updated>
   const clockCallbackRef = useCallback(
     (clockContainer: HTMLDivElement | null) => {
       if (
@@ -73,12 +63,13 @@ const Clock: FC = () => {
         currentWorker.current &&
         clockContainer instanceof HTMLDivElement
       ) {
+        // biome-ignore lint/suspicious/useIterableCallbackReturn: <no return>
         [...clockContainer.children].forEach((element) => element.remove());
 
         offScreenClockCanvas.current = createOffscreenCanvas(
           clockContainer,
           window.devicePixelRatio,
-          clockSize
+          clockSize,
         );
 
         currentWorker.current.postMessage(
@@ -86,18 +77,16 @@ const Clock: FC = () => {
             canvas: offScreenClockCanvas.current,
             devicePixelRatio: window.devicePixelRatio,
           },
-          [offScreenClockCanvas.current]
+          [offScreenClockCanvas.current],
         );
       }
     },
-    // NOTE: Need `now` in the dependency array to ensure the clock is updated
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentWorker, now]
+    [currentWorker, now],
   );
 
   useEffect(() => {
     offScreenClockCanvas.current = undefined;
-  }, [clockSource]);
+  }, []);
 
   return (
     <StyledClock

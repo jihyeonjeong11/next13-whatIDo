@@ -1,7 +1,7 @@
-import { LocaleTimeDate } from '@/app/types';
-import { ClockSource } from '@/app/utils/constants';
 import { formatLocaleDateTime } from './functions';
-import { Size } from '@/app/utils/functions';
+import type { LocaleTimeDate } from '@/app/types';
+import type { ClockSource } from '@/app/utils/constants';
+import type { Size } from '@/app/utils/functions';
 
 export type OffscreenRenderProps = {
   canvas: OffscreenCanvas;
@@ -28,8 +28,7 @@ let mode: ClockSource;
 let offscreenCanvas: OffscreenCanvas;
 let offscreenContext: OffscreenCanvasRenderingContext2D;
 
-const getNow = (): Date =>
-  !mode || mode === 'local' ? new Date() : new Date(); // need ntp support
+const getNow = (): Date => (!mode || mode === 'local' ? new Date() : new Date()); // need ntp support
 
 const textPosition = {
   x: 0,
@@ -46,30 +45,20 @@ const styleClock = (): void => {
   offscreenContext.textBaseline = 'middle';
 
   textPosition.y =
-    Math.floor(offscreenCanvas.height / global.devicePixelRatio / 2) +
-    TEXT_HEIGHT_OFFSET;
-  textPosition.x = Math.floor(
-    offscreenCanvas.width / global.devicePixelRatio / 2
-  );
+    Math.floor(offscreenCanvas.height / global.devicePixelRatio / 2) + TEXT_HEIGHT_OFFSET;
+  textPosition.x = Math.floor(offscreenCanvas.width / global.devicePixelRatio / 2);
 };
 
 const drawClockText = (dateTime: LocaleTimeDate): void => {
   if (!offscreenContext) {
-    offscreenContext = offscreenCanvas.getContext(
-      '2d'
-    ) as OffscreenCanvasRenderingContext2D;
+    offscreenContext = offscreenCanvas.getContext('2d') as OffscreenCanvasRenderingContext2D;
 
     if (!offscreenContext) return;
 
     styleClock();
   }
 
-  offscreenContext.clearRect(
-    0,
-    0,
-    offscreenCanvas.width,
-    offscreenCanvas.height
-  );
+  offscreenContext.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
   offscreenContext.fillText(dateTime.time, textPosition.x, textPosition.y);
 };
 
@@ -95,12 +84,8 @@ globalThis.addEventListener(
       return;
     }
 
-    if (
-      'OffscreenCanvas' in global &&
-      (data as OffscreenRenderProps)?.devicePixelRatio
-    ) {
-      const { canvas, clockSize, devicePixelRatio } =
-        data as OffscreenRenderProps;
+    if ('OffscreenCanvas' in global && (data as OffscreenRenderProps)?.devicePixelRatio) {
+      const { canvas, clockSize, devicePixelRatio } = data as OffscreenRenderProps;
 
       global.devicePixelRatio = devicePixelRatio;
 
@@ -114,12 +99,8 @@ globalThis.addEventListener(
         clockSize?.width &&
         devicePixelRatio
       ) {
-        offscreenCanvas.height = Math.floor(
-          Number(clockSize.height) * devicePixelRatio
-        );
-        offscreenCanvas.width = Math.floor(
-          Number(clockSize.width) * devicePixelRatio
-        );
+        offscreenCanvas.height = Math.floor(Number(clockSize.height) * devicePixelRatio);
+        offscreenCanvas.width = Math.floor(Number(clockSize.width) * devicePixelRatio);
         styleClock();
       }
 
@@ -136,5 +117,5 @@ globalThis.addEventListener(
       globalThis.setInterval(sendTick, MILLISECONDS_IN_SECOND);
     }, MILLISECONDS_IN_SECOND - new Date().getMilliseconds());
   },
-  { passive: true }
+  { passive: true },
 );
