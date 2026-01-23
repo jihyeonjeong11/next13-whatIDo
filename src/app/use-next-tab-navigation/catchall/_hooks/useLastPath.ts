@@ -2,11 +2,11 @@
 
 import { usePathname } from 'next/navigation';
 
-const useLastPath = () => {
+const useSlug = () => {
   const pathname = usePathname();
   const lastSegment = pathname.split('/').filter(Boolean).pop() || '';
 
   return lastSegment;
 };
 
-export default useLastPath;
+export default useSlug;

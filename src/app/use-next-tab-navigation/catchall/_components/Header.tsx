@@ -37,6 +37,7 @@ const Header = () => {
             const isActive = pathname.includes(item.href);
             return (
               <Link
+                scroll={false}
                 key={item.href}
                 href={item.href}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${

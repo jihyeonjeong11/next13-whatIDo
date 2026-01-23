@@ -4,33 +4,26 @@ import { cn } from '@/app/utils/functions';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-
-  const navItems = [
-    {
-      name: '주식 분석 (Stock)',
-      href: '/use-next-tab-navigation/parallel/stock',
-    },
-    {
-      name: '주식 분석 delay (Stock)',
-      href: '/use-next-tab-navigation/parallel/delayed-stock',
-    },
-    {
-      name: '재무 감사 (Audit)',
-      href: '/use-next-tab-navigation/parallel/audit',
-    },
-  ];
-
+const navItems = [
+  {
+    name: '주식 분석 (Stock)',
+    href: '/use-next-tab-navigation/parallel/stock',
+  },
+  {
+    name: '주식 분석 delay (Stock)',
+    href: '/use-next-tab-navigation/parallel/delayed-stock',
+  },
+  {
+    name: '재무 감사 (Audit)',
+    href: '/use-next-tab-navigation/parallel/audit',
+  },
+];
 
 export default function Header() {
   const pathname = usePathname();
 
-  const isCurrentTab = (href: string) => {
-      return pathname === href || pathname.startsWith(href + '/');
-
-  };
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-900/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-900/80 backdrop-blur-md block">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white">
@@ -46,6 +39,7 @@ export default function Header() {
             const isActive = pathname.includes(item.href);
             return (
               <Link
+                scroll={false}
                 key={item.href}
                 href={item.href}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
