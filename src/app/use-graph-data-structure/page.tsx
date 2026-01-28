@@ -1,5 +1,7 @@
+import GraphRenderer from './_components/GraphRenderer';
+
 const UseGraphPage = () => {
-  return <div>Use Graph Data Structure Example Page</div>;
+  return <GraphRenderer />;
 };
 
 export default UseGraphPage;
