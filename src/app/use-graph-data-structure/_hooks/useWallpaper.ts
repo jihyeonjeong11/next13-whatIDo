@@ -7,7 +7,7 @@ const wallpaperArr = [bubbles, stone];
 const size = ['cover', 'contain', 'auto'];
 
 function useWallpaper() {
-  const [wallpaper, setWallpaper] = useState(stone);
+  const [wallpaper, setWallpaper] = useState(bubbles);
   const [sizeStrategy, setSizeStrategy] = useState('');
 
   const getRandomWallpaper = () => {
