@@ -19,7 +19,7 @@ function useWallpaper() {
   return {
     style: {
       backgroundSize: sizeStrategy,
-      backgroundImage: `url(${wallpaper.src})`,
+      //backgroundImage: `url(${wallpaper.src})`,
     },
     getRandomWallpaper,
   };

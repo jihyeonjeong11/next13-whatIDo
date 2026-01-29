@@ -1,4 +1,6 @@
-import { Rnd, RndDragCallback, RndResizeCallback } from 'react-rnd';
+import { memo } from 'react';
+import { Rnd, type RndDragCallback } from 'react-rnd';
+import type { NodeType } from '../_managers/GraphManager';
 export const MIN_NODE_SIZE = {
   height: 80,
   width: 80,
@@ -6,21 +8,27 @@ export const MIN_NODE_SIZE = {
 
 function RndNode({
   children,
+  id,
+  node,
   //   entry,
-  //   onDragStop,
+  onDragStop,
   //   onResizeStop,
   //   zIndex,
 }: {
-  //   zIndex: number;
+  id: string;
   children: React.ReactElement;
+  node: NodeType;
+  //   zIndex: number;
   //   entry: ProcessType;
   //   focus: (id: string) => void;
-  //   onDragStop: RndDragCallback;
+  onDragStop: (id: string) => RndDragCallback;
   //   onResizeStop: RndResizeCallback;
 }) {
   return (
     <Rnd
+      onDragStop={onDragStop(id)}
       className="bg-amber-50 rounded-full"
+      position={node}
       //   cancel=".cancel"
       //   dragHandleClassName="drag-handle"
       //   style={{ zIndex: zIndex }}
@@ -28,7 +36,7 @@ function RndNode({
       //     x: entry.x!,
       //     y: entry.y!,
       //   }}
-      //   onDragStop={onDragStop}
+
       //   onResizeStop={onResizeStop}
       //   size={{ width: entry.width!, height: entry.height! }}
       //   minHeight={MIN_WINDOW_SIZE.height}
@@ -45,4 +53,4 @@ function RndNode({
   );
 }
 
-export default RndNode;
+export default memo(RndNode);

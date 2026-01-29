@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { NodeType } from '../_managers/GraphManager';
-import { set } from 'zod';
 
 export type EdgeProps = { weight: number; props: { desc: string } };
 
@@ -16,8 +15,8 @@ const DevPanel = ({
   target: NodeType | null;
   remove: (id: string) => void;
   addEdge: (
-    e: SubmitEvent,
-    weight: string,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    weight: number,
     desc: string,
     sourceId: string,
     targetId: string,
@@ -31,7 +30,7 @@ const DevPanel = ({
     },
   });
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // 페이지 새로고침 방지
+    e.preventDefault();
 
     if (!title.trim()) {
       alert('노드 이름을 입력해주세요!');
@@ -105,7 +104,7 @@ const DevPanel = ({
             <button
               type="submit"
               onClick={(e) =>
-                addEdge(e, String(edgeProps.weight), edgeProps.props.desc, source.id, target.id)
+                addEdge(e, Number(edgeProps.weight), edgeProps.props.desc, source.id, target.id)
               }
               className={
                 'p-3 rounded-lg text-sm font-black transition-all bg-indigo-600 text-white shadow-lg hover:bg-indigo-700'

@@ -4,8 +4,10 @@ import { useCallback, useMemo, useState } from 'react';
 import DevPanel from './DevPanel';
 import useWallpaper from '../_hooks/useWallpaper';
 import RndNode from './RndNode';
-import { Graph, type NodeType } from '../_managers/GraphManager';
+import { AddEdgeArgs, Graph, type NodeType } from '../_managers/GraphManager';
 import EdgeLine from './EdgeLine';
+import useNodes from '../_hooks/useNodes';
+import EdgesPanel from './EdgesPanel';
 
 interface EdgeType {
   sourceId: string;
@@ -13,61 +15,26 @@ interface EdgeType {
   desc?: string;
 }
 
+export type FlattenedEdge = {
+  id: string;
+  sourceId: string;
+  targetId: string;
+  sTitle: string;
+  tTitle: string;
+  x: number;
+  y: number;
+  props: { desc: string };
+};
+
+// TODO: useGraph hook
 const GraphRenderer = () => {
   const { style } = useWallpaper();
 
   const graphManager = useMemo(() => new Graph(), []);
+  const { nodes, addNode, removeNode, selectNode, sourceNode, targetNode, onDragStop } =
+    useNodes(graphManager);
 
-  const [nodes, setNodes] = useState<NodeType[]>([]);
   const [edges, setEdges] = useState<EdgeType[]>([]);
-  const [sourceNode, setSourceNode] = useState<NodeType | null>(null);
-  const [targetNode, setTargetNode] = useState<NodeType | null>(null);
-
-  const addNode = useCallback(
-    (title: string) => {
-      const newNode = {
-        id: `${Date.now()}`,
-        title,
-      };
-
-      graphManager.addNode(newNode);
-
-      setNodes([...graphManager.nodes]);
-    },
-    [graphManager],
-  );
-  const removeNode = useCallback(
-    (id: string) => {
-      graphManager.removeNode(id);
-      setNodes([...graphManager.nodes]);
-      if (sourceNode?.id === id) setSourceNode(null);
-      if (targetNode?.id === id) setTargetNode(null);
-    },
-    [graphManager, sourceNode, targetNode],
-  );
-
-  const selectNode = useCallback(
-    (id: string) => {
-      const clickedNode = graphManager.getNodeById(id);
-      if (!clickedNode) return;
-
-      // scenario1: sourcenode 없으면 source 노드에 추가
-      if (!sourceNode) {
-        setSourceNode(clickedNode);
-        //scenario2: sourceNode를 다시 클릭한다면 초기화
-      } else if (sourceNode.id === id) {
-        setSourceNode(null);
-        setTargetNode(null);
-        //scenario3: targetNode를 다시 클릭한다면 초기화
-      } else if (targetNode?.id === id) {
-        setTargetNode(null);
-      } else {
-        // scenario4: sourceNode가 있고 targetNode가 없으면 targetNode에 추가
-        setTargetNode(clickedNode);
-      }
-    },
-    [graphManager, sourceNode, targetNode],
-  );
 
   const syncEdges = useCallback(() => {
     const edgeList: EdgeType[] = [];
@@ -88,19 +55,50 @@ const GraphRenderer = () => {
   }, [graphManager]);
 
   const addEdge = useCallback(
-    (e: SubmitEvent, weight: number, desc: string, sourceId: string, targetId: string) => {
+    (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      weight: number,
+      desc: string,
+      sourceId: string,
+      targetId: string,
+    ) => {
       e.preventDefault();
       console.log(weight, desc);
-      graphManager.addEdge(sourceId, targetId, { weight, desc });
+      const createEdge = (weight: number, desc: string) =>
+        ({
+          weight,
+          props: { desc },
+        }) as const;
+      graphManager.addEdge(sourceId, targetId, createEdge(weight, desc));
       syncEdges();
     },
     [graphManager, syncEdges],
   );
 
-  console.log('edges', edges);
+  const edgesWithProps = useMemo(() => {
+    return edges.map((edge) => {
+      const sNode = graphManager.getNodeById(edge.sourceId);
+      const tNode = graphManager.getNodeById(edge.targetId);
+
+      const props = sNode && tNode ? graphManager.getEdgeProperties(sNode, tNode) : undefined;
+
+      return {
+        id: `${edge.sourceId}-${edge.targetId}`,
+        sourceId: edge.sourceId,
+        targetId: edge.targetId,
+        sTitle: sNode?.title ?? '',
+        tTitle: tNode?.title ?? '',
+        x: tNode?.x ?? 0,
+        y: tNode?.y ?? 0,
+        props: props ?? { desc: '' },
+      };
+    });
+  }, [edges, graphManager]);
 
   return (
     <div style={style} className="h-screen">
+      <EdgesPanel edges={edgesWithProps} />
+
       <DevPanel
         add={addNode}
         target={targetNode}
@@ -109,17 +107,22 @@ const GraphRenderer = () => {
         addEdge={addEdge}
       />
 
-      <svg className="absolute inset-0 w-full h-full pointer-events-none">
+      <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
+        <title>lines</title>
         {edges.map((edge) => (
-          <EdgeLine key={edge.sourceId} sourceId={edge.sourceId} targetId={edge.targetId} />
+          <EdgeLine
+            key={`${edge.sourceId}-${edge.targetId}`}
+            sourceState={nodes.find((n) => n.id === edge.sourceId) as NodeType}
+            targetState={nodes.find((n) => n.id === edge.targetId) as NodeType}
+          />
         ))}
       </svg>
 
-      {nodes.map(({ title, id }) => {
+      {nodes.map((n) => {
         return (
-          <RndNode key={id}>
-            <button type="button" onClick={() => selectNode(id)}>
-              <div className="rounded-full p-4">{title}</div>
+          <RndNode key={n.id} id={n.id} node={n} onDragStop={onDragStop}>
+            <button type="button" onClick={() => selectNode(n.id)}>
+              <div className="rounded-full p-4">{n.title}</div>
             </button>
           </RndNode>
         );

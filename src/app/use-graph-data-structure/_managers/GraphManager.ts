@@ -6,6 +6,8 @@ export type EdgeWeight = number;
 export type NodeType = {
   id: string;
   title: string;
+  x: number;
+  y: number;
 };
 
 export function invariant(value: boolean, message?: string): asserts value;
@@ -186,6 +188,8 @@ export class Graph<Node = NodeType, LinkProps = never> {
     if (weight !== undefined) {
       this.setEdgeWeight(source, target, weight);
     }
+
+    console.log('linkProps', linkProps);
 
     if (linkProps !== undefined) {
       this.setEdgeProperties(source, target, linkProps);
