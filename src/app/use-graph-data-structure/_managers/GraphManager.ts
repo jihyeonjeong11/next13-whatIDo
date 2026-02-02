@@ -45,6 +45,7 @@ export class Graph<Node = NodeType, LinkProps = never> {
 
   /**
    * Returns node by given id.
+   * // todo: 추후 훅으로 만들 때 traversal 개념 도입하기.
    */
   getNodeById(id: string | number): Node | undefined {
     const allNodes = Array.from(this.nodes);
