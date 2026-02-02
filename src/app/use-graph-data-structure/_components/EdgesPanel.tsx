@@ -29,13 +29,15 @@ const EdgesPanel = ({ edges }: { edges: FlattenedEdge[] }) => {
                 </h3>
 
                 <h3 className="text-sm font-bold text-slate-700 mb-1 group-hover:text-amber-600 transition-colors">
+                  weight: {edge.weight}
+                </h3>
+
+                <h3 className="text-sm font-bold text-slate-700 mb-1 group-hover:text-amber-600 transition-colors">
                   {edge.tTitle}
                 </h3>
 
                 <div className="bg-slate-50 rounded-lg p-2 mt-2 border border-slate-50">
-                  <p className="text-xs text-slate-500 leading-relaxed italic">
-                    "{edge.props.desc}"
-                  </p>
+                  <p className="text-xs text-slate-500 leading-relaxed italic">"{edge.desc}"</p>
                 </div>
               </div>
             ))

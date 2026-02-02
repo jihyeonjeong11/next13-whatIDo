@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import DevPanel from './DevPanel';
 import useWallpaper from '../_hooks/useWallpaper';
 import RndNode from './RndNode';
-import { AddEdgeArgs, Graph, type NodeType } from '../_managers/GraphManager';
+import { Graph, type NodeType } from '../_managers/GraphManager';
 import EdgeLine from './EdgeLine';
 import useNodes from '../_hooks/useNodes';
 import EdgesPanel from './EdgesPanel';
@@ -23,7 +23,8 @@ export type FlattenedEdge = {
   tTitle: string;
   x: number;
   y: number;
-  props: { desc: string };
+  desc: string;
+  weight: number;
 };
 
 // TODO: useGraph hook
@@ -63,7 +64,6 @@ const GraphRenderer = () => {
       targetId: string,
     ) => {
       e.preventDefault();
-      console.log(weight, desc);
       const createEdge = (weight: number, desc: string) =>
         ({
           weight,
@@ -75,12 +75,17 @@ const GraphRenderer = () => {
     [graphManager, syncEdges],
   );
 
+  // todo: graphmanager 타입정리.
   const edgesWithProps = useMemo(() => {
     return edges.map((edge) => {
       const sNode = graphManager.getNodeById(edge.sourceId);
       const tNode = graphManager.getNodeById(edge.targetId);
 
-      const props = sNode && tNode ? graphManager.getEdgeProperties(sNode, tNode) : undefined;
+      const props =
+        sNode && tNode
+          ? (graphManager.getEdgeProperties(sNode, tNode) as unknown as { desc: string })
+          : undefined;
+      const weight = sNode && tNode ? graphManager.getEdgeWeight(sNode, tNode) : undefined;
 
       return {
         id: `${edge.sourceId}-${edge.targetId}`,
@@ -90,7 +95,8 @@ const GraphRenderer = () => {
         tTitle: tNode?.title ?? '',
         x: tNode?.x ?? 0,
         y: tNode?.y ?? 0,
-        props: props ?? { desc: '' },
+        desc: props?.desc ?? 'error',
+        weight: weight ?? -1,
       };
     });
   }, [edges, graphManager]);
