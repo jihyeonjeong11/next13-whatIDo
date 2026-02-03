@@ -4,10 +4,12 @@ import { useCallback, useMemo, useState } from 'react';
 import DevPanel from './DevPanel';
 import useWallpaper from '../_hooks/useWallpaper';
 import RndNode from './RndNode';
-import { Graph, type NodeType } from '../_managers/GraphManager';
+import { Graph, type NodeType } from '../_graph';
+
 import EdgeLine from './EdgeLine';
 import useNodes from '../_hooks/useNodes';
 import EdgesPanel from './EdgesPanel';
+import { getNodeById } from '../_graph/utils';
 
 interface EdgeType {
   sourceId: string;
@@ -37,6 +39,7 @@ const GraphRenderer = () => {
 
   const [edges, setEdges] = useState<EdgeType[]>([]);
 
+  // todo: useEdges
   const syncEdges = useCallback(() => {
     const edgeList: EdgeType[] = [];
 
@@ -60,8 +63,8 @@ const GraphRenderer = () => {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
       weight: number,
       desc: string,
-      sourceId: string,
-      targetId: string,
+      source: NodeType,
+      target: NodeType,
     ) => {
       e.preventDefault();
       const createEdge = (weight: number, desc: string) =>
@@ -69,7 +72,7 @@ const GraphRenderer = () => {
           weight,
           props: { desc },
         }) as const;
-      graphManager.addEdge(sourceId, targetId, createEdge(weight, desc));
+      graphManager.addEdge(source, target, createEdge(weight, desc));
       syncEdges();
     },
     [graphManager, syncEdges],
@@ -78,8 +81,8 @@ const GraphRenderer = () => {
   // todo: graphmanager 타입정리.
   const edgesWithProps = useMemo(() => {
     return edges.map((edge) => {
-      const sNode = graphManager.getNodeById(edge.sourceId);
-      const tNode = graphManager.getNodeById(edge.targetId);
+      const sNode = getNodeById(graphManager, edge.sourceId);
+      const tNode = getNodeById(graphManager, edge.targetId);
 
       const props =
         sNode && tNode

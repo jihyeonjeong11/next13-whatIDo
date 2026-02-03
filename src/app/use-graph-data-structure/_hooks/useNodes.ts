@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
-import type { Graph, NodeType } from '../_managers/GraphManager';
-import { RndDragCallback } from 'react-rnd';
+import type { NodeType } from '../_graph/types';
+import type { Graph } from '../_graph';
+import type { RndDragCallback } from 'react-rnd';
+import { getNodeById } from '../_graph';
 
 // TODO: graphManager를 context로 바꿔야함.
 const useNodes = (graphManager: Graph<NodeType, never>) => {
@@ -31,18 +33,18 @@ const useNodes = (graphManager: Graph<NodeType, never>) => {
     [graphManager],
   );
   const removeNode = useCallback(
-    (id: string) => {
-      graphManager.removeNode(id);
-      setNodes((p) => p.filter((n) => n.id !== id));
-      if (sourceNode?.id === id) setSourceNode(null);
-      if (targetNode?.id === id) setTargetNode(null);
+    (node: NodeType) => {
+      graphManager.removeNode(node);
+      setNodes((p) => p.filter((n) => n.id !== node.id));
+      if (sourceNode?.id === node.id) setSourceNode(null);
+      if (targetNode?.id === node.id) setTargetNode(null);
     },
     [graphManager, sourceNode, targetNode],
   );
 
   const selectNode = useCallback(
     (id: string) => {
-      const clickedNode = graphManager.getNodeById(id);
+      const clickedNode = getNodeById(graphManager, id);
       if (!clickedNode) return;
 
       // scenario1: sourcenode 없으면 source 노드에 추가

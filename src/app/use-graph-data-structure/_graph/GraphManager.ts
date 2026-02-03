@@ -1,23 +1,8 @@
-// https://www.geeksforgeeks.org/dsa/graph-data-structure/
-// https://github.com/datavis-tech/graph-data-structure/blob/master/src/types.ts
+import type { NodeType } from './types';
+import { invariant } from './invariant';
+import { getNodeById } from './utils';
 
 export type EdgeWeight = number;
-
-export type NodeType = {
-  id: string;
-  title: string;
-  x: number;
-  y: number;
-};
-
-export function invariant(value: boolean, message?: string): asserts value;
-export function invariant<T>(value: T | null | undefined, message?: string): asserts value is T;
-export function invariant(value: unknown, message?: string) {
-  if (value === false || value === null || typeof value === 'undefined') {
-    console.warn('Test invariant failed:', message);
-    throw new Error(message);
-  }
-}
 
 export class Graph<Node = NodeType, LinkProps = never> {
   /**
@@ -44,19 +29,6 @@ export class Graph<Node = NodeType, LinkProps = never> {
   edgeProperties: Map<Node, Map<Node, LinkProps>> = new Map();
 
   /**
-   * Returns node by given id.
-   * // todo: 추후 훅으로 만들 때 traversal 개념 도입하기.
-   */
-  getNodeById(id: string | number): Node | undefined {
-    const allNodes = Array.from(this.nodes);
-
-    return allNodes.find((node) => {
-      const nodeData = node as unknown as NodeType;
-      return String(nodeData.id) === String(id);
-    });
-  }
-
-  /**
    * Adds a node to the graph.
    * If node was already added, this function does nothing.
    * If node was not already added, this function sets up an empty adjacency list.
@@ -77,18 +49,18 @@ export class Graph<Node = NodeType, LinkProps = never> {
    * Removes a node from the graph.
    * Also removes incoming and outgoing edges.
    */
-  removeNode(id: string): this {
+  /**
+   * Removes a node from the graph.
+   * Also removes incoming and outgoing edges.
+   */
+  removeNode(node: Node): this {
     // Remove outgoing edges (and signal that the node no longer exists).
-    const found = this.getNodeById(id);
-
-    invariant(found, `Node with id ${id} not found in graph.`);
-
-    this.edges.delete(found);
-    this.nodes.delete(found);
+    this.edges.delete(node);
+    this.nodes.delete(node);
 
     // Remove ingoing edges
     for (const adjacentNodes of this.edges.values()) {
-      adjacentNodes.delete(found);
+      adjacentNodes.delete(node);
     }
 
     return this;
@@ -151,7 +123,7 @@ export class Graph<Node = NodeType, LinkProps = never> {
    * Adds an edge from the `source` node to `target` node.
    * This method will create the nodes if they were not already added.
    */
-  addEdge(sourceId: string, targetId: string, ...args: AddEdgeArgs<LinkProps>): this {
+  addEdge(source: Node, target: Node, ...args: AddEdgeArgs<LinkProps>): this {
     let weight: number | undefined;
     let linkProps: LinkProps | undefined;
 
@@ -170,14 +142,6 @@ export class Graph<Node = NodeType, LinkProps = never> {
           : undefined;
     }
 
-    const source = this.getNodeById(sourceId);
-
-    invariant(source, `Node with id ${sourceId} not found in graph.`);
-
-    const target = this.getNodeById(targetId);
-
-    invariant(target, `Node with id ${targetId} not found in graph.`);
-
     this.addNode(source);
     this.addNode(target);
     const adjacentNodes = this.adjacent(source);
@@ -189,8 +153,6 @@ export class Graph<Node = NodeType, LinkProps = never> {
     if (weight !== undefined) {
       this.setEdgeWeight(source, target, weight);
     }
-
-    console.log('linkProps', linkProps);
 
     if (linkProps !== undefined) {
       this.setEdgeProperties(source, target, linkProps);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { NodeType } from '../_managers/GraphManager';
+import type { NodeType } from '../_graph';
 
 export type EdgeProps = { weight: number; props: { desc: string } };
 
@@ -13,13 +13,13 @@ const DevPanel = ({
   add: (title: string) => void;
   source: NodeType | null;
   target: NodeType | null;
-  remove: (id: string) => void;
+  remove: (source: NodeType) => void;
   addEdge: (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     weight: number,
     desc: string,
-    sourceId: string,
-    targetId: string,
+    source: NodeType,
+    target: NodeType,
   ) => void;
 }) => {
   const [title, setTitle] = useState('');
@@ -71,7 +71,7 @@ const DevPanel = ({
         <article>
           Source Node: {source.title}
           <button
-            onClick={() => remove(source.id)}
+            onClick={() => remove(source)}
             type="button"
             className="bg-blue-600 text-white p-2 rounded text-sm font-bold hover:bg-blue-700 transition-colors"
           >
@@ -104,7 +104,7 @@ const DevPanel = ({
             <button
               type="submit"
               onClick={(e) =>
-                addEdge(e, Number(edgeProps.weight), edgeProps.props.desc, source.id, target.id)
+                addEdge(e, Number(edgeProps.weight), edgeProps.props.desc, source, target)
               }
               className={
                 'p-3 rounded-lg text-sm font-black transition-all bg-indigo-600 text-white shadow-lg hover:bg-indigo-700'
@@ -120,7 +120,7 @@ const DevPanel = ({
         <article>
           target Node: {target.title}
           <button
-            onClick={() => remove(target.id)}
+            onClick={() => remove(target)}
             type="button"
             className="bg-blue-600 text-white p-2 rounded text-sm font-bold hover:bg-blue-700 transition-colors"
           >

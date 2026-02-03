@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Rnd, type RndDragCallback } from 'react-rnd';
-import type { NodeType } from '../_managers/GraphManager';
+import type { NodeType } from '../_graph';
 export const MIN_NODE_SIZE = {
   height: 80,
   width: 80,
