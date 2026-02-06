@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Clock from '../components/use-worker/clock';
 import NoWorkerClock from '../components/use-worker/NoWorkerClock';
 import StyledTaskbar from '../components/use-worker/StyledTaskBar';
-import ClockWithRAF from '../components/use-worker/ClockWithRAF';
 
 export default function UseWorkerPage() {
   const [isBlocking, setIsBlocking] = useState(false);
@@ -44,9 +43,9 @@ export default function UseWorkerPage() {
         <span className="text-white">With Web worker</span> <Clock />
       </StyledTaskbar>
 
-      {/* <StyledTaskbar $bottom={0}>
+      <StyledTaskbar $bottom={0}>
         <span className="text-white">Without Web worker</span> <NoWorkerClock />
-      </StyledTaskbar> */}
+      </StyledTaskbar>
     </main>
   );
 }

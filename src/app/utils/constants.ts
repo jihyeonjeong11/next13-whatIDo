@@ -1,5 +1,3 @@
-import type { Size } from '../components/use-window/hooks/useResizable';
-import type { ThemeName } from '../styles/use-window/themes';
 
 export type ClockSource = 'local' | 'ntp';
 
@@ -38,7 +36,7 @@ export const TRANSITIONS_IN_SECONDS = {
 
 export const WINDOW_ID = 'window';
 
-export const DEFAULT_THEME: ThemeName = 'defaultTheme';
+export const DEFAULT_THEME: string = 'defaultTheme';
 
 export const DEFAULT_WINDOW_SIZE: Size = {
   height: 300,
@@ -46,6 +44,7 @@ export const DEFAULT_WINDOW_SIZE: Size = {
 };
 
 import type { HandleStyles } from 'react-rnd';
+import { Size } from './functions';
 
 export const RESIZING_DISABLED = {
   bottom: false,

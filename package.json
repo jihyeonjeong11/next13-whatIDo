@@ -15,8 +15,8 @@
     "docker:dev": "docker compose -f docker-compose.dev.yml up --build",
     "docker:prod": "docker compose -f docker-compose.prod.yml up -d --build",
     "biome:check": "npx @biomejs/biome check --diagnostic-level=error",
-    "biome:format": "npx biome format --write ./src"
-
+    "biome:format": "npx biome format --write ./src",
+    "type:check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.0",

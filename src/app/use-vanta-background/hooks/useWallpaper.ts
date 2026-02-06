@@ -1,6 +1,5 @@
 'use client';
 
-// @ts-expect-error
 import { type MutableRefObject, useEffect, useState } from 'react';
 import HALO from 'vanta/dist/vanta.halo.min';
 import * as THREE from 'three';
