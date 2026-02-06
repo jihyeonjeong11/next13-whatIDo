@@ -1,6 +1,5 @@
 import type { NodeType } from './types';
 import { invariant } from './invariant';
-import { getNodeById } from './utils';
 
 export type EdgeWeight = number;
 

@@ -50,7 +50,6 @@ const GraphRenderer = () => {
         edgeList.push({
           sourceId: s.id,
           targetId: t.id,
-          //desc: graphManager.getEdgeProperties(source, target)?.desc,
         });
       });
     });
