@@ -1,16 +1,11 @@
-"use client";
-import React from "react";
-import StyledTitlebar from "./StyledTitleBar";
-import Button from "../../common/Button";
-import {
-  CloseIcon,
-  MaximizeIcon,
-  MaximizedIcon,
-  MinimizeIcon,
-} from "./WindowActionIcons";
-import { useProcesses } from "@/app/contexts/process";
-import { label } from "@/app/utils/functions";
-import useWindowActions from "../hooks/useWindowActions";
+'use client';
+import React from 'react';
+import StyledTitlebar from './StyledTitleBar';
+import Button from '../../common/Button';
+import { CloseIcon, MaximizeIcon, MaximizedIcon, MinimizeIcon } from './WindowActionIcons';
+import { useProcesses } from '@/app/contexts/process';
+import { label } from '@/app/utils/functions';
+import useWindowActions from '../hooks/useWindowActions';
 
 type TitlebarProps = {
   id: string;
@@ -36,11 +31,7 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
 
       <nav className="cancel">
         {!maximized && (
-          <Button
-            className="minimize"
-            onClick={onMinimize}
-            {...label("Minimize")}
-          >
+          <Button className="minimize" onClick={onMinimize} {...label('Minimize')}>
             <MinimizeIcon />
           </Button>
         )}
@@ -49,12 +40,12 @@ const TitleBar: FC<TitlebarProps> = ({ id, children }) => {
             className="maximize"
             //disabled={!allowResizing}
             onClick={onMaximize}
-            {...label("Maximize")}
+            {...label('Maximize')}
           >
             {maximized ? <MaximizedIcon /> : <MaximizeIcon />}
           </Button>
         )}
-        <Button className="close" onClick={onClose} {...label("Close")}>
+        <Button className="close" onClick={onClose} {...label('Close')}>
           <CloseIcon />
         </Button>
       </nav>

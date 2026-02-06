@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 const useWorker = <T>(
   workerInit?: (info?: string) => Worker,
   onMessage?: (message: MessageEvent<T>) => void,
-  workerInfo?: string
+  workerInfo?: string,
 ): React.MutableRefObject<Worker | undefined> => {
   const worker = useRef<Worker>();
 

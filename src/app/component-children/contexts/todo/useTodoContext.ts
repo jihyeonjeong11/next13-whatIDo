@@ -20,11 +20,7 @@ const RANDOMIZABLE_TODO_LIST = [
 
 const makeListEntry = (text = '') => ({
   id: uuidv4(),
-  label:
-    text ||
-    RANDOMIZABLE_TODO_LIST[
-      Math.floor(Math.random() * RANDOMIZABLE_TODO_LIST.length)
-    ],
+  label: text || RANDOMIZABLE_TODO_LIST[Math.floor(Math.random() * RANDOMIZABLE_TODO_LIST.length)],
 });
 
 const useTodoContext = (): UseTodoContextType => {

@@ -28,9 +28,7 @@ const DelayedStock = () => {
 
   return (
     <div className="p-10 bg-slate-900 text-white">
-      <h2 className="text-3xl font-bold text-emerald-400">
-        Real-time Stock Analysis
-      </h2>
+      <h2 className="text-3xl font-bold text-emerald-400">Real-time Stock Analysis</h2>
       <p className="mt-4 text-slate-400">CPU 부하 테스트가 완료되었습니다.</p>
     </div>
   );

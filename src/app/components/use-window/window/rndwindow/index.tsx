@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useProcesses } from "@/app/contexts/process";
-import React, { useRef } from "react";
-import { Rnd } from "react-rnd";
-import useRnd from "../../hooks/useRnd";
+import { useProcesses } from '@/app/contexts/process';
+import React, { useRef } from 'react';
+import { Rnd } from 'react-rnd';
+import useRnd from '../../hooks/useRnd';
 
 type RndWindowProps = {
   id: string;

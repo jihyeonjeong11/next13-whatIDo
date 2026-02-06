@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import { PokeDataType } from '../types';
 
 export default function useQuery(url: string) {
-  const [data, setData] = useState<PokeDataType>(
-    Object.create(null) as PokeDataType,
-  );
+  const [data, setData] = useState<PokeDataType>(Object.create(null) as PokeDataType);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 

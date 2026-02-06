@@ -39,9 +39,7 @@ export default function Todo({ type }: TodoProps) {
       <TodoHandle popList={popList} />
 
       {!isWithChildren &&
-        list.map((item, index) => (
-          <Item index={index} item={item} key={item.id} />
-        ))}
+        list.map((item, index) => <Item index={index} item={item} key={item.id} />)}
 
       {isWithChildren && (
         <WithChildren>

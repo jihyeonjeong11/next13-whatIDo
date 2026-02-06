@@ -6,7 +6,7 @@ export type Size = {
   width: number;
 };
 
-export const createOffscreenCanvas = (  
+export const createOffscreenCanvas = (
   containerElement: HTMLElement,
   devicePixelRatio = 1,
   customSize: Size = Object.create(null) as Size,

@@ -1,11 +1,6 @@
-import type {
-  Process,
-  Processes,
-  ProcessArguments,
-  ProcessElements,
-} from "./types";
-import { PREVENT_SCROLL, PROCESS_DELIMITER } from "utils/constants";
-import directory from "./directory";
+import type { Process, Processes, ProcessArguments, ProcessElements } from './types';
+import { PREVENT_SCROLL, PROCESS_DELIMITER } from 'utils/constants';
+import directory from './directory';
 
 const setProcessSettings =
   (processId: string, settings: Partial<Process>) =>
@@ -30,20 +25,15 @@ export const closeProcess =
       return setProcessSettings(processId, { closing })(currentProcesses);
     }
 
-    const { [processId]: _closedProcess, ...remainingProcesses } =
-      currentProcesses;
+    const { [processId]: _closedProcess, ...remainingProcesses } = currentProcesses;
 
     return remainingProcesses;
   };
 
-const createPid = (
-  processId: string,
-  url: string,
-  currentProcesses: Processes
-): string => {
+const createPid = (processId: string, url: string, currentProcesses: Processes): string => {
   const pid = url ? `${processId}${PROCESS_DELIMITER}${url}` : processId;
   const uniquePid = (instance = 0): string => {
-    const newPid = `${pid}${instance ? `${PROCESS_DELIMITER}${instance}` : ""}`;
+    const newPid = `${pid}${instance ? `${PROCESS_DELIMITER}${instance}` : ''}`;
 
     return currentProcesses[newPid] ? uniquePid(instance + 1) : newPid;
   };
@@ -54,7 +44,7 @@ const createPid = (
 export const openProcess =
   (processId: string, processArguments: ProcessArguments, icon?: string) =>
   (currentProcesses: Processes): Processes => {
-    const { url = "" } = processArguments;
+    const { url = '' } = processArguments;
 
     //if (libs) preloadLibs(libs); // later
     const { libs, singleton } = directory[processId] || {};
@@ -86,7 +76,7 @@ export const openProcess =
           ...currentProcesses,
           [id]: {
             ...directory[processId],
-            ...(typeof icon === "string" && { icon }),
+            ...(typeof icon === 'string' && { icon }),
             ...processArguments,
           },
         }

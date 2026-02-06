@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useProcesses } from "@/app/contexts/process";
-import { useCallback } from "react";
+import { useProcesses } from '@/app/contexts/process';
+import { useCallback } from 'react';
 
 type WindowActions = {
   onClose: () => void;

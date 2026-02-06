@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import type { ComponentProcessProps } from "../RenderComponent";
-import { useProcesses } from "@/app/contexts/process";
-import StyledWindow from "./StyledWindow";
-import TitleBar from "../titlebar";
-import RndWindow from "./rndwindow";
-import useWindowTransitions from "../hooks/useWindowTransition";
-import { useCallback } from "react";
+import type { ComponentProcessProps } from '../RenderComponent';
+import { useProcesses } from '@/app/contexts/process';
+import StyledWindow from './StyledWindow';
+import TitleBar from '../titlebar';
+import RndWindow from './rndwindow';
+import useWindowTransitions from '../hooks/useWindowTransition';
+import { useCallback } from 'react';
 
 const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   const {
@@ -14,8 +14,7 @@ const Window: FC<ComponentProcessProps> = ({ children, id }) => {
     processes,
     linkElement,
   } = useProcesses();
-  const { backgroundColor, Component, hideTitlebar, peekElement } =
-    process || {};
+  const { backgroundColor, Component, hideTitlebar, peekElement } = process || {};
   const windowTransitions = useWindowTransitions(id);
 
   // const { foregroundId } = useSession();
@@ -24,12 +23,9 @@ const Window: FC<ComponentProcessProps> = ({ children, id }) => {
   // const windowTransitions = useWindowTransitions(id);
   const linkViewportEntry = useCallback(
     (viewportEntry: HTMLDivElement) => {
-      Component &&
-        !peekElement &&
-        viewportEntry &&
-        linkElement(id, "peekElement", viewportEntry);
+      Component && !peekElement && viewportEntry && linkElement(id, 'peekElement', viewportEntry);
     },
-    [Component, id, linkElement, peekElement]
+    [Component, id, linkElement, peekElement],
   );
   return (
     <RndWindow id={id}>

@@ -1,17 +1,14 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import { TASKBAR_HEIGHT } from "../../utils/constants";
+import styled from 'styled-components';
+import { TASKBAR_HEIGHT } from '../../utils/constants';
 
-const StyledTaskbar = styled.nav<{$bottom?: number}>`
+const StyledTaskbar = styled.nav<{ $bottom?: number }>`
   display: flex;
   backdrop-filter: blur(10px);
   background-color: rgba(26, 26, 26, 0.7);
-    bottom: ${({ $bottom }) => 
-    $bottom !== undefined 
-      ? (typeof $bottom === 'number' ? `${$bottom}px` : $bottom) 
-      : '0px'
-  };
+    bottom: ${({ $bottom }) =>
+      $bottom !== undefined ? (typeof $bottom === 'number' ? `${$bottom}px` : $bottom) : '0px'};
   contain: size layout;
   height: ${TASKBAR_HEIGHT}px;
   left: 0;

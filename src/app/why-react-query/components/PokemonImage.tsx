@@ -16,9 +16,7 @@ const PokemonImage: FC<Props> = ({ front_default, name }) => {
       src={src}
       width={200}
       height={200}
-      onError={() =>
-        setSrc('https://ui.dev/images/courses/pokemon-unknown.png')
-      }
+      onError={() => setSrc('https://ui.dev/images/courses/pokemon-unknown.png')}
       alt={name}
     />
   );

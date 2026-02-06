@@ -9,12 +9,8 @@ const validationSchema = z
     email: z.string().min(1, { message: 'Email is required' }).email({
       message: 'Must be a valid email',
     }),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be atleast 6 characters' }),
-    confirmPassword: z
-      .string()
-      .min(1, { message: 'Confirm Password is required' }),
+    password: z.string().min(6, { message: 'Password must be atleast 6 characters' }),
+    confirmPassword: z.string().min(1, { message: 'Confirm Password is required' }),
     terms: z.literal(true, {
       errorMap: () => ({ message: 'You must accept Terms and Conditions' }),
     }),
@@ -41,10 +37,7 @@ const SignUpForm = () => {
     <form className="px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4 md:flex md:justify-between">
         <div className="mb-4 md:mr-2 md:mb-0">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700"
-            htmlFor="firstName"
-          >
+          <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="firstName">
             First Name
           </label>
           <input
@@ -57,16 +50,11 @@ const SignUpForm = () => {
             {...register('firstName')}
           />
           {errors.firstName && (
-            <p className="text-xs italic text-red-500 mt-2">
-              {errors.firstName?.message}
-            </p>
+            <p className="text-xs italic text-red-500 mt-2">{errors.firstName?.message}</p>
           )}
         </div>
         <div className="md:ml-2">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700"
-            htmlFor="lastName"
-          >
+          <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="lastName">
             Last Name
           </label>
           <input
@@ -79,17 +67,12 @@ const SignUpForm = () => {
             {...register('lastName')}
           />
           {errors.lastName && (
-            <p className="text-xs italic text-red-500 mt-2">
-              {errors.lastName?.message}
-            </p>
+            <p className="text-xs italic text-red-500 mt-2">{errors.lastName?.message}</p>
           )}
         </div>
       </div>
       <div className="mb-4">
-        <label
-          className="block mb-2 text-sm font-bold text-gray-700"
-          htmlFor="email"
-        >
+        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
           Email
         </label>
         <input
@@ -102,17 +85,12 @@ const SignUpForm = () => {
           {...register('email')}
         />
         {errors.email && (
-          <p className="text-xs italic text-red-500 mt-2">
-            {errors.email?.message}
-          </p>
+          <p className="text-xs italic text-red-500 mt-2">{errors.email?.message}</p>
         )}
       </div>
       <div className="mb-4 md:flex md:justify-between">
         <div className="mb-4 md:mr-2 md:mb-0">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700"
-            htmlFor="password"
-          >
+          <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
             Password
           </label>
           <input
@@ -124,16 +102,11 @@ const SignUpForm = () => {
             {...register('password')}
           />
           {errors.password && (
-            <p className="text-xs italic text-red-500 mt-2">
-              {errors.password?.message}
-            </p>
+            <p className="text-xs italic text-red-500 mt-2">{errors.password?.message}</p>
           )}
         </div>
         <div className="md:ml-2">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-700"
-            htmlFor="c_password"
-          >
+          <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="c_password">
             Confirm Password
           </label>
           <input
@@ -145,9 +118,7 @@ const SignUpForm = () => {
             {...register('confirmPassword')}
           />
           {errors.confirmPassword && (
-            <p className="text-xs italic text-red-500 mt-2">
-              {errors.confirmPassword?.message}
-            </p>
+            <p className="text-xs italic text-red-500 mt-2">{errors.confirmPassword?.message}</p>
           )}
         </div>
       </div>
@@ -162,9 +133,7 @@ const SignUpForm = () => {
           Accept Terms & Conditions
         </label>
         {errors.terms && (
-          <p className="text-xs italic text-red-500 mt-2">
-            {errors.terms?.message}
-          </p>
+          <p className="text-xs italic text-red-500 mt-2">{errors.terms?.message}</p>
         )}
       </div>
       <div className="mb-6 text-center">

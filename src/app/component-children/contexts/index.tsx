@@ -12,21 +12,13 @@ const RANDOMIZABLE_TODO_LIST = [
 
 export const makeListEntry = (text = '') => ({
   id: uuidv4(),
-  label:
-    text ||
-    RANDOMIZABLE_TODO_LIST[
-      Math.floor(Math.random() * RANDOMIZABLE_TODO_LIST.length)
-    ],
+  label: text || RANDOMIZABLE_TODO_LIST[Math.floor(Math.random() * RANDOMIZABLE_TODO_LIST.length)],
 });
 
 export const TodoContext = createContext<Props>(null as unknown as Props);
 
-const TodoContextHoc: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [list, setList] = useState<Props['list']>(
-    Array.from(Array(100), () => makeListEntry()),
-  );
+const TodoContextHoc: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [list, setList] = useState<Props['list']>(Array.from(Array(100), () => makeListEntry()));
 
   const addList = useCallback((text?: string) => {
     setList((prev) => [...prev, makeListEntry(text)]);
@@ -40,11 +32,7 @@ const TodoContextHoc: React.FC<{ children: React.ReactNode }> = ({
     });
   }, []);
 
-  return (
-    <TodoContext.Provider value={{ list, addList, popList }}>
-      {children}
-    </TodoContext.Provider>
-  );
+  return <TodoContext.Provider value={{ list, addList, popList }}>{children}</TodoContext.Provider>;
 };
 
 export default TodoContextHoc;

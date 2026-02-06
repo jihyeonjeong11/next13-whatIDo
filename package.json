@@ -7,7 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:dev:build": "docker build -f Dockerfile -t my-app:dev .",
+    "docker:dev:run": "docker run -p 3000:3000 --name my-app-dev my-app:dev",
+    "docker:prod:build": "docker build -f Dockerfile.prod -t my-app:prod .",
+    "docker:prod:run": "docker run -p 8080:3000 --name my-app-prod my-app:prod",
+    "docker:dev": "docker compose -f docker-compose.dev.yml up --build",
+    "docker:prod": "docker compose -f docker-compose.prod.yml up -d --build",
+    "biome:check": "npx @biomejs/biome check",
+    "biome:format": "npx biome format --write ./src"
+
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.0",

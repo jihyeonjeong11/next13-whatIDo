@@ -7,6 +7,6 @@ export default function TabPage({ params }: { params: { tab: string } }) {
   if (params.tab === 'analytics') {
     return <h1>분석 페이지</h1>;
   }
-  
+
   notFound();
 }

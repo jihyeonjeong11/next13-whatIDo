@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useProcesses } from "@/app/contexts/process";
-import { Props } from "react-rnd";
-import useResizable from "./useResizable";
-import rndDefaults from "@/app/utils/constants";
+import { useProcesses } from '@/app/contexts/process';
+import { Props } from 'react-rnd';
+import useResizable from './useResizable';
+import rndDefaults from '@/app/utils/constants';
 
 // rnd event handler
 

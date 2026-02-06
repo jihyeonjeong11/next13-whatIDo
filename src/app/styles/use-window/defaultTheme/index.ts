@@ -1,12 +1,12 @@
-import type { DefaultTheme } from "styled-components";
-import colors from "./colors";
-import formats from "./formats";
-import sizes from "./sizes";
+import type { DefaultTheme } from 'styled-components';
+import colors from './colors';
+import formats from './formats';
+import sizes from './sizes';
 
 const defaultTheme: DefaultTheme = {
   colors,
   formats,
-  name: "Dark",
+  name: 'Dark',
   sizes,
 };
 

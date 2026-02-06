@@ -5,9 +5,7 @@ import { MutableRefObject, useEffect, useState } from 'react';
 import HALO from 'vanta/dist/vanta.halo.min';
 import * as THREE from 'three';
 
-export const useWallpaper = (
-  vantaRef: MutableRefObject<HTMLElement | null>,
-) => {
+export const useWallpaper = (vantaRef: MutableRefObject<HTMLElement | null>) => {
   const [vantaEffect, setVantaEffect] = useState<any>(0);
 
   useEffect(() => {

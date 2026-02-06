@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useProcesses } from "@/app/contexts/process";
-import type { MotionProps, Variant } from "framer-motion";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { TASKBAR_HEIGHT, TRANSITIONS_IN_SECONDS } from "@/app/utils/constants";
+import { useProcesses } from '@/app/contexts/process';
+import type { MotionProps, Variant } from 'framer-motion';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { TASKBAR_HEIGHT, TRANSITIONS_IN_SECONDS } from '@/app/utils/constants';
 
-import { viewHeight, viewWidth } from "@/app/utils/functions";
+import { viewHeight, viewWidth } from '@/app/utils/functions';
 
 const active = {
-  height: "inherit",
+  height: 'inherit',
   opacity: 1,
   scale: 1,
-  width: "inherit", // this needs to be inherit // "inherit"
+  width: 'inherit', // this needs to be inherit // "inherit"
 };
 
 const exit = {
@@ -21,8 +21,8 @@ const exit = {
 
 const initial = {
   ...exit,
-  height: "inherit",
-  width: "inherit",
+  height: 'inherit',
+  width: 'inherit',
 };
 
 const fullScaleInitial = {
@@ -33,8 +33,8 @@ const fullScaleInitial = {
 const baseMaximize = {
   opacity: 1,
   scale: 1,
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 };
 
 const baseMinimize = {
@@ -47,26 +47,17 @@ const getMaxDimensions = (): Partial<Variant> => ({
   width: viewWidth(),
 });
 
-const useWindowTransitions = (
-  id: string,
-  noInitialScaling = false
-): MotionProps => {
+const useWindowTransitions = (id: string, noInitialScaling = false): MotionProps => {
   const { processes: { [id]: process } = {} } = useProcesses();
-  const { closing, componentWindow, maximized, minimized, taskbarEntry } =
-    process || {};
-  const [maximize, setMaximize] = useState<Variant>(
-    Object.create(null) as Variant
-  );
-  const [minimize, setMinimize] = useState<Variant>(
-    Object.create(null) as Variant
-  );
+  const { closing, componentWindow, maximized, minimized, taskbarEntry } = process || {};
+  const [maximize, setMaximize] = useState<Variant>(Object.create(null) as Variant);
+  const [minimize, setMinimize] = useState<Variant>(Object.create(null) as Variant);
 
   useLayoutEffect(() => {
-    console.log(process, "afwpiojkt");
+    console.log(process, 'afwpiojkt');
     if (!componentWindow || closing) return;
 
-    const { x: windowX = 0, y: windowY = 0 } =
-      componentWindow.getBoundingClientRect();
+    const { x: windowX = 0, y: windowY = 0 } = componentWindow.getBoundingClientRect();
 
     setMaximize({
       ...baseMaximize,
@@ -93,12 +84,8 @@ const useWindowTransitions = (
       y: windowY = 0,
     } = componentWindow.getBoundingClientRect();
 
-    const x = Math.round(
-      taskbarX - windowX - windowWidth / 2 + taskbarWidth / 2
-    );
-    const y = Math.round(
-      taskbarY - windowY - windowHeight / 2 + taskbarHeight / 2
-    );
+    const x = Math.round(taskbarX - windowX - windowWidth / 2 + taskbarWidth / 2);
+    const y = Math.round(taskbarY - windowY - windowHeight / 2 + taskbarHeight / 2);
 
     if (!(x === 0 && y === 0)) {
       setMinimize({ ...baseMinimize, x, y });
@@ -106,12 +93,9 @@ const useWindowTransitions = (
   }, [closing, componentWindow, minimized, taskbarEntry]);
 
   return {
-    animate:
-      (minimized ? "minimize" : "") ||
-      (!closing && maximized ? "maximize" : "") ||
-      "active",
-    exit: "exit",
-    initial: "initial",
+    animate: (minimized ? 'minimize' : '') || (!closing && maximized ? 'maximize' : '') || 'active',
+    exit: 'exit',
+    initial: 'initial',
     transition: {
       duration: TRANSITIONS_IN_SECONDS.WINDOW,
     },

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useProcesses } from "@/app/contexts/process";
-import type { Size } from "./useResizable";
-import { useMemo } from "react";
-import { useTheme } from "styled-components";
-import { DEFAULT_WINDOW_SIZE } from "utils/constants";
+import { useProcesses } from '@/app/contexts/process';
+import type { Size } from './useResizable';
+import { useMemo } from 'react';
+import { useTheme } from 'styled-components';
+import { DEFAULT_WINDOW_SIZE } from 'utils/constants';
 
 const useDefaultSize = (id: string): Size => {
   const { processes: { [id]: process } = {} } = useProcesses();
@@ -21,7 +21,7 @@ const useDefaultSize = (id: string): Size => {
             width: defaultSize.width,
           }
         : DEFAULT_WINDOW_SIZE,
-    [defaultSize, titleBar.height]
+    [defaultSize, titleBar.height],
   );
 };
 

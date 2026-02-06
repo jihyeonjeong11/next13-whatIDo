@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo } from 'react';
 
 export const MinimizeIcon = memo(() => (
   <svg viewBox="0 0 10 1" xmlns="http://www.w3.org/2000/svg">

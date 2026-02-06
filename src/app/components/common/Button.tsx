@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 type ButtonProps = {
   $short?: boolean;
@@ -10,11 +10,11 @@ const onKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (event) => {
 
 const Button = styled.button.attrs(() => ({
   onKeyDown,
-  type: "button",
+  type: 'button',
 }))<ButtonProps>`
   background-color: transparent;
   font-family: inherit;
-  max-width: ${({ $short }) => ($short ? "31px" : undefined)};
+  max-width: ${({ $short }) => ($short ? '31px' : undefined)};
   width: 100%;
 `;
 

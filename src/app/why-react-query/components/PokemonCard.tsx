@@ -20,26 +20,10 @@ const PokemonCard = ({
     return (
       <article className="card">
         <figure>
-          <Skeleton
-            baseColor="gray"
-            circle
-            enableAnimation
-            width={200}
-            height={200}
-          />
+          <Skeleton baseColor="gray" circle enableAnimation width={200} height={200} />
           <figcaption>
-            <Skeleton
-              baseColor="gray"
-              enableAnimation
-              height={21}
-              width={109}
-            />
-            <Skeleton
-              baseColor="gray"
-              enableAnimation
-              height={21}
-              width={109}
-            />
+            <Skeleton baseColor="gray" enableAnimation height={21} width={109} />
+            <Skeleton baseColor="gray" enableAnimation height={21} width={109} />
           </figcaption>
         </figure>
       </article>
@@ -68,10 +52,7 @@ const PokemonCard = ({
     <article className="card">
       <figure className="">
         {data?.sprites?.front_default && (
-          <PokemonImage
-            front_default={data?.sprites?.front_default}
-            name={data.name}
-          />
+          <PokemonImage front_default={data?.sprites?.front_default} name={data.name} />
         )}
         <figcaption>
           <h4>{data.name}</h4>

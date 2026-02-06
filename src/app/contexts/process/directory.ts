@@ -1,13 +1,11 @@
-import dynamic from "next/dynamic";
-import { Processes } from "./types";
+import dynamic from 'next/dynamic';
+import { Processes } from './types';
 
 const directory: Processes = {
   test: {
-    Component: dynamic(
-      () => import("../../components/use-window/components/TestComponent")
-    ),
+    Component: dynamic(() => import('../../components/use-window/components/TestComponent')),
     allowResizing: false,
-    backgroundColor: "gray",
+    backgroundColor: 'gray',
     defaultSize: {
       height: 480,
       width: 640,
@@ -21,7 +19,7 @@ const directory: Processes = {
     // ],
     lockAspectRatio: true,
     singleton: true,
-    title: "BoxedWine",
+    title: 'BoxedWine',
   },
 };
 

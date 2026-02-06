@@ -1,11 +1,11 @@
-'use client'
-import { ProcessProvider, useProcesses } from "../contexts/process";
-import Window from "../components/use-window/window";
-import StyledApp from "../components/use-window/StyledApp";
-import { ErrorBoundary } from "../components/common/ErrorBoundary";
+'use client';
+import { ProcessProvider, useProcesses } from '../contexts/process';
+import Window from '../components/use-window/window';
+import StyledApp from '../components/use-window/StyledApp';
+import { ErrorBoundary } from '../components/common/ErrorBoundary';
 
 export default function UseWindowPage() {
-  const {processes} = useProcesses()
+  const { processes } = useProcesses();
   // need ViewPortContext
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
