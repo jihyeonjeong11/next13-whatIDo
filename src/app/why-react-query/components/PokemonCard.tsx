@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import '../styles/index.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import PokemonImage from './PokemonImage';
-import { PokeDataType } from '../types';
+import type { PokeDataType } from '../types';
 
 const PokemonCard = ({
   isLoading,

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 const WithChildren = ({ children }: { children: React.ReactNode }) => {
   console.log('With children this will not rerender');

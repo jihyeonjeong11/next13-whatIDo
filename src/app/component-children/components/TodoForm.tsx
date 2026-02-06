@@ -1,5 +1,5 @@
-import React from 'react';
-import { Props } from '../types';
+import type React from 'react';
+import type { Props } from '../types';
 
 type TodoHandleType = Pick<Props, 'addList'>;
 

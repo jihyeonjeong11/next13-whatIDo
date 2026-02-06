@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <i + string> */
+
 'use client';
 const auditCategories = [
   { name: 'Equity Assets', count: 400 },

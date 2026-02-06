@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
 import { BASE_ITEM_STYLE } from '../../constants/index';
-import { TodoType } from '../../types';
+import type { TodoType } from '../../types';
 
 type ChildrenType = {
   item: TodoType;

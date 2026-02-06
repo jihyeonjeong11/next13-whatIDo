@@ -53,8 +53,8 @@ const useWindowTransitions = (id: string, noInitialScaling = false): MotionProps
   const [maximize, setMaximize] = useState<Variant>(Object.create(null) as Variant);
   const [minimize, setMinimize] = useState<Variant>(Object.create(null) as Variant);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <side-effect>
   useLayoutEffect(() => {
-    console.log(process, 'afwpiojkt');
     if (!componentWindow || closing) return;
 
     const { x: windowX = 0, y: windowY = 0 } = componentWindow.getBoundingClientRect();
@@ -65,7 +65,6 @@ const useWindowTransitions = (id: string, noInitialScaling = false): MotionProps
       x: 0 - windowX,
       y: 0 - windowY,
     });
-    console.log(id, maximize);
   }, [closing, componentWindow, maximized]);
 
   useLayoutEffect(() => {
@@ -90,7 +89,7 @@ const useWindowTransitions = (id: string, noInitialScaling = false): MotionProps
     if (!(x === 0 && y === 0)) {
       setMinimize({ ...baseMinimize, x, y });
     }
-  }, [closing, componentWindow, minimized, taskbarEntry]);
+  }, [closing, componentWindow, taskbarEntry]);
 
   return {
     animate: (minimized ? 'minimize' : '') || (!closing && maximized ? 'maximize' : '') || 'active',

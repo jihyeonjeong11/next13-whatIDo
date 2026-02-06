@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Props } from 'react-rnd';
+import type React from 'react';
+import { useState } from 'react';
+import type { Props } from 'react-rnd';
 import useDefaultSize from './useDefaultSize';
 
 //resize event calculator

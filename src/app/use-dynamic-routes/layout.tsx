@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import Link from 'next/link';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

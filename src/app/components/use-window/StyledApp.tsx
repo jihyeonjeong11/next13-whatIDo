@@ -2,8 +2,6 @@
 import { useProcesses } from '@/app/contexts/process';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import AppsLoader from './AppsLoader';
-import { WINDOW_ID } from '@/app/utils/constants';
-import Window from './window';
 import themes from '@/app/styles/use-window/themes';
 import type { FeatureBundle } from 'framer-motion';
 import { LazyMotion } from 'framer-motion';
@@ -20,11 +18,7 @@ const motionFeatures = async (): Promise<FeatureBundle> =>
     )
   ).default;
 
-const theme = {
-  main: 'dark',
-};
-
-const StyledApp: FC = ({ children }) => {
+const StyledApp: FC = () => {
   //const { themeName } = useSession();
   const { open, processes } = useProcesses();
   console.log(processes);
@@ -34,10 +28,11 @@ const StyledApp: FC = ({ children }) => {
         <GlobalStyle />
         <div>for test</div>
         <button
+          type="button"
           aria-label="addComponent"
           onClick={() =>
             open('test', {
-              hasWindow: true,
+              //hasWindow: true,
             })
           }
         >

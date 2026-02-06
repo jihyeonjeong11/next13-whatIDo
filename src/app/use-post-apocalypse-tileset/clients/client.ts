@@ -8,7 +8,7 @@ export class GameClient {
   private animationFrameId: number | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
     this.renderer = new Renderer(ctx, canvas);
   }
 

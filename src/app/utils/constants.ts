@@ -1,4 +1,4 @@
-import { Size } from '../components/use-window/hooks/useResizable';
+import type { Size } from '../components/use-window/hooks/useResizable';
 import type { ThemeName } from '../styles/use-window/themes';
 
 export type ClockSource = 'local' | 'ntp';

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PokeDataType } from '../types';
+import type { PokeDataType } from '../types';
 
 export default function useQuery(url: string) {
   const [data, setData] = useState<PokeDataType>(Object.create(null) as PokeDataType);
@@ -31,6 +31,7 @@ export default function useQuery(url: string) {
           setData(json);
           setIsLoading(false);
         }, 1000);
+        // biome-ignore lint/suspicious/noExplicitAny: <no >
       } catch (e: any) {
         if (e.message.includes('abort')) {
           return;

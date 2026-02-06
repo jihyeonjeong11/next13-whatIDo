@@ -9,7 +9,8 @@ export class Renderer {
   private canvas: HTMLCanvasElement;
   private assets: { [key: string]: HTMLImageElement } = {};
 
-  constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+  constructor(ctx: CanvasRenderingContext2D | null, canvas: HTMLCanvasElement) {
+    if (!ctx) throw new Error('no context');
     this.ctx = ctx;
     this.canvas = canvas;
     this.loadAssets();

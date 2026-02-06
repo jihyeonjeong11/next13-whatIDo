@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { TodoType } from '../../types';
+import type { TodoType } from '../../types';
 
 type UseTodoContextType = {
   list: Array<TodoType>;

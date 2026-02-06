@@ -3,6 +3,7 @@ import { BASE_ENTRY_SIZE } from '../../constants';
 
 const TodoSkeleton = () => (
   <svg>
+    <title>skeleton</title>
     <rect
       x="48"
       y="8"

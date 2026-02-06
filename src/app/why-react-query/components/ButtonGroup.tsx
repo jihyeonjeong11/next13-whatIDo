@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 import '../styles/index.css';
 
 type ButtonGroupType = {

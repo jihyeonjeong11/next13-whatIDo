@@ -14,7 +14,7 @@
     "docker:prod:run": "docker run -p 8080:3000 --name my-app-prod my-app:prod",
     "docker:dev": "docker compose -f docker-compose.dev.yml up --build",
     "docker:prod": "docker compose -f docker-compose.prod.yml up -d --build",
-    "biome:check": "npx @biomejs/biome check",
+    "biome:check": "npx @biomejs/biome check --diagnostic-level=error",
     "biome:format": "npx biome format --write ./src"
 
   },

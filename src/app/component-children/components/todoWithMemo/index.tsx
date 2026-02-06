@@ -2,7 +2,7 @@
 
 import React, { memo } from 'react';
 import { BASE_ITEM_STYLE } from '../../constants';
-import { TodoType } from '../../types';
+import type { TodoType } from '../../types';
 
 type ChildrenType = {
   item: TodoType;

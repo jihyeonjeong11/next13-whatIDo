@@ -1,7 +1,7 @@
 'use client';
 
 import { useProcesses } from '@/app/contexts/process';
-import { Props } from 'react-rnd';
+import type { Props } from 'react-rnd';
 import useResizable from './useResizable';
 import rndDefaults from '@/app/utils/constants';
 

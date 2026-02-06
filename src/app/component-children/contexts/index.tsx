@@ -1,6 +1,7 @@
-import React, { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
+import type React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Props } from '../types';
+import type { Props } from '../types';
 
 const RANDOMIZABLE_TODO_LIST = [
   'do dishes',

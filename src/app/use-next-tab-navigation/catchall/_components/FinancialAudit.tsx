@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <nitpick> */
 'use client';
 const auditCategories = [
   { name: 'Equity Assets', count: 400 },

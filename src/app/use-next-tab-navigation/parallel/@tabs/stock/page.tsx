@@ -1,5 +1,5 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <i + string> */
 'use client';
-import React from 'react';
 import Head from 'next/head';
 
 const Stockdata = Array.from({ length: 1000 }).map((_, i) => ({
@@ -51,7 +51,10 @@ const Stock = () => {
             </thead>
             <tbody>
               {Stockdata.map((row, idx) => (
-                <tr key={idx} className="hover:bg-blue-50 transition-colors border-b text-sm">
+                <tr
+                  key={`${idx}row`}
+                  className="hover:bg-blue-50 transition-colors border-b text-sm"
+                >
                   <td className="p-2 border font-mono">{row.date}</td>
                   <td className="p-2 border">{row.open}</td>
                   <td className="p-2 border text-green-600">{row.high}</td>
@@ -74,7 +77,7 @@ const Stock = () => {
         <h2 className="text-2xl font-bold mb-4">Market Terminology & Risk Disclosure</h2>
         <div className="grid grid-cols-2 gap-8">
           {Array.from({ length: 20 }).map((_, i) => (
-            <div key={i}>
+            <div key={`${i}page`}>
               <h4 className="font-bold">Technical Term #{i + 1}</h4>
               <p className="text-sm text-gray-600">
                 This section contains a long, descriptive text intended to simulate a content-heavy

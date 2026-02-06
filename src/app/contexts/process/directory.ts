@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { Processes } from './types';
+import type { Processes } from './types';
 
 const directory: Processes = {
   test: {

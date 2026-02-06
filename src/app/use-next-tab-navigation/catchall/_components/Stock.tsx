@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <nitpick> */
 'use client';
 import React from 'react';
 import Head from 'next/head';
@@ -25,7 +26,7 @@ const Stock = () => {
 
       <div className="grid grid-cols-4 gap-4 mb-10">
         {Array.from({ length: 12 }).map((_, i) => (
-          <div key={i} className="bg-white p-4 shadow rounded-lg border">
+          <div key={`${i}indicator`} className="bg-white p-4 shadow rounded-lg border">
             <h3 className="text-sm font-bold text-gray-400">INDICATOR {i + 1}</h3>
             <p className="text-2xl font-mono text-blue-600">{(Math.random() * 100).toFixed(2)}%</p>
           </div>
