@@ -1,12 +1,8 @@
 'use client';
-import SignUpForm from '../components/form-page';
+import SignUpForm from '@/app/components/form-page';
 
 export default function FormPage() {
-  return (
-    <main className="grow flex min-h-screen flex-col items-center justify-between p-24">
-      <SignUpForm />
-    </main>
-  );
+  return <SignUpForm />;
 }
 
 // https://medium.com/@prithvi128717/creating-a-form-in-react-with-react-hook-form-and-next-js-13-4-5dae780daaef

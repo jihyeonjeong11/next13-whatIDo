@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { useWallpaper } from '@/app/use-vanta-background/hooks/useWallpaper';
+import { useWallpaper } from '@/app/(practices)/use-vanta-background/hooks/useWallpaper';
 
 export default function UseVanta() {
   const vantaRef = useRef(null);
@@ -9,9 +9,9 @@ export default function UseVanta() {
   useWallpaper(vantaRef);
 
   return (
-    <main className="grow bg-tan">
+    <div className="grow">
       <div className="canvas" ref={vantaRef} />
       useVanta
-    </main>
+    </div>
   );
 }

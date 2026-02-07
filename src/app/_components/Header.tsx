@@ -1,8 +1,8 @@
 const Header = () => {
   return (
-    <div className={`h-30 bg-blue-200`}>
-      <header>header</header>
-    </div>
+    <header className={`fixed top-0 w-full h-14 bg-blue-200`}>
+      <p>header</p>
+    </header>
   );
 };
 
