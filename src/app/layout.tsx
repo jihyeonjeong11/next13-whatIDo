@@ -17,7 +17,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} min-h-dvh`}>
         <Header />
         <div className="flex flex-1 min-h-dvh">
-          <Aside />
           <main className="flex-1 overflow-auto">{children}</main>
         </div>
       </body>
