@@ -13,4 +13,4 @@ services:
       - /app/.next
     environment:
       - NODE_ENV=development
-      - WATCHPACK_POLLING=true # 특정 환경(Windows/WSL)에서 리로드가 안 될 때 필수 옵션
+      - WATCHPACK_POLLING=true
