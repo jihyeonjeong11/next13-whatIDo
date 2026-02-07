@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { type FC } from 'react';
 import Image from 'next/image';
 
 type Props = {
@@ -18,6 +18,7 @@ const PokemonImage: FC<Props> = ({ front_default, name }) => {
       height={200}
       onError={() => setSrc('https://ui.dev/images/courses/pokemon-unknown.png')}
       alt={name}
+      className="max-w-50 h-auto"
     />
   );
 };

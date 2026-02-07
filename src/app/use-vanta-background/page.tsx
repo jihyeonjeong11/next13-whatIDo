@@ -9,7 +9,7 @@ export default function UseVanta() {
   useWallpaper(vantaRef);
 
   return (
-    <main className="w-[100vw] h-[100vh] bg-tan">
+    <main className="grow bg-tan">
       <div className="canvas" ref={vantaRef} />
       useVanta
     </main>

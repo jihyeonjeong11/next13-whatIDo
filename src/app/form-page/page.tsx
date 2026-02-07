@@ -3,7 +3,7 @@ import SignUpForm from '../components/form-page';
 
 export default function FormPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="grow flex min-h-screen flex-col items-center justify-between p-24">
       <SignUpForm />
     </main>
   );

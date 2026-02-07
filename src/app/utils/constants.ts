@@ -1,8 +1,5 @@
 export type ClockSource = 'local' | 'ntp';
 
-export const HEADER_HEIGHT = 120;
-export const ASIDE_WIDTH = 240;
-
 export const TASKBAR_HEIGHT = 30;
 export const BASE_CLOCK_WIDTH = 68;
 export const DEFAULT_CLOCK_SOURCE: ClockSource = 'local';

@@ -3,7 +3,7 @@ import { ASIDE_WIDTH, NAVIGATION_LINKS } from '../utils/constants';
 
 const Aside = () => {
   return (
-    <div className={`w-[${ASIDE_WIDTH}px] flex min-h-dvh bg-green-200`}>
+    <div className={`w-[${ASIDE_WIDTH}px] flex bg-green-200`}>
       <aside
         //role="complementary"
         className="relative flex shrink-0 flex-col gap-4 border-r bg-background p-4 pt-16 transition-all ease-in-out duration-500"

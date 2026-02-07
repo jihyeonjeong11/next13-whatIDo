@@ -15,7 +15,7 @@ const UsePostApocalypseTilesetPage = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900">
+    <div className="grow flex justify-center items-center h-screen bg-gray-900">
       <canvas ref={canvasRef} />
     </div>
   );

@@ -23,7 +23,7 @@ export default function UseWorkerPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-8">
+    <main className="flex grow min-h-screen flex-col items-center justify-center p-24 gap-8">
       <div className="flex flex-col items-center gap-4 p-6 border border-gray-700 rounded-lg bg-gray-900">
         <h2 className="text-xl font-bold">Main Thread Control</h2>
         <button
@@ -39,13 +39,13 @@ export default function UseWorkerPage() {
         <p className="text-sm text-gray-400 text-center">Thread blocker for 3 secs</p>
       </div>
 
-      <StyledTaskbar>
+      <StyledTaskbar $bottom={0}>
         <span className="text-white">With Web worker</span> <Clock />
       </StyledTaskbar>
 
-      <StyledTaskbar $bottom={0}>
+      {/* <StyledTaskbar $bottom={0}>
         <span className="text-white">Without Web worker</span> <NoWorkerClock />
-      </StyledTaskbar>
+      </StyledTaskbar> */}
     </main>
   );
 }
