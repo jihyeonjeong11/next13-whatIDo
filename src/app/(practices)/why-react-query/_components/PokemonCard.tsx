@@ -19,26 +19,10 @@ const PokemonCard = ({
     return (
       <article className="bg-[#03446a] rounded-2xl w-75 h-100 text-center">
         <figure className="grid grid-rows-[320px_auto] place-items-center">
-          <Skeleton
-            baseColor="gray"
-            circle
-            enableAnimation
-            width={200}
-            height={200}
-          />
+          <Skeleton baseColor="gray" circle enableAnimation width={200} height={200} />
           <figcaption className="grid gap-2 p-2">
-            <Skeleton
-              baseColor="gray"
-              enableAnimation
-              height={21}
-              width={109}
-            />
-            <Skeleton
-              baseColor="gray"
-              enableAnimation
-              height={21}
-              width={109}
-            />
+            <Skeleton baseColor="gray" enableAnimation height={21} width={109} />
+            <Skeleton baseColor="gray" enableAnimation height={21} width={109} />
           </figcaption>
         </figure>
       </article>
@@ -67,10 +51,7 @@ const PokemonCard = ({
     <article className="bg-[#03446a] rounded-[16px] w-[300px] h-[400px] text-center">
       <figure className="grid grid-rows-[320px_auto] place-items-center">
         {data?.sprites?.front_default && (
-          <PokemonImage
-            front_default={data?.sprites?.front_default}
-            name={data.name}
-          />
+          <PokemonImage front_default={data?.sprites?.front_default} name={data.name} />
         )}
         <figcaption className="grid gap-2 p-2">
           <h4 className="text-[22px] uppercase font-bold">{data.name}</h4>

@@ -1,11 +1,8 @@
-import { HEADER_HEIGHT } from '@/app/utils/constants';
 import type { FlattenedEdge } from './GraphRenderer';
 
 const EdgesPanel = ({ edges }: { edges: FlattenedEdge[] }) => {
   return (
-    <div
-      className={`absolute right-4 top-[${HEADER_HEIGHT + 20}]  w-72 max-h-[70vh] overflow-y-auto z-10`}
-    >
+    <div className={`absolute right-4 top-[140px]  w-72 max-h-[70vh] overflow-y-auto z-10`}>
       <div className="bg-white/80 backdrop-blur-md shadow-2xl rounded-2xl border border-slate-200 p-5 flex flex-col gap-4">
         <div className="flex justify-between items-center border-b pb-3">
           <h2 className="text-sm font-black text-slate-800 tracking-tight uppercase">

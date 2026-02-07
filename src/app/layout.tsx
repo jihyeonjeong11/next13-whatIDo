@@ -11,18 +11,14 @@ export const metadata: Metadata = {
   description: 'Make Index!',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-dvh`}>
         <Header />
         <div className="flex flex-1 min-h-dvh">
           <Aside />
-          <main className="flex-1 min-h-0 overflow-auto">{children}</main>
+          <main className="flex-1 overflow-auto">{children}</main>
         </div>
       </body>
     </html>

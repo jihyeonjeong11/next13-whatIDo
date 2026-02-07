@@ -31,16 +31,12 @@ export default function UseWorkerPage() {
           onClick={handleHeavyTask}
           disabled={isBlocking}
           className={`px-6 py-3 rounded-full font-semibold transition-colors ${
-            isBlocking
-              ? 'bg-red-900 text-gray-400'
-              : 'bg-red-600 hover:bg-red-500 text-white'
+            isBlocking ? 'bg-red-900 text-gray-400' : 'bg-red-600 hover:bg-red-500 text-white'
           }`}
         >
           {isBlocking ? 'Blocking...' : 'Run Heavy Task (3s)'}
         </button>
-        <p className="text-sm text-gray-400 text-center">
-          Thread blocker for 3 secs
-        </p>
+        <p className="text-sm text-gray-400 text-center">Thread blocker for 3 secs</p>
       </div>
 
       <StyledTaskbar $bottom={0}>
