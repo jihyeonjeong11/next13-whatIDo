@@ -1,11 +1,24 @@
 FROM node:22-alpine
 
+# 1. 빌드에 필요한 도구 설치
 RUN apk add --no-cache git
 
 WORKDIR /app
+
+# 2. 의존성 파일만 먼저 복사 (캐싱 효율 최적화)
+COPY package.json yarn.lock* ./
+RUN yarn install --frozen-lockfile
+
+# 3. 소스 코드 복사
 COPY . .
 
-RUN yarn
+# 4. 프로덕션 빌드 수행 (핵심!)
+# 빌드 시점에 에러가 나면 여기서 멈추므로 원인 파악이 쉽습니다.
 RUN yarn build
 
+# 5. 실행 환경 설정
+ENV NODE_ENV=production
+EXPOSE 3000
+
+# 6. 실행
 CMD ["yarn", "start"]

@@ -104,7 +104,7 @@ const GraphRenderer = () => {
   }, [edges, graphManager]);
 
   return (
-    <div style={style} className="h-screen">
+    <div style={style} className="h-full ">
       <EdgesPanel edges={edgesWithProps} />
 
       <DevPanel

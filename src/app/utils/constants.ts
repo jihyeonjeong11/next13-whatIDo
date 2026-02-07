@@ -1,5 +1,7 @@
-
 export type ClockSource = 'local' | 'ntp';
+
+export const HEADER_HEIGHT = 120;
+export const ASIDE_WIDTH = 240;
 
 export const TASKBAR_HEIGHT = 30;
 export const BASE_CLOCK_WIDTH = 68;
@@ -128,5 +130,17 @@ const rndDefaults = {
     },
   } as HandleStyles,
 };
+
+export const NAVIGATION_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/component-children', label: 'Component Children' },
+  { href: '/form-page', label: 'Form Page' },
+  { href: '/use-graph-data-structure', label: 'Graph Data Structure' },
+  { href: '/use-next-tab-navigation', label: 'Tab Navigation' },
+  { href: '/use-post-apocalypse-tileset', label: 'Post Apocalypse Tileset' },
+  { href: '/use-vanta-background', label: 'Vanta Background' },
+  { href: '/use-worker', label: 'Web Worker' },
+  { href: '/why-react-query', label: 'Why React Query' },
+];
 
 export default rndDefaults;
