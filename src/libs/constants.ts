@@ -1,3 +1,5 @@
+import type { Size } from '@/app/utils/functions';
+
 export type ClockSource = 'local' | 'ntp';
 
 export const TASKBAR_HEIGHT = 30;
@@ -43,7 +45,6 @@ export const DEFAULT_WINDOW_SIZE: Size = {
 };
 
 import type { HandleStyles } from 'react-rnd';
-import { Size } from './functions';
 
 export const RESIZING_DISABLED = {
   bottom: false,
