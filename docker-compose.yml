@@ -1,16 +1,12 @@
-version: '3.8'
-
 services:
-  web:
+  # Next.js app service
+  app:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: my-nextjs-app
     ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
-    environment:
-      - NODE_ENV=development
-      - WATCHPACK_POLLING=true # 특정 환경(Windows/WSL)에서 리로드가 안 될 때 필수 옵션
+      - '3000:3000'
+    # depends_on:
+    # environment:
+    #COMMAND: [ "pm2-runtime", "start", "npm", "--", "start" ]
