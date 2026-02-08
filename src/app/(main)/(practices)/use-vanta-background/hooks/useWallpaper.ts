@@ -5,6 +5,7 @@ import HALO from 'vanta/dist/vanta.halo.min';
 import * as THREE from 'three';
 
 export const useWallpaper = (vantaRef: MutableRefObject<HTMLElement | null>) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <vanta any>
   const [vantaEffect, setVantaEffect] = useState<any>(0);
 
   useEffect(() => {

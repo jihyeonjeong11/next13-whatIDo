@@ -12,6 +12,7 @@ const PokemonCard = ({
   data,
 }: {
   isLoading: boolean;
+  // biome-ignore lint/suspicious/noExplicitAny: <later>
   error: any;
   data: PokeDataType;
 }) => {
