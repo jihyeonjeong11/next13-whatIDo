@@ -9,7 +9,7 @@ const DelayedStock = () => {
       console.time('CPU_Heavy_Task');
       let result = 0;
       for (let i = 0; i < 500_000_000; i++) {
-        result += Math.sqrt(i);
+        result = result + Math.sqrt(i);
       }
       console.timeEnd('CPU_Heavy_Task');
 

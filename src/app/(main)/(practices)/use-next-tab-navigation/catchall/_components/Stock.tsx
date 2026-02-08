@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <nitpick> */
 'use client';
-import React from 'react';
 import Head from 'next/head';
 
 const Stockdata = Array.from({ length: 1000 }).map((_, i) => ({

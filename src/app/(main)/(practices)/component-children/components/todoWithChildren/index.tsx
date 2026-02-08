@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { BASE_ITEM_STYLE } from '../../constants';
 import type { TodoType } from '../../types';
 

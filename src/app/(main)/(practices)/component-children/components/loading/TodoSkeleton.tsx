@@ -1,4 +1,3 @@
-import React from 'react';
 import { BASE_ENTRY_SIZE } from '../../constants';
 
 const TodoSkeleton = () => (

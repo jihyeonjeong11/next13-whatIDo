@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import type { Props } from '../types';
 
 type TodoHandleType = Pick<Props, 'popList'>;
