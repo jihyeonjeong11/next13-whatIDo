@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Clock from '@/app/components/use-worker/clock';
-import NoWorkerClock from '@/app/components/use-worker/NoWorkerClock';
-import StyledTaskbar from '@/app/components/use-worker/StyledTaskBar';
+import Clock from '@/app/(main)/(practices)/_components/use-worker/clock';
+import NoWorkerClock from '@/app/(main)/(practices)/_components/use-worker/NoWorkerClock';
+import StyledTaskbar from '@/app/(main)/(practices)/_components/use-worker/StyledTaskBar';
 
 export default function UseWorkerPage() {
   const [isBlocking, setIsBlocking] = useState(false);

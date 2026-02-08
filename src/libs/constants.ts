@@ -1,4 +1,4 @@
-import type { Size } from '@/app/utils/functions';
+import type { Size } from '../../utils/functions';
 
 export type ClockSource = 'local' | 'ntp';
 
