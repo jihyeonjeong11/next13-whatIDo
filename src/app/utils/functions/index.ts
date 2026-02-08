@@ -36,7 +36,7 @@ export const viewHeight = (): number => window.innerHeight;
 export const viewWidth = (): number => window.innerWidth;
 // Useful funcs pirated from here and there
 
-export const makeAnArray = (n: number) => [...Array(n)].map((x, i) => i);
+export const makeAnArray = (n: number) => [...Array(n)].map((_x, i) => i);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

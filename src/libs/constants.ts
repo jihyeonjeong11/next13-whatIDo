@@ -129,7 +129,7 @@ const rndDefaults = {
   } as HandleStyles,
 };
 
-export const NAVIGATION_LINKS = 
+export const NAVIGATION_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/component-children', label: 'Component Children' },
   { href: '/form-page', label: 'Form Page' },

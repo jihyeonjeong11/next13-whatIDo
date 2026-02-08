@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FC } from 'react';
-import { BASE_CLOCK_WIDTH, DEFAULT_CLOCK_SOURCE, TASKBAR_HEIGHT } from 'utils/constants';
 import StyledClock from './StyledClock';
 import type { LocaleTimeDate } from '@/app/types';
 import useWorker from '@/app/hooks/useWorker';
 import { type Size, createOffscreenCanvas } from '@/app/utils/functions';
+import { BASE_CLOCK_WIDTH, DEFAULT_CLOCK_SOURCE, TASKBAR_HEIGHT } from '@/libs/constants';
 
 type ClockWorkerResponse = LocaleTimeDate | 'source';
 

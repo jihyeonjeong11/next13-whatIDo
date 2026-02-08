@@ -1,7 +1,7 @@
 'use client';
 
+import { TASKBAR_HEIGHT } from '@/libs/constants';
 import styled from 'styled-components';
-import { TASKBAR_HEIGHT } from '../../utils/constants';
 
 const StyledTaskbar = styled.nav<{ $bottom?: number }>`
   display: flex;
@@ -14,7 +14,7 @@ const StyledTaskbar = styled.nav<{ $bottom?: number }>`
   left: 0;
   position: absolute;
   right: 0;
-  width: 100vw;
+  width: 1000px;
   z-index: 100000;
 `;
 

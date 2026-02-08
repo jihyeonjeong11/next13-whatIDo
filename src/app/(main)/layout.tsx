@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Aside from './_components/Aside';
 import Header from './_components/Header';
-import Footer from './_components/Footer';
+// import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,7 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <Aside />
           {children}
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );
