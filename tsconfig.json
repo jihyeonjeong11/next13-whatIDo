@@ -2,15 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "types": [
-      "node",
-      "styled-components"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["node", "styled-components"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -28,16 +21,10 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "utils/*": [
-        "./src/app/utils/*"
-      ],
+      "@/*": ["./src/*"],
+      "utils/*": ["./src/app/utils/*"],
       // "collections/*": [".source/*"]
-      "fumadocs-mdx:collections/*": [
-        ".source/*"
-      ]
+      "fumadocs-mdx:collections/*": [".source/*"]
     }
   },
   "include": [
@@ -47,7 +34,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

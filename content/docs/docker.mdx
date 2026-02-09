@@ -1,0 +1,106 @@
+---
+title: 개발 환경 세팅 - Docker
+description: Docker 도입을 통해 프로젝트를 개발 환경 상의 Delay를 줄이기
+---
+
+
+예제: https://github.com/jihyeonjeong11/next13-whatIDo/tree/main/
+
+프로젝트 환경 문서를 작성할 때마다 고민하는 것이 있다. 이번 프로젝트는 Node 22+ 버전을 사용하고 패키지 매니저는 pnpm을 사용하고 커맨드는 어떤 것을 사용하고 등등등.
+하지만 문제는 항상 프로젝트 도중에 일어난다. 이번 프로젝트의 경우는 Nextjs의 버전업과 eslint+prettier를 biomejs로 교체하면서 일어났는데, 해당 문서를 수정하고 팀원분들의 세팅을 바꾸는 과정에서 추가적인 시간 소요가 일어났다.
+### Robust한 프로젝트 셋업이 필요하다.
+
+Robust 한 프로젝트라고 한다면 정말로 많은 사항들이 있겠지만, 여기서는 내가 경험한 프로젝트 셋업 단계를 다루려고 한다. 개발 도중 위와 같은 상황이 다시 일어난다면, 어떻게 하는 것이 좋을까?
+
+모두가 로컬에서 개발환경을 빌드하지 않고 하나의 개발환경을 공유한다면 어떨까?
+
+>최근 보안 사항 권고에 따라 Nextjs 버전이 16으로 업데이트되었습니다. 모두 main 브랜치를 받아주시고 터미널에서 .nvmrc에 따라 `nvm install 22` 후 `node_modules`를 삭제 후 pnpm i 를 해주시면 감사하겠습니다.
+
+라고 적는 것보다 커맨드 하나로 해당 업데이트 사항을 적용할 수 있다면 더욱 편할 것이라고 생각한다.
+
+### Docker를 사용해 보자.
+
+위 Nextjs 버전업을 수행하면서 내가 했던 작업은
+nextjs 업데이트 -> 로컬에서 테스트 -> 깃에 푸시 -> 풀 리퀘스트 -> 환경문서 수정 -> **메시지**
+
+1. 새 로컬 브랜치 feat/nextjs-upgrade 생성
+2. Nextjs 업데이트 후 로컬에서 테스트
+3. 개발 문서 작성
+4. code review 후 pull request
+5. 팀에게 업데이트 요청. 해결되지 않으면 해당 컴퓨터의 개발 환경 세팅을 확인한 뒤 처리
+
+Docker를 사용하게 된다면 최상위 디펜던시(node)의 불일치로 인한 문제를 줄이고 환경 문서도 훨씬 간결하게 처리할 수 있을 것이다.
+
+### Concept
+
+Docker의 캐치프레이즈는 간단하다.
+
+> "제 컴퓨터에서는 되는데요"가 아니라, "모든 곳에서 됩니다."
+
+> Docker는 앱을 Container라는 독립된 환경에서 실행하고 패키징할 수 있게 해주는 **컨테이너 기반 가상화 플랫폼**입니다. 독립된 환경에서 앱을 실행하기 위한 모든 제반 요소를 갖추기 때문에 모든 팀원과 같은 컨테이너 환경을 공유할 수 있습니다.
+
+{/* ![container-what-is-container](/public/docs/container-what-is-container.avif) */}
+
+**핵심**은 사용자의 운영 체제 아래 Docker container라는 추상화된 운영체제 레이어를 통해 어플리케이션을 실행함으로써 해당 레이어에 필요한 디펜던시들을 스크립트로 조정해 기기에 상관없이 같은 환경을 유지하는데 있다.
+
+### Use-case
+
+수많은 개념과 practice가 있지만, 여기서 구현할 것은 
+"내가 경험한 Nextjs 프로젝트를 동일한 개발 환경에서 구현할 수 있는가?"이다.
+
+1.  Dockerfile을 통해 [이미지](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-an-image/)를 생성한다.
+2. [docker-compose](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-docker-compose/)를 통해 [컨테이너](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/) 실행 환경을 설정한다.
+3. [docker compose up](https://docs.docker.com/reference/cli/docker/compose/up/) 커맨드로 컨테이너를 재생성하고 실제 서비스에 연결해서 로컬 환경에서 처럼 개발이 가능하도록 한다.
+
+#### Prerequisites: docker cli 혹은 Docker GUI
+#### 1. Dockerfile
+
+```
+FROM node:22-alpine
+
+# Openssl digital envelope routines::unsupported error
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
+# 해당 커맨드로는 파일을 '한번' 복사하므로, compose에서 업데이트를 받을 수 있도록 변경되는 부분을 mapping 해줘야 한다.
+# https://github.com/vercel/next.js/issues/71622
+COPY . .
+
+EXPOSE 3000
+
+CMD ["yarn", "dev"]
+```
+`
+```
+# docker-compose.yml
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app # https://github.com/vercel/next.js/issues/71622
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+```
+
+```
+// package.json
+...
+ "docker:dev": "docker compose up",
+...
+```
+
+#### 결론
+
+이번 프로젝트를 통해 개발 환경을 맞추지 않고 개발하는 것의 문제에 대해 느낄 수 있었다. 여러모로 Robust한 개발 환경이 왜 중요한가? 에 대해 생각하게 되었다.

@@ -1,18 +1,18 @@
 'use client';
-import bubbles from '/public/Bubbles.webp';
-import stone from '/public/Stone.webp';
+// import bubbles from '../../../../../../public/Bubbles.webp';
+// import stone from '../../../../../../public/stone.webp';
 import { useState } from 'react';
 
-const wallpaperArr = [bubbles, stone];
+//const wallpaperArr = [bubbles, stone];
 const size = ['cover', 'contain', 'auto'];
 
 function useWallpaper() {
-  const [_wallpaper, setWallpaper] = useState(bubbles);
+  const [wallpaper, setWallpaper] = useState([]);
   const [sizeStrategy, setSizeStrategy] = useState('');
 
   const getRandomWallpaper = () => {
-    const randomIndex = Math.floor(Math.random() * wallpaperArr.length + 1);
-    setWallpaper(wallpaperArr[randomIndex]);
+    const randomIndex = Math.floor(Math.random() * wallpaper.length + 1);
+    setWallpaper(wallpaper[randomIndex]);
     const randomStrategy = Math.floor(Math.random() * size.length + 1);
     setSizeStrategy(size[randomStrategy]);
   };
