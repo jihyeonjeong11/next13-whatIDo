@@ -1,0 +1,298 @@
+---
+title: 개발 환경 세팅 - Fumadocs
+description: Fumadocs를 통해 개발 환경 문서를 관리하기
+---
+
+예제: https://github.com/jihyeonjeong11/next13-whatIDo
+
+개발 환경 문서 작성을 줄이려는 노력은 계속된다.
+
+개발을 진행하며 실제로 어떠한 로직에 커멘트로 설명하기에는 너무 적어야 할 것이 많았던 부분이 있을 수 있을 것이다. 
+
+예를 들어, 이번 프로젝트에서는 Nextjs config의 rewrite 부분에서 인증의 경우 추가적인 백엔드 지침을 따라서 요청 URL을 마스킹했어야 하는 일이 있었다.
+
+```typescript
+// proxy.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export const proxy = (request: NextRequest) => {
+  const { pathname, search } = request.nextUrl;
+
+  // Next-auth의 요청은 그대로 통과해야 함.
+  if (pathname.startsWith('/api/auth')) {
+    return NextResponse.next();
+  }
+  // 백엔드 연동 인증 진행될 경우, rewrite.
+  if (pathname.includes('auth-service.do')) {
+    const userAgent = request.headers.get('user-agent') || '';
+    const customAuthHeader = request.headers.get('x-internal-key');
+
+    const targetBase = 'https://api.internal-provider.com';
+
+    const destinationUrl = new URL(
+      `/v1/handler.do${search}`, 
+      targetBase
+    );
+
+    return NextResponse.rewrite(destinationUrl);
+  }
+  ...
+
+  return NextResponse.next();
+};
+
+export const config = {
+  matcher: [
+    ...
+  ],
+};
+```
+
+이렇게 커멘트로 정리할 경우 간단하게 끝났다고 생각하기 쉽지만, 해당 코드를 유지보수하는 입장에서는 다양한 시나리오를 마주할 것이다. 예를 들어 백엔드에서 연동 모듈과 연결하는 엔드포인트를 변경했다던가, 다른 로직이 들어가야 한다던가... 그럴 경우 커멘트로는 부족할 수 있다고 생각한다.
+
+### In-app 개발 환경에서 docs를 확인할 수 있다면 어떨까?
+
+코드 및 주석을 읽는 것보다 이러한 특정한 상황에서 마크다운을 유지보수하고 그것을 개발자가 필요할 때마다 해당 위치로 이동해 이런 docs를 확인할 수 있다면 어떨까?
+
+> 1. 자체 로그인
+> ...
+> 주의) proxy.ts
+> 
+> 자체 로그인 시 백엔드에서 제공하는 자체 모듈을 통해 데이터를 한 번 통과해야 합니다!
+> 해당 모듈의 endpoint에 대해서는 ...
+> 현재는 다른 로직과 합쳐 `proxt.ts` 에서 한 번에 라우팅하고 있습니다. 추후 middleware를 추가해 나가는 방식으로 대응하거나, `next.config.mts` 의 rewrites를 통해 간소화하는 방향이 좋을 것 같습니다.
+> ...
+
+물론 별도의 플랫폼을 통해 이러한 내용들을 정리해 왔지만 만약 개발자가 `proxy.ts`의 내용을 확인하고, 기존 띄워져 있는 개발 환경에서 그대로 docs에 접근할 수 있다면 더욱 편리하지 않을까?
+
+이전에 적용해 놓고 잊고 있었던 [Fumadocs](https://www.fumadocs.dev/) 프레임워크를 다시 사용해 보려 한다.
+### Concepts
+
+[Fumadocs](https://www.fumadocs.dev/) 에서는 해당 프레임워크를 이렇게 정의한다.
+
+> Fumadocs는 개발자를 위한 리액트 다큐멘테이션 프레임워크입니다. Fuma Nama님이 디자인 하셨고 docs 워크 플로우를 위한 강력한 기능을 제공하며 자유롭게 커스텀할 수 있습니다. react 뿐 아니라 next와 같이 다른 reactjs 프레임워크나, react 기반 다른 CMS와도 같이 사용할 수 있습니다. 
+
+다른 라이브러리 중 Fumadocs를 선택한 이유는 다음과 같았다.
+
+1. **비정형적임(Unopinionated)**: 개발자가 구조를 자유롭게 바꿀 수 있는 프레임워크이다.
+    
+2. **Shadcn UI의 설계 철학을 따름:** Shadcn UI의 철학처럼 Fumadocs 내부에서 수정이 필요하다면 해당 소스 코드를 내 프로젝트로 포크해 와 직접 수정해 적용할 수 있다.
+    
+3. **서버 퍼스트:** Next.js의 RSC를 적극 활용하여, 단순한 정적 문서를 넘어 백엔드와 직접 소통해서 실시간 데이터를 통해 문서를 구성할 수 있음.
+
+
+### Use-cases
+
+여기서는 Fumadocs가 제공하는 수많은 기능 중, doc 라우트를 추가해 해당 라우트에서 mdx를 렌더하는 것만을 추가했다. 공식 docs의 내용으로는 되지 않는 부분이 있었기 때문에 직접 재구성했다.
+
+1. 디펜던시를 설치한다.
+
+```
+
+npm i fumadocs-mdx fumadocs-core fumadocs-ui --save-dev @types/mdx
+
+```
+
+
+2. ROOT에 source.config.ts를 추가한다.
+
+```
+
+import { defineDocs, defineConfig } from 'fumadocs-mdx/config';
+
+export const docs = defineDocs({
+  dir: 'content/docs',
+});
+
+export default defineConfig();
+
+```
+
+3. ROOT에 mdx-components.tsx를 추가한다.
+
+```
+import defaultMdxComponents from "fumadocs-ui/mdx";  
+import type { MDXComponents } from "mdx/types";  
+  
+export function getMDXComponents(components?: MDXComponents): MDXComponents {  
+return {  
+...defaultMdxComponents,  
+...components,  
+};  
+}
+
+```
+
+4. next.config.mts에 withMdx를 추가한다.
+
+```
+import type { NextConfig } from "next";  
+import { createMDX } from "fumadocs-mdx/next";  
+  
+const withMDX = createMDX();  
+  
+const nextConfig: NextConfig = {  
+/* config options here */  
+};  
+  
+export default withMDX(nextConfig);
+
+```
+
+5. package.json에 postInstall 스크립트를 추가해서 ROOT에 .source 폴더를 추가한다.
+
+```json
+    "postinstall": "fumadocs-mdx" // gitignore에 /.source 추가할 것!
+```
+
+6. lib 폴더에 두 가지 파일을 추가한다.
+
+```typescript
+// /src/lib/source.ts
+import { docs } from "../../.source";  
+import { loader } from "fumadocs-core/source";  
+  
+export const source = loader({  
+baseUrl: "/docs",  
+source: docs.toFumadocsSource(),  
+});
+
+```
+
+```typescript
+// /src/lib/layout.shared.tsx
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";  
+  
+export function baseOptions(): BaseLayoutProps {  
+return {  
+nav: {  
+    title: "My App",  
+    },  
+  };  
+}
+
+```
+
+7. 최상위 layout에 프로바이더를 추가한다.
+
+```typescript
+// layout.tsx
+...
+import { RootProvider } from "fumadocs-ui/provider/next";  
+  
+export default function RootLayout({  
+  children,  
+  }: Readonly<{  
+  children: React.ReactNode;  
+  }>) {  
+    return (  
+  <html lang="en">  
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>  
+      <RootProvider>{children}</RootProvider>  
+    </body>  
+  </html>  
+  );  
+}
+
+```
+
+8. global.css 에 css 모듈을 추가한다.
+
+```css
+@import 'fumadocs-ui/css/neutral.css';  
+@import 'fumadocs-ui/css/preset.css';
+
+```
+
+9. src/app/docs에 루트를 추가한다.
+
+```typescript
+
+// src/app/docs/[[…slug]]/page.tsx  
+  
+import { source } from "@/lib/source";  
+import {  
+DocsBody,  
+DocsDescription,  
+DocsPage,  
+DocsTitle,  
+} from "fumadocs-ui/page";  
+import { notFound } from "next/navigation";  
+import { getMDXComponents } from "../../../../mdx-components";  
+import type { Metadata } from "next";  
+import { createRelativeLink } from "fumadocs-ui/mdx";  
+  
+export default async function Page(props: PageProps<"/docs/[[...slug]]">) {  
+const params = await props.params;  
+const page = source.getPage(params.slug);  
+if (!page) notFound();  
+  
+const MDX = page.data.body;  
+  
+return (  
+<DocsPage toc={page.data.toc} full={page.data.full}>  
+<DocsTitle>{page.data.title}</DocsTitle>  
+<DocsDescription>{page.data.description}</DocsDescription>  
+<DocsBody>  
+<MDX  
+components={getMDXComponents({  
+// this allows you to link to other pages with relative file paths  
+a: createRelativeLink(source, page),  
+})}  
+/>  
+</DocsBody>  
+</DocsPage>  
+);  
+}  
+  
+export async function generateStaticParams() {  
+return source.generateParams();  
+}  
+  
+export async function generateMetadata(  
+props: PageProps<"/docs/[[...slug]]">  
+): Promise<Metadata> {  
+const params = await props.params;  
+const page = source.getPage(params.slug);  
+if (!page) notFound();  
+  
+return {  
+title: page.data.title,  
+description: page.data.description,  
+};  
+}
+
+```
+
+```typescript
+// src/app/docs/[[…slug]]/layout.tsx  
+
+import { source } from "@/lib/source";  
+import { DocsLayout } from "fumadocs-ui/layouts/docs";  
+import { baseOptions } from "@/lib/layout.shared";  
+  
+export default function Layout({ children }: LayoutProps<"/docs">) {  
+return (  
+<DocsLayout tree={source.pageTree} {...baseOptions()}>  
+{children}  
+</DocsLayout>  
+);  
+}
+
+
+```
+
+10. ROOT에 content/docs 에 실제 mdx를 추가한다.
+
+```
+// index.mdx  
+---  
+title: Hello World  
+---  
+## Introduction  
+```
+
+
+### 결론
+
+앞으로는 포트폴리오 사이트를 통해  계속해서 이 docs의 내용을 늘려나갈 계획이다. fumadocs 역시 기본적인 기능만 적용했지만, 앞으로는 더 많은 use-case를 발견하고 추가해 나갈 것이 기대된다.
