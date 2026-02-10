@@ -1,4 +1,4 @@
-import { BookIcon, Linkedin, Mail, PhoneCall } from 'lucide-react';
+import { Linkedin, Mail, PhoneCall } from 'lucide-react';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import Logo from '@/public/images/favicon.ico';
 import Image from 'next/image';
@@ -45,7 +45,7 @@ export const logo = (
       alt="Fumadocs"
       src={Logo}
       sizes="100px"
-      className="hidden w-20 md:w-24 [.uwu_&]:block"
+      className="hidden w-20 md:w-24 in-[.uwu]:block"
       aria-label="Fumadocs"
     />
   </>

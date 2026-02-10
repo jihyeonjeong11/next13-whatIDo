@@ -37,3 +37,8 @@ next-env.d.ts
 # turbo monorepo
 + .turbo
 
+# sitemaps
+/public/sitemap.xml
+/public/sitemap-0.xml
+.robots.txt
+

@@ -1,0 +1,71 @@
+# 개발 환경 셋업 - next-sitemap
+
+[SEO](google.com/search?q=mdn+seo&oq=mdn+seo&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDUzMDRqMGo3qAIIsAIB&sourceid=chrome&ie=UTF-8)를 위해서 사이트맵을 생성해 본다.
+
+여기서는 [next-sitemap](https://www.npmjs.com/package/next-sitemap)을 통해 이미 존재하는 페이지 라우트들을 빠르게 생성할 수 있었다. 특히 Fumadocs를 통해서 공부 내용 위키를 작성하고 있으므로, 앞으로 페이지들이 빠르게 많아질 것이므로 사이트맵을 생성하는 것이 좋다고 생각했다.
+
+### Concept
+
+사이트맵을 적용하는 이유는 무엇인가?
+
+1. [Google SEO 지침](https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ko) 에 따라 서비스의 URL 라우팅을 정리해 사이트맵의 형태로 제공함으로써 검색 엔진이 해당 페이지의 색인을 더욱 쉽게 해주고, SEO 점수를 높일 수 있다.
+2. Dynamic한 페이지에 대한 사이트맵: Nextjs의 Dynamic route 기능을 사용하는데에도 `next-sitemap`이 해당 라우트를 추가해준다.
+3. 쉽게 커스텀할 수 있다.
+
+### Use-case
+
+````
+yarn add next-sitemap
+npm install next-sitemap
+````
+
+프로젝트의 ROOT에 `next-sitemap.config.js`를 생성해 준다.
+
+```javascript
+// next-sitemap.config.js
+module.exports = {
+  siteUrl: process.env.SITE_URL
+  generateRobotsTxt: true, // (Optional) Generates a robots.txt file
+  sitemapSize: 1000, // Number of URLs per sitemap file
+}
+```
+
+그리고, 빌드 이후 사이트맵을 생성하도록 postbuild 스크립트를 추가해 준다.
+
+```json
+// package.json
+{
+  "scripts": {
+    "build": "next build",
+    "postbuild": "next-sitemap"
+  }
+}
+```
+
+빌드 이후 실제로 작성된 sitemap과 robots.txt는 다음과 같다.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemap><loc>https://jihyeonjeong.com/sitemap-0.xml</loc></sitemap>
+</sitemapindex>
+```
+
+```
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://jihyeonjeong.com
+
+# Sitemaps
+Sitemap: https://jihyeonjeong.com/sitemap.xml
+
+
+```
+
+### REFS: 
+
+https://dev.to/rajeshkumaryadavdotcom/how-to-install-and-use-next-sitemap-in-a-nextjs-app-a-step-by-step-guide-114l
+https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ko

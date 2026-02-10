@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://jihyeonjeong.com
+
+# Sitemaps
+Sitemap: https://jihyeonjeong.com/sitemap.xml
