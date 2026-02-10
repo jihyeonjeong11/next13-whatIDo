@@ -8,4 +8,4 @@ RUN --mount=type=cache,id=yarn,target=/usr/local/share/.cache/yarn \
 # https://github.com/vercel/next.js/issues/71622
 COPY . .
 EXPOSE 3000
-CMD ["yarn", "dev:docker"]
+CMD ["yarn", "dev"]
