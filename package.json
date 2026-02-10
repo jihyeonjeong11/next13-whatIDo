@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
+    "docker:dev:build": "docker compose up:build",
     "docker:dev": "docker compose up",
     "biome:check": "npx @biomejs/biome check --diagnostic-level=error",
     "biome:format": "npx biome format --write ./src",

@@ -6,9 +6,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app # https://github.com/vercel/next.js/issues/71622
+      - .:/app # https://github.com/vercel/next.js/issues/71622 윈도우용
       - /app/node_modules
       - /app/.next
     environment:
       - NODE_ENV=development
-      - WATCHPACK_POLLING=true
+      - WATCHPACK_POLLING=true # https://github.com/vercel/next.js/issues/71622
