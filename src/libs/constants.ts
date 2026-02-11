@@ -220,4 +220,36 @@ export const Skill_Cards = [
   },
 ];
 
+export const EXPERIENCE_CARDS = [
+  {
+    period: '2023.10~2024.09',
+    companyName: '커넥트아이',
+    role: '프론트엔드 개발자',
+    description: '기존 앱의 리팩토링, 네이티브 관련 기능의 최신화 및 리팩토링 수행',
+    highlights: ['퍼포먼스 향상', '15년 간의 아이 성장 데이터 및 총 4개의 차트 퍼포먼스 문제 해결'],
+  },
+  {
+    period: '2022.09~2023.06',
+    companyName: '아이비에스테크',
+    role: '프론트엔드 리드',
+    description:
+      '외과 시험 소프트웨어 개발 책임, WebRTC, Rnd, Vue3 등 요구사양에 맞춘 라이브러리 & 프레임워크 직접 선정 후 출시까지 개발',
+    highlights: ['퍼포먼스 향상', '15년 간의 아이 성장 데이터 및 총 4개의 차트 퍼포먼스 문제 해결'],
+  },
+  {
+    period: '2021.01~2022.05',
+    companyName: '애기야가자',
+    role: '개발 리드',
+    description: '풀스택 설계 및 개발',
+    highlights: ['AWS 인프라 구조 개선', '동시접속자 15배 증가 및 월 전송량 70~80% 절감'],
+  },
+  {
+    period: '2019.03 ~ 2020.08',
+    companyName: '플라잉캣',
+    role: '프론트엔드 개발자',
+    description: '플라잉캣 Web, App(React-Native) 개발 및 유지 보수. 첫 개발부터 출시까지 개발',
+    highlights: ['React-Native 기반 앱 개발', '기존 앱의 리팩토링 및 최신화'],
+  },
+];
+
 export default rndDefaults;

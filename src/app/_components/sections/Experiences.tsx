@@ -1,18 +1,38 @@
+import { EXPERIENCE_CARDS } from '@/libs/constants';
 import Container from '../ui/Container';
 import Typography from '../ui/Typography';
+import Card from '../ui/Card';
 
 const Experiences = () => {
   return (
     <Container id="experiences">
+      <Typography variant="h2">Experiences</Typography>
       <div className="flex flex-col gap-6">
-        <Typography variant="h2">Working Experiences</Typography>
-        <Typography variant="body2">
-          사용자 경험을 최우선으로 생각하며, 최신 웹 기술을 활용한 아름답고 반응형인 웹
-          애플리케이션을 개발합니다. 사용자 경험을 최우선으로 생각하며, 최신 웹 기술을 활용한
-          아름답고 반응형인 웹 애플리케이션을 개발합니다. 사용자 경험을 최우선으로 생각하며, 최신 웹
-          기술을 활용한 아름답고 반응형인 웹 애플리케이션을 개발합니다. 사용자 경험을 최우선으로
-          생각하며, 최신 웹 기술을 활용한 아름답고 반응형인 웹 애플리케이션을 개발합니다.
-        </Typography>
+        {EXPERIENCE_CARDS.map((experience) => (
+          <Card key={experience.companyName} className="items-start p-4 shadow-md">
+            <div className="flex flex-col gap-2">
+              <Typography variant="body2" className="text-sm text-slate-600 dark:text-slate-400">
+                {experience.period}
+              </Typography>
+              <Typography variant="h2" className="font-bold">
+                {experience.companyName}
+              </Typography>
+              <Typography variant="body2" className="text-slate-700 dark:text-slate-300">
+                {experience.role}
+              </Typography>
+              <Typography variant="body2" className="text-slate-600 dark:text-slate-400">
+                {experience.description}
+              </Typography>
+              <ul className="list-disc list-inside space-y-1 mt-2">
+                {experience.highlights.map((highlight) => (
+                  <li key={highlight} className="text-slate-600 dark:text-slate-400 text-sm">
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Card>
+        ))}
       </div>
     </Container>
   );

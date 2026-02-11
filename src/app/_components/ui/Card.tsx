@@ -1,12 +1,12 @@
 import { cn } from '@/libs/functions';
 import * as React from 'react';
 
-interface SkillCardProps extends React.HTMLAttributes<HTMLElement> {}
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const SkillCard = React.forwardRef<HTMLElement, SkillCardProps>(
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <figure
+      <div
         ref={ref}
         {...props}
         className={cn(
@@ -15,10 +15,10 @@ const SkillCard = React.forwardRef<HTMLElement, SkillCardProps>(
         )}
       >
         {children}
-      </figure>
+      </div>
     );
   },
 );
 
-SkillCard.displayName = 'SkillCard';
-export default SkillCard;
+Card.displayName = 'Card';
+export default Card;

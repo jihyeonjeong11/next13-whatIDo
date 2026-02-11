@@ -2,7 +2,7 @@ import { Skill_Cards } from '@/libs/constants';
 import Container from '../ui/Container';
 import Typography from '../ui/Typography';
 import Image from 'next/image';
-import SkillCard from '../ui/SkillCard';
+import SkillCard from '../ui/Card';
 
 const Skills = () => {
   return (
