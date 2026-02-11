@@ -1,7 +1,7 @@
 import { formatLocaleDateTime } from './functions';
 import type { LocaleTimeDate } from '@/app/types';
 import type { ClockSource } from '@/libs/constants';
-import type { Size } from '../../../../../../../utils/functions';
+import type { Size } from '../../../../../../libs/functions';
 
 export type OffscreenRenderProps = {
   canvas: OffscreenCanvas;

@@ -1,9 +1,19 @@
-import Link from 'next/link';
+import About from '@/app/_components/sections/About';
+import Contacts from '../_components/sections/Contact';
+import Hero from '../_components/sections/Hero';
+import Projects from '../_components/sections/Projects';
+import Skills from '../_components/sections/Skills';
+import Experiences from '../_components/sections/Experiences';
 
 export default function Home() {
   return (
     <div className="pt-14">
-      <Link href="/use-graph-data-structure">Goto currently building example: use-graph</Link>
+      <Hero />
+      <About />
+      <Skills />
+      <Experiences />
+      <Projects />
+      <Contacts />
     </div>
   );
 }

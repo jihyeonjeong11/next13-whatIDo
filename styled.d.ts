@@ -1,4 +1,4 @@
-import { Size } from './utils/functions';
+import { Size } from './src/libs/functions';
 import 'styled-components';
 
 // styled-components안에 들어있는 DefaultTheme 형식 지정해주기

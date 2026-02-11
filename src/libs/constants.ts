@@ -1,4 +1,5 @@
-import type { Size } from '../../utils/functions';
+import { LinkItemType } from 'fumadocs-ui/layouts/shared';
+import type { Size } from './functions';
 
 export type ClockSource = 'local' | 'ntp';
 
@@ -140,5 +141,36 @@ export const NAVIGATION_LINKS = [
   { href: '/use-worker', label: 'Web Worker' },
   { href: '/why-react-query', label: 'Why React Query' },
 ];
+
+export const HEADER_LINKS = [
+  {
+    text: 'Blog',
+    url: '/docs',
+  },
+  {
+    text: 'Resume',
+    url: '',
+  },
+  {
+    text: 'About',
+    url: '#about',
+  },
+  {
+    text: 'Skills',
+    url: '#skills',
+  },
+  {
+    text: 'Experiences',
+    url: '#experiences',
+  },
+  {
+    text: 'Projects',
+    url: '#projects',
+  },
+  {
+    text: 'Contacts',
+    url: '#contacts',
+  },
+] as LinkItemType[];
 
 export default rndDefaults;
