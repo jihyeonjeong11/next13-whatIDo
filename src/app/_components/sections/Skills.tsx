@@ -1,18 +1,22 @@
+import { Skill_Cards } from '@/libs/constants';
 import Container from '../ui/Container';
 import Typography from '../ui/Typography';
+import Image from 'next/image';
+import SkillCard from '../ui/SkillCard';
 
 const Skills = () => {
   return (
     <Container id="skills">
-      <div className="flex flex-col gap-6">
-        <Typography variant="h2">안녕하세요! 스킬입니다👋</Typography>
-        <Typography variant="body2">
-          사용자 경험을 최우선으로 생각하며, 최신 웹 기술을 활용한 아름답고 반응형인 웹
-          애플리케이션을 개발합니다. 사용자 경험을 최우선으로 생각하며, 최신 웹 기술을 활용한
-          아름답고 반응형인 웹 애플리케이션을 개발합니다. 사용자 경험을 최우선으로 생각하며, 최신 웹
-          기술을 활용한 아름답고 반응형인 웹 애플리케이션을 개발합니다. 사용자 경험을 최우선으로
-          생각하며, 최신 웹 기술을 활용한 아름답고 반응형인 웹 애플리케이션을 개발합니다.
-        </Typography>
+      <Typography variant="h2">Skills</Typography>
+      <div className="w-[80%] grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {Skill_Cards.map((skill) => (
+          <SkillCard key={skill.text}>
+            <Image src={skill.icon} alt={skill.text} width={40} height={40} priority />
+            <figcaption>
+              <Typography>{skill.text}</Typography>
+            </figcaption>
+          </SkillCard>
+        ))}
       </div>
     </Container>
   );

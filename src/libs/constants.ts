@@ -163,20 +163,60 @@ export const HEADER_LINKS = [
     text: 'Experiences',
     url: '#experiences',
   },
-  {
-    text: 'Projects',
-    url: '#projects',
-  },
-  {
-    text: 'Contacts',
-    url: '#contacts',
-  },
+  // {
+  //   text: 'Projects',
+  //   url: '#projects',
+  // },
 ] as LinkItemType[];
 
-const Skill_Cards = [
+export const Skill_Cards = [
   {
-    //icon: ,
+    icon: '/svgs/typescript.svg',
     text: 'Typescript',
+  },
+  {
+    icon: '/svgs/javascript.svg',
+    text: 'Javascript',
+  },
+  {
+    icon: '/svgs/react.svg',
+    text: 'React',
+  },
+  {
+    icon: '/svgs/react.svg',
+    text: 'React Native',
+  },
+  {
+    icon: '/svgs/nextdotjs.svg',
+    text: 'Next.js',
+  },
+  {
+    icon: '/svgs/vuedotjs.svg',
+    text: 'Vue.js',
+  },
+  {
+    icon: '/svgs/nodedotjs.svg',
+    text: 'Node.js',
+  },
+  {
+    icon: '/svgs/tailwindcss.svg',
+    text: 'Tailwind CSS',
+  },
+  {
+    icon: '/svgs/postgresql.svg',
+    text: 'PostgreSQL',
+  },
+  {
+    icon: '/svgs/python.svg',
+    text: 'Python',
+  },
+  {
+    icon: '/svgs/django.svg',
+    text: 'Django',
+  },
+  {
+    icon: '/svgs/googlebigquery.svg',
+    text: 'Google BigQuery',
   },
 ];
 
