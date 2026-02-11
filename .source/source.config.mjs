@@ -1,7 +1,12 @@
 // source.config.ts
 import { defineDocs, defineConfig } from "fumadocs-mdx/config";
 var docs = defineDocs({
-  dir: "content/docs"
+  dir: "content/docs",
+  docs: {
+    postprocess: {
+      extractLinkReferences: true
+    }
+  }
 });
 var source_config_default = defineConfig();
 export {
