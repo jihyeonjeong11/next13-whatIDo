@@ -13,6 +13,6 @@ const create = browser<typeof Config, import("fumadocs-mdx/runtime/types").Inter
   }
 }>();
 const browserCollections = {
-  docs: create.doc("docs", {"architecture.mdx": () => import("../content/docs/architecture.mdx?collection=docs"), "docker.mdx": () => import("../content/docs/docker.mdx?collection=docs"), "fumadocs.mdx": () => import("../content/docs/fumadocs.mdx?collection=docs"), "index.mdx": () => import("../content/docs/index.mdx?collection=docs"), "next-sitemap.mdx": () => import("../content/docs/next-sitemap.mdx?collection=docs"), }),
+  docs: create.doc("docs", {"architecture.mdx": () => import("../content/docs/architecture.mdx?collection=docs"), "docker.mdx": () => import("../content/docs/docker.mdx?collection=docs"), "fumadocs.mdx": () => import("../content/docs/fumadocs.mdx?collection=docs"), "graph.mdx": () => import("../content/docs/graph.mdx?collection=docs"), "index.mdx": () => import("../content/docs/index.mdx?collection=docs"), "next-sitemap.mdx": () => import("../content/docs/next-sitemap.mdx?collection=docs"), "next-tab-navigation.mdx": () => import("../content/docs/next-tab-navigation.mdx?collection=docs"), }),
 };
 export default browserCollections;

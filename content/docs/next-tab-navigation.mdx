@@ -1,0 +1,187 @@
+---
+title: nextjs에서 tab 내비게이션 구현
+description: nextjs에서 tab 내비게이션을 구현하는 방법에 대해
+---
+
+이번 Nextjs 프로젝트를 프로덕션에서 적용하면서 고민했던 것들을 하나씩 기록할 예정이다.
+
+탭 라우팅에 대해서 기록한다.
+
+### Nextjs에서 Tab 라우팅을 구현해주세요. 각 탭은 url 세그먼트로 구분해야 합니다.
+
+생각보다 구글에서의 예제가 많지 않았다.
+
+또한 구현해야 할 탭의 숫자가 많았으므로, 일단 react 스럽게 구현하기로 하였다.
+
+### 1. 일단 내가 아는 방법대로 구현하고, 다음에 더 나은 방법을 찾아보기
+
+Next docs 서칭 결과 내가 찾을 수 있는 가장 빠른 방법은 [Catch-All Route](https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments) 을 사용한 방법이었다.
+
+```
+
+src/
+└── app/
+    └── invest/
+        └── [...slug]/          <-- Catch-all segment
+            └── page.tsx        <-- 해당 url을 모두 소비할 페이지
+        └── layout.tsx          <-- 탭간의 이동을 위한 layout
+    └── _components/            
+        ├── Stock.tsx
+        ├── DelayedStock.tsx
+        ├── FinancialAudit.tsx
+        └── Header.tsx
+    └── _hooks/
+        └── useLastPath.ts
+
+```
+
+해당 폴더 구조를 통해 모든 /invest 이하의 페이지를 위 layout과 page를 거치도록 작성했다.
+${ROOT}/invest 
+
+```
+
+'use client';
+
+const CatchallTabPage = () => {
+  const slug = useSlug();
+  const renderContent = () => {
+    switch (slug) {
+      case 'stock':
+        return <Stock />;
+      case 'delayed-stock':
+        return <DelayedStock />;
+      case 'audit':
+        return <FinancialAudit />;
+      default:
+        return <Stock />;
+    }
+  };
+
+  return (
+
+    <article className="min-h-screen bg-slate-900">
+      <Header />
+      <main>{renderContent()}</main>
+    </article>
+
+  );
+
+};
+
+  
+
+export default CatchallTabPage;
+
+```
+
+
+'리액트스러운' 탭이 완성되었다.
+
+### 2. TRADEOFF
+
+물론 이 방식은 내가 생각할 수 있는 가장 빠른 방법이다. 하지만,
+
+1. 최상위 page에서 state를 사용하기 때문에 app router의 서버 컴포넌트의 이점을 활용할 수 없음. 
+    e.g.) SEO같이
+2. slug값을 통해서 렌더되는 컴포넌트가 복잡해지고 숫자가 많아지는 경우, 생각해야 할 것이 많아진다.
+    e.g.) 모든 컴포넌트를 한번에 렌더하므로, nextjs의 장점인 라우트 별 로딩, 에러 페이지를 따로 보여줄 수 없다.
+
+### 3. Nextjs의 병렬 라우트
+
+당시 이해하지 못했던  [병렬 라우트](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes) 를 다시 읽어보기로 했다.
+
+
+여기서 핵심은, @접두사를 통해서 page, layout, error, loading, default까지 모든 시나리오를 라우트별로 따로 관리할 수 있다는 것이다.
+
+```
+
+parallel
+│  default.tsx
+│  layout.tsx
+│  page.tsx
+│
+├─@tabs
+│  │  layout.tsx // 
+│  │  page.tsx
+│  │
+│  ├─audit
+│  │      page.tsx
+│  │
+│  ├─stock
+│  │      default.tsx // 상술한 것처럼, 가능한 시나리오를 탭별로 관리할 수 있음.
+│  │      error.tsx
+│  │      loading.tsx
+│  │      page.tsx
+│  │
+│  └─top
+│          page.tsx
+│
+└─_components
+	 Header.tsx
+
+```
+
+
+```
+
+//./layout.tsx // 위 @tabs로 구성된 라우팅들을 받아서 렌더링하는 역할.
+
+export default async function Layout({
+
+  params,
+
+  tabs,
+
+}: {
+
+  params: any;
+
+  tabs: React.ReactNode;
+
+}) {
+
+  return (
+
+    <article>
+
+      {tabs}
+
+    </article>
+
+  );
+
+}
+
+// ./page.tsx // 렌더링하는 것은 아래의 @tabs 이하이므로, 여기서는 굳이 렌더하지 않음.
+
+const page = () => null;
+export default page;
+
+```
+
+```
+// /@tabs/layout.tsx // 실제로 @tabs/slug 내부의 컴포넌트를 렌더하는 역할.
+export default function Layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: any;
+}) {
+  return (
+    <>
+      {children}
+    </>
+  );
+}
+
+
+// /@tabs/page.tsx // 위 케이스와 동일함.
+
+const page = () => null;
+export default page;
+```
+
+
+와 같은 형태로, 서버 컴포넌트의 이점을 살리면서 구현할 수 있었다.
+
