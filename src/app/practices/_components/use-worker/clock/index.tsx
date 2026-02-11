@@ -5,8 +5,8 @@ import type { FC } from 'react';
 import StyledClock from './StyledClock';
 import type { LocaleTimeDate } from '@/app/types';
 import useWorker from '@/app/hooks/useWorker';
-import { type Size, createOffscreenCanvas } from '../../../../../../libs/functions';
 import { BASE_CLOCK_WIDTH, DEFAULT_CLOCK_SOURCE, TASKBAR_HEIGHT } from '@/libs/constants';
+import { createOffscreenCanvas, type Size } from '@/libs/functions';
 
 type ClockWorkerResponse = LocaleTimeDate | 'source';
 

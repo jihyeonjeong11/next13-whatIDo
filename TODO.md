@@ -12,8 +12,7 @@
 - [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
 
 - [x] 빌트인 서치
-- [] orama 엔진 한글 안됨. 다른 걸로 바꾸나?
-- [] docs 메타데이터 추가
+- [] orama 엔진 한글 안됨. 
  
 - [x] About 연락처 링크 추가
 
@@ -24,6 +23,13 @@
 - [] Experiences 카드 추가 - 최신꺼 빼고 넣음
 
 - [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것
+
+- [x] practice 메뉴로 만든 예제들 넣어보기 - use-worker
+- [] useworker 윈도우 테마 넣기
+ 
+
+- [] 블로그에 태그 넣기
+- [] docs 메타데이터 추가
 
  
 - [x] fumadocs 블로그

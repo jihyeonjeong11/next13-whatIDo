@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-dvh`}>
+      <body className={`${inter.className}`}>
         <RootProvider
           theme={{
             defaultTheme: 'light',

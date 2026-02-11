@@ -14,8 +14,6 @@ const StyledTaskbar = styled.nav<{ $bottom?: number }>`
   left: 0;
   position: absolute;
   right: 0;
-  width: 1000px;
-  z-index: 100000;
 `;
 
 export default StyledTaskbar;
