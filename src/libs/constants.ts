@@ -1,4 +1,4 @@
-import { LinkItemType } from 'fumadocs-ui/layouts/shared';
+import type { LinkItemType } from 'fumadocs-ui/layouts/shared';
 import type { Size } from './functions';
 
 export type ClockSource = 'local' | 'ntp';
@@ -172,5 +172,12 @@ export const HEADER_LINKS = [
     url: '#contacts',
   },
 ] as LinkItemType[];
+
+const Skill_Cards = [
+  {
+    //icon: ,
+    text: 'Typescript',
+  },
+];
 
 export default rndDefaults;
