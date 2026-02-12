@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 
 import { baseOptions } from '@/libs/fumadocs/layout.shared';
-import { source } from '@/libs/fumadocs/source';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 
 const PracticeLayout = ({ children }: { children: ReactNode }) => {
@@ -23,9 +22,6 @@ const PracticeLayout = ({ children }: { children: ReactNode }) => {
             url: '/docs/react/web-worker-clock',
           },
         ],
-      }}
-      containerProps={{
-        style: { height: 'calc(100vh - 56px)' },
       }}
       {...baseOptions()}
     >

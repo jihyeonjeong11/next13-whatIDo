@@ -12280,6 +12280,7 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:2.3.11"
     "@hookform/resolvers": "npm:^3.3.0"
+    "@radix-ui/react-slot": "npm:^1.2.4"
     "@svgr/webpack": "npm:^8.1.0"
     "@tailwindcss/postcss": "npm:^4.1.14"
     "@tanstack/react-query": "npm:^5.36.0"

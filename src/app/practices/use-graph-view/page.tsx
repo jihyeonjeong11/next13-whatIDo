@@ -3,11 +3,7 @@ import { buildGraph } from './_lib/build-graph';
 
 const GraphViewPage = async () => {
   const props = await buildGraph();
-  return (
-    <div>
-      <GraphView graph={props} />
-    </div>
-  );
+  return <GraphView graph={props} />;
 };
 
 export default GraphViewPage;

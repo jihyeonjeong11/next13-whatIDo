@@ -89,7 +89,8 @@ const Clock: FC = () => {
   }, []);
 
   return (
-    <StyledClock
+    <div
+      className="px-2 text-xs"
       ref={supportsOffscreenCanvas ? clockCallbackRef : undefined}
       aria-label="Clock"
       role="timer"
@@ -97,7 +98,7 @@ const Clock: FC = () => {
       suppressHydrationWarning
     >
       {supportsOffscreenCanvas ? undefined : time}
-    </StyledClock>
+    </div>
   );
 };
 

@@ -22,11 +22,15 @@
 
 - [] Experiences 카드 추가 - 최신꺼 빼고 넣음
 
-- [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것
+- [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것 아님 이 프로젝트 자체를 넣던가
 
 - [x] practice 메뉴로 만든 예제들 넣어보기 - use-worker
-- [] useworker 윈도우 테마 넣기
- 
+- [] fumadocs 커스텀 - 오른쪽 공간 어떻게 할 것인지 고민하기
+
+- [x] useworker 윈도우 테마 넣기
+- [] 추후 윈도우 테마 따로 빼서 모든 practices에 넣는게 나을 듯
+- [] monorepo: 윈도우 테마
+  
 
 - [] 블로그에 태그 넣기
 - [] docs 메타데이터 추가

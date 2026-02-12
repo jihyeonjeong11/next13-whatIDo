@@ -6,7 +6,6 @@ export async function buildGraph(): Promise<Graph> {
 
   await Promise.all(
     source.getPages().map(async (page) => {
-      console.log(page);
       if (page.data.type === 'openapi') return;
 
       graph.nodes.push({

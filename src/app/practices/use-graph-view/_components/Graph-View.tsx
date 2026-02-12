@@ -46,7 +46,7 @@ export function GraphView(props: GraphViewProps) {
   return (
     <div
       ref={ref}
-      className="relative border h-[600px] [&_canvas]:size-full rounded-xl overflow-hidden bg-fd-background"
+      className="relative border flex grow h-dvh [&_canvas]:size-full rounded-xl overflow-hidden bg-fd-background"
     >
       {mount && <ClientOnly {...props} containerRef={ref} />}
     </div>

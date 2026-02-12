@@ -12,5 +12,11 @@
 @theme {
   --color-background: hsl(240, 10%, 3.9%);
   --color-primary-foreground: hsl(240 5.9% 10%);
-  --color-muted-foreground: hsl(240 5% 64.9%;)
+  --color-muted-foreground: hsl(240 5% 64.9%;);
+  --color-primary-window-background: #c0c0c0;
+  
+  --color-primary-button-border: #858585;
+  --color-secondary-button-border: white;
+
+
 }
