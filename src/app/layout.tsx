@@ -47,7 +47,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <RootProvider
           theme={{
             defaultTheme: 'light',
-            enabled: true,
           }}
         >
           <ProgressProvider>{children}</ProgressProvider>

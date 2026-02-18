@@ -69,21 +69,14 @@ export default function UseWorkerPage() {
         </div>
         <ol className="p-0.5 flex grow gap-1"></ol>
         <div className="p-0.5">
-          <div className="shrink-0 p-0.5 shadow-[inset_-1.5px_-1.5px_0_0_#fcfcfc,_inset_1.5px_1.5px_0_0_#a099a1] h-[26px] flex items-center">
+          <div className="shrink-0 p-0.5 shadow-[inset_-1.5px_-1.5px_0_0_#fcfcfc,inset_1.5px_1.5px_0_0_#a099a1] h-[26px] flex items-center">
             <Clock />
+          </div>
+          <div className="shrink-0 p-0.5 shadow-[inset_-1.5px_-1.5px_0_0_#fcfcfc,inset_1.5px_1.5px_0_0_#a099a1] h-[26px] flex items-center">
+            <NoWorkerClock />
           </div>
         </div>
       </nav>
     </div>
   );
 }
-
-// 아 그럴리가 있겠습니까 형님
-
-// 죄송합니다 제가 카톡을 잘 확인안하는 병이 있는데 이번에는 특히 회사 이슈때문에 알람을 꺼놓는다는게
-
-// 다꺼놔서 확인을 못했어요
-
-// 술먹은 다음날 제가 연락드렸어야되는것도 맞는데 죄송합니다
-
-// 괜찮으시면 다음에 제가 한잔 사도 괜찮을까요? 다시 한번 죄송함다

@@ -147,10 +147,10 @@ export const HEADER_LINKS = [
     text: 'Blog',
     url: '/docs',
   },
-  {
-    text: 'Resume',
-    url: '',
-  },
+  // {
+  //   text: 'Resume',
+  //   url: '',
+  // },
   {
     text: 'About',
     url: '#about',
@@ -221,6 +221,13 @@ export const Skill_Cards = [
 ];
 
 export const EXPERIENCE_CARDS = [
+  {
+    period: '2025.08~2026.02',
+    companyName: '이지원',
+    role: '프론트엔드 개발자',
+    description: 'Nexjs 금융 앱 하이펀딩 프론트 개발',
+    highlights: ['Nextjs 코드베이스 작성'],
+  },
   {
     period: '2023.10~2024.09',
     companyName: '커넥트아이',
