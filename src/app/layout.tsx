@@ -2,7 +2,7 @@ import '@/app/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { RootProvider } from 'fumadocs-ui/provider/next';
-import ProgressProvider from './_components/ProgressBarProvider';
+import ProgressBarProvider from './_components/ProgressBarProvider';
 // import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -49,7 +49,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             defaultTheme: 'light',
           }}
         >
-          <ProgressProvider>{children}</ProgressProvider>
+          <ProgressBarProvider>{children}</ProgressBarProvider>
         </RootProvider>
       </body>
     </html>

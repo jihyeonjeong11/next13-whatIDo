@@ -1,12 +1,16 @@
-import { defineDocs, defineConfig } from 'fumadocs-mdx/config';
+import { defineDocs, defineConfig, frontmatterSchema, metaSchema } from 'fumadocs-mdx/config';
 
 export const docs = defineDocs({
   dir: 'content/docs',
   docs: {
+    schema: frontmatterSchema,
     postprocess: {
       extractLinkReferences: true,
     },
-  }
+  },
+  meta: {
+      schema: metaSchema,
+    }
 });
 
 export default defineConfig();

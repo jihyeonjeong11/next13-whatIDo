@@ -1,0 +1,22 @@
+{
+  "title": "JIHYEON's Portfolio",
+  "description": "Portfolio and docs about my learnings",
+  "icon": "Cuboid",
+  "root": true,
+  "pages": [
+    "---Guide---",
+    "index",
+    "---API References---",
+    "page-tree",
+    "internationalization",
+    "components",
+    "utils",
+    "mdx",
+    "---Sources---",
+    "source-api",
+    "page-conventions",
+    "content-collections/index",
+    "contentlayer",
+    "custom-source"
+  ]
+}
