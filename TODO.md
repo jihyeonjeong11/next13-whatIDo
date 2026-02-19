@@ -19,7 +19,9 @@
 - [] 연결 docs 만들기 Customise the [default MDX preset](/docs/robust-project-structure/architecture).
 - [x] nextjs 프로젝트 반성
 - [] nextjs 프로젝트 반성기 다듬기
+- [] 통일된 규격 만들기
 - [] ai 사용기
+- [] 메인페이지에 graphview 구현하기
 
 
 - [x] docs 아이콘
