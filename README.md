@@ -12,13 +12,18 @@ yarn dev
 
 ### 프로젝트 구조
 
+- Nextjs App router 구조를 기반으로 Fumadocs의 구조를 추가해서 사용하고 있습니다.
 [Fumadocs](https://www.fumadocs.dev/) 위주로 유즈케이스들을 정리합니다.
 
-### 코어 파일
+### Fumadocs 폴더 구조
 
-### Fumadocs 파일
+- 해당 프로젝트의 docs에 자세한 설치법을 정리했습니다.
 
-### Fumadocs 기본 사용법
+- `./source.config.ts`: 프로젝트 `ROOT`의 fumadocs config 파일
+- `./content/docs`: 실제 mdx파일의 경로
+- `./source.ts`: nextjs에서 mdx 파일 로더
+- `./src/app/docs/*`: 실제 docs url path
+- `./.source`: 위 파일들이 실제로 컴파일되어 next dev / start 시 렌더되는 경로
 
 ### Learn More / references
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { useWallpaper } from '@/app/(main)/(practices)/use-vanta-background/hooks/useWallpaper';
+import { useWallpaper } from './hooks/useWallpaper';
 
 export default function UseVanta() {
   const vantaRef = useRef(null);

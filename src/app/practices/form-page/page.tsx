@@ -1,5 +1,6 @@
 'use client';
-import SignUpForm from '@/app/(main)/(practices)/_components/form-page';
+
+import SignUpForm from '../_components/form-page';
 
 export default function FormPage() {
   return <SignUpForm />;

@@ -12,6 +12,6 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: 'JIHYEONJEONG',
     },
-    githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
+    // githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };
 }

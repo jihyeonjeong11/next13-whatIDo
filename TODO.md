@@ -11,7 +11,7 @@
 - [x] nprogress 오래된 디펜던시 삭제
 - [x] nprogress 색깔, 테마 추가
 - [x] 포트폴리오 섹션 추가
-- [ ] 새 README
+- [x] 새 README
 - [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
 - [x] v2구조 격리하기
 
@@ -46,6 +46,8 @@
 - [x] sitemap 블로그
 - [x] Nprogress 블로그? 안함
 - [x] docker 블로그
+
+- [] layout.shared.tsx 링크 추가
 
 ### V2
 - [] biome 다시 eslint 구조로 바꾸기
