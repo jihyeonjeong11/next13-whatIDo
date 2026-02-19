@@ -1,5 +1,5 @@
 ### V1 마일스톤
-
+- [] vercel deploy?
 
 - [x] Fumadocs 헤더
 - [x] Fumadocs theme
@@ -48,6 +48,7 @@
 - [x] docker 블로그
 
 ### V2
+- [] biome 다시 eslint 구조로 바꾸기
 - [ ] Fumadocs 도입 후 docker dev fast reload 안되는 것 확인
 
 - [] orama 엔진 한글 안됨. 

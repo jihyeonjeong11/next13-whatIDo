@@ -1,4 +1,30 @@
-# This is my practices written next13 app router.
+### 포트폴리오
+
+Nextjs와 Fumadocs에 기반한 포트폴리오 프로젝트입니다.
+
+### 실행
+
+```
+yarn install
+
+yarn dev
+```
+
+### 프로젝트 구조
+
+[Fumadocs](https://www.fumadocs.dev/) 위주로 유즈케이스들을 정리합니다.
+
+### 코어 파일
+
+### Fumadocs 파일
+
+### Fumadocs 기본 사용법
+
+### Learn More / references
+
+- [Fumadocs framework](https://www.fumadocs.dev/)
+- [Nextjs](https://nextjs.org/)
+
 
 ## TODO: 무슨 프로젝트인지 설명하기!
 
