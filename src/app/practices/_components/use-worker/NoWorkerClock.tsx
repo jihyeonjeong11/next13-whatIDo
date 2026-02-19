@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { LocaleTimeDate } from '@/app/types';
-import StyledClock from './clock/StyledClock';
 
 const getLocaleTimeDate = (): LocaleTimeDate => {
   const now = new Date();
@@ -57,9 +56,15 @@ const NoWorkerClock = () => {
   }, []);
 
   return (
-    <StyledClock aria-label="Clock" role="timer" title={date} suppressHydrationWarning>
+    <div
+      className="px-2 text-xs"
+      aria-label="Clock"
+      role="timer"
+      title={date}
+      suppressHydrationWarning
+    >
       {time}
-    </StyledClock>
+    </div>
   );
 };
 

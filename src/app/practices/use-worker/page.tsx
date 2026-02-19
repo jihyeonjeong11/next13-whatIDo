@@ -72,6 +72,27 @@ export default function UseWorkerPage() {
           <div className="shrink-0 p-0.5 shadow-[inset_-1.5px_-1.5px_0_0_#fcfcfc,inset_1.5px_1.5px_0_0_#a099a1] h-[26px] flex items-center">
             <Clock />
           </div>
+        </div>
+      </nav>
+      <nav
+        className={`absolute left-0 bottom-8 bg-primary-window-background w-full h-8 border-t-2 border-t-white flex justify-start gap-2 notch-safe`}
+      >
+        <div className="p-0.5">
+          <WindowButton asChild className="p-1 h-6.5">
+            <div className="flex items-center h-full w-full gap-1">
+              <Image
+                width={20}
+                height={20}
+                alt="logo"
+                src="/practices/start.png"
+                className="object-contain"
+              />
+              start
+            </div>
+          </WindowButton>
+        </div>
+        <ol className="p-0.5 flex grow gap-1"></ol>
+        <div className="p-0.5">
           <div className="shrink-0 p-0.5 shadow-[inset_-1.5px_-1.5px_0_0_#fcfcfc,inset_1.5px_1.5px_0_0_#a099a1] h-[26px] flex items-center">
             <NoWorkerClock />
           </div>
