@@ -8,7 +8,10 @@ const About = () => {
     <Container id="about">
       <div className="flex flex-col gap-6">
         <Typography variant="h2">안녕하세요! 웹 개발자 정지현입니다.👋</Typography>
-        <Typography variant="body2">웹 어플리케이션을 개발합니다.</Typography>
+        <Typography variant="body2">
+          새로운 것에 대해 흥미를 가지며 이해하는 것을 좋아합니다. 학습을 통해 무언가를 완성하는
+          것을 좋아하고 더 나은 구조에 대해 고민합니다.
+        </Typography>
         <ul>
           <li className="flex gap-2">
             <a

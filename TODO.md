@@ -15,6 +15,8 @@
 - [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
 - [x] v2구조 격리하기
 
+- [] docs backlink
+
 
 - [x] docs 아이콘
 
@@ -48,6 +50,7 @@
 - [x] docker 블로그
 
 - [] layout.shared.tsx 링크 추가
+- [] 지금까지 한거 다듬기
 
 ### V2
 - [] biome 다시 eslint 구조로 바꾸기

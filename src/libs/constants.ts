@@ -190,10 +190,10 @@ export const Skill_Cards = [
     icon: '/svgs/nextdotjs.svg',
     text: 'Next.js',
   },
-  {
-    icon: '/svgs/vuedotjs.svg',
-    text: 'Vue.js',
-  },
+  // {
+  //   icon: '/svgs/vuedotjs.svg',
+  //   text: 'Vue.js',
+  // },
   {
     icon: '/svgs/nodedotjs.svg',
     text: 'Node.js',
@@ -226,14 +226,22 @@ export const EXPERIENCE_CARDS = [
     companyName: '이지원',
     role: '프론트엔드 개발자',
     description: 'Nexjs 금융 앱 하이펀딩 프론트 개발',
-    highlights: ['Nextjs 코드베이스 작성'],
+    highlights: [
+      'Nextjs 기본 문법, 핵심 라이브러리 관리, git 관리, 코드 퀄리티 툴(biomejs) 관리 문서화를 통한 아키텍팅',
+      'Next-Auth + 서드파티 인증 모듈 파이프라인 설계 및 역할(Role) 기반 인증 및 페이지 접근 제어 구현',
+      'Justand, React hook form 및 Tanstack query를 활용한 멀티 스텝 툴를 활용한 핵심 투자 대출 기능 구현',
+    ],
   },
   {
     period: '2023.10~2024.09',
     companyName: '커넥트아이',
     role: '프론트엔드 개발자',
     description: '기존 앱의 리팩토링, 네이티브 관련 기능의 최신화 및 리팩토링 수행',
-    highlights: ['퍼포먼스 향상', '15년 간의 아이 성장 데이터 및 총 4개의 차트 퍼포먼스 문제 해결'],
+    highlights: [
+      'React Native Echarts를 활용한 대규모 데이터 차트 시각화 구현',
+      '15년 간의 아이 성장 데이터를 시각화 대쉬보드 구현 및 퍼포먼스 문제 해결',
+      'React Native Vision Camera를 활용한 사진 촬영 및 업로드 기능 구현',
+    ],
   },
   {
     period: '2022.09~2023.06',
@@ -241,21 +249,32 @@ export const EXPERIENCE_CARDS = [
     role: '프론트엔드 리드',
     description:
       '외과 시험 소프트웨어 개발 책임, WebRTC, Rnd, Vue3 등 요구사양에 맞춘 라이브러리 & 프레임워크 직접 선정 후 출시까지 개발',
-    highlights: ['퍼포먼스 향상', '15년 간의 아이 성장 데이터 및 총 4개의 차트 퍼포먼스 문제 해결'],
+    highlights: [
+      'Dnd-kit 활용한 드래그 앤 드롭 시험 인터페이스 구현',
+      'Web-worker를 활용한 멀티 쓰레딩 타이머 구현',
+      'WebRTC 프로토콜을 활용한 CCTV 영상 재생 + 실시간 업로드 구현',
+    ],
   },
   {
     period: '2021.01~2022.05',
     companyName: '애기야가자',
     role: '개발 리드',
     description: '풀스택 설계 및 개발',
-    highlights: ['AWS 인프라 구조 개선', '동시접속자 15배 증가 및 월 전송량 70~80% 절감'],
+    highlights: [
+      'Firebase + Google cloud Bigquery를 활용한 앱 유저 데이터 5억건 시각화 및 관리 프로세스 구현',
+      'Django Rest Framework를 활용한 백엔드 API 개발 및 관리',
+      'React Native를 활용한 앱 개발 및 유지 보수',
+    ],
   },
   {
     period: '2019.03 ~ 2020.08',
     companyName: '플라잉캣',
     role: '프론트엔드 개발자',
     description: '플라잉캣 Web, App(React-Native) 개발 및 유지 보수. 첫 개발부터 출시까지 개발',
-    highlights: ['React-Native 기반 앱 개발', '기존 앱의 리팩토링 및 최신화'],
+    highlights: [
+      'React Native를 활용한 앱 개발 및 유지 보수',
+      'Godomall + React를 활용한 웹 개발 및 유지 보수',
+    ],
   },
 ];
 
