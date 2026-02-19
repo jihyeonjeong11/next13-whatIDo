@@ -52,6 +52,8 @@
 - [] layout.shared.tsx 링크 추가
 - [] 지금까지 한거 다듬기
 
+- [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
+
 ### V2
 - [] biome 다시 eslint 구조로 바꾸기
 - [ ] Fumadocs 도입 후 docker dev fast reload 안되는 것 확인
