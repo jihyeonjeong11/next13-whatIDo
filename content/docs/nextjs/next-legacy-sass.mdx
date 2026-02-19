@@ -1,0 +1,77 @@
+---
+title: nextjs - 오래된 sass 연결하기
+description: 오래된 sass를 nextjs 프로젝트에 연결하는 방법을 설명합니다.
+---
+
+# nextjs - 오래된 sass 연결하기
+
+**Details**
+
+## TLDR
+
+SASS 1.93 버전 기준 NextJS에 탑재하고자 할 때 기억할 만한 이슈이다.
+
+현재 진행하는 프로젝트는 오래된 CRA 기반 react 프로젝트를 최신의 nextjs로 마이그레이션 하는 일이다.
+
+꽤나 사이즈가 큰 프로젝트 이므로 css 최신화는 다음 기회에 진행하는 것으로 결정이 되었는데, 처음에는 기존 SASS로 이루어진 코드를 그대로 사용할 수 있다고 생각했지만, 생각보다 간단하지 않았다. 여기서는 최대한 빠르게 적용 및 개발을 위해서 필수적인 오류만 해결하고, 터져나오는 수많은 warning들은 일단 무시하는 방향으로 진행하기로 하였다.
+
+여기서는 추후 다시 한번 revisit 할 만한 이슈들을 따로 선정해서 기록하기로 한다.
+## 1. 어떤 유형의 에러 및 워닝이 있는지?
+
+### 1-1. Typescript 관련 이슈
+
+```typescript
+
+import '@/assets/scss/components/_button.scss'; // type declaration error
+import '@/assets/scss/common/common.module.scss'; // 문제 없음. react-dom 내부의 type으로 연결
+
+...
+```
+
+위 스니펫에서 볼 수 있는 대로 ```*.module.scss``` 형태로 사용한다면 에러가 나지 않는다. 하지만 기존 레거시 sass 형태처럼 사용한다면? react-dom 내부의 type 파일에 해당 부분이 삭제된 것으로 보여 타입 자체를 찾을 수 없다!
+
+```typescript
+// @/types/sass.d.ts 
+declare module '*.scss' {
+  const content: { [className: string]: string };
+  export default content;
+}
+
+```
+
+이 경우 가장 간단한 방법은 직접 d.ts를 만들어 scss의 기본 타입을 설정해주는 것이었다.
+
+이 외에 몇 가지 타입을 수정한 이후에 수많은 sasswarning을 확인할 수 있었다.
+### 1-2. Deprecation issues
+
+수많은 deprecation warning을 찾을 수 있었고 sass자체를 건드리지 않고 워닝만 끄도록 하는 해결책은 아래 링크에서 해결할 수 있었다.
+
+[official issue](https://github.com/vercel/next.js/discussions/67931)
+
+```typescript
+// ./next.config.ts
+
+const nextConfig = {
+	...
+	sassOptions: {
+      includePaths: [path.join(__dirname, 'src')],
+      silenceDeprecations: [
+		'legacy-js-api',
+		'import',
+		'color-functions',
+		'global-builtin',
+		'slash-div',
+	   ],
+	  },
+    }
+
+
+```
+
+깔끔하게 값 하나로 워닝을 지우는 것은 실패했지만 해결된 것 만으로 다행이 아닐까?
+
+지금까지의 내용에 깊은 이해가 있다거나 한 것은 아니지만 앞으로 이러한 마이그레이션을 진행하게 된다면 충분히 revisit 할만한 가치가 있는 내용이라고 생각한다.
+
+
+
+

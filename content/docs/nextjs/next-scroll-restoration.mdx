@@ -1,0 +1,53 @@
+---
+title: nextjs - scroll 위치 유지하기
+description: Nextjs에서 탭 내비게이션으로 이동해도 스크롤 위치가 초기화되지 않도록 하는 방법을 설명합니다.
+---
+
+예제 - https://github.com/jihyeonjeong11/next13-whatIDo/tree/main/src/app/use-next-tab-navigation/parallel
+
+[[Nextjs 탭 내비게이션 구현하는 법.]] tab navigation 이후에 한가지 고민할 점이 더 생겼다.
+
+### Goal: 탭 내비게이션으로 이동해도 스크롤 포지션을 고정해야 함.
+
+tab을 눌러서 이동한 뒤 다시 돌아오면 스크롤 포지션이 초기화 되는 것이 그것이다.
+
+[medium blog](https://dev.to/hijazi313/nextjs-15-scroll-behavior-a-comprehensive-guide-387j)
+의 글을 인용해 본다.
+
+> 전통적인 웹 프레임워크에서 route를 이동하게 되면 기본적으로 페이지의 top으로 스크롤이 이동하게 됩니다. 하지만 최근의 모던한 웹 앱에서는 스크롤 포지션을 유지해야 하는 경우가 있죠.
+> Nextjs15에서는 새로운 scroll 프로퍼티를 추가해서 스크롤 위치를 되살리는 기능을 제공하고 있습니다.
+
+여기서 생각해야 할 점은, Nextjs는 react router 처럼 CSR이 아니기 때문에 탭 이동, 즉 route 변경 이후 스크롤 포지션이 초기화되는 것이 당연하다는 것이다.
+
+그렇다면 어떻게 해야 할까?
+
+```typescript
+'use client'
+...
+ <nav className="flex items-center gap-1">
+          {navItems.map((item) => {
+            const isActive = pathname.includes(item.href);
+            return (
+              <Link
+                scroll={false} // 스크롤 유지
+                key={item.href}
+                href={item.href}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all }`}
+    >
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+...
+```
+
+programmatical하게 이동하는 경우도 마찬가지이다.
+
+```typescript
+    router.push(`/products?category=${filter}`, { scroll: false })
+```
+
+물론 여기에는 더 많은 케이스가 있을 것이다. 
+
+라우트 변경 시 특정한 위치로 이동하게 하거나, 멀티 스텝 폼을 사용하고 그에 따른 특별한 규칙이 있거나, infinite 스크롤을 사용하는 리스트가 있거나... **scroll={false}** 대신 리액트 로직을 사용하는 경우도 있을 것이지만, 여기서는 위 기본적인 task에 대해서만 작성하고 추후에 또 revisit하는 것으로 한다.

@@ -1,0 +1,125 @@
+---
+title: Windows에서 pnpm이 느린 이유에 대한 서치
+description: Windows에서 pnpm이 느린 이유에 대한 서치입니다.
+---
+
+
+나는 두 개의 컴퓨터를 가지고 있다. 하나는 취미용(게임용) 윈도우 pc와 개발 외 잡다한 용도로 사용하는 맥북이 그것인데, 윈도우로 테스트를 하거나 개발을 하게 되면 맥에 비해 FS가 심각하게 느린 것을 인지하고 있었다.
+
+## 시나리오를 생각해 보자.
+
+- Windows에서 어떤 프로젝트를 삭제하고 싶다. 터미널은 powershell을 사용한다면, 아래의 방법으로 rm -rf를 대체할 수 있겠지만, 커맨드를 기억하기 너무나도 어렵다. 속도도 빠르지 않다.
+
+```
+Get-ChildItem -Path C:\Temp -Include *.* -File -Recurse | foreach { $_.Delete()}
+```
+
+- [rimraf](https://www.npmjs.com/package/rimraf) rm -rf를 사용할 수 있게 해주는 라이브러리를 깔아서 사용하지만, 그래도 여전히 느리다.
+- 하지만, 디스크의 쓰기가 필요한 부분은 어떨까? 보통 지우는 것보다 패키지 매니저를 활용해서 무언가를 설치하는 시간이 훨씬 많으니까...
+- [stackoverflow](https://stackoverflow.com/questions/29395211/npm-install-extremely-slow-on-windows) 의 답변 및 기억나지 않는 소스에 의하면, 무언가를 다운 받고 설치할 때마다 Windows Defender의 안티바이러스 검사를 거치기 때문에, npm처럼 수많은 작은 용량의 파일을 내려받을 경우 바이러스 검사 시간이 늘어나 시간이 늘어난다고 설명하고 있다.
+- Worst case scenario 는 아래와 같았다.
+
+nextjs에서 tab navigation usecase를 확인하기 위해 [nextjs app router 실험 repo](https://github.com/jihyeonjeong11/next13-whatIDo)를 다시 찾았었는데 pnpm이 심각하게 느려졌다는 사실을 깨달았다.
+
+총 14분이 걸렸다. 그냥 npm으로는 총 108초가 걸렸기 때문에 pnpm 내부적인 문제라고 생각했다.
+
+## 원인은 무엇일까?
+
+```
+"dependencies": {
+
+    "@hookform/resolvers": "^3.3.0",
+
+    "@tanstack/react-query": "^5.36.0",
+
+    "@types/node": "20.5.6",
+
+    "@types/react": "18.2.21",
+
+    "@types/react-dom": "18.2.7",
+
+    "@types/three": "^0.167.1",
+
+    "autoprefixer": "10.4.15",
+
+    "eslint": "^8.56.0",
+
+    "eslint-config-next": "13.4.19",
+
+    "framer-motion": "^10.16.4",
+
+    "next": "^15.5.4",
+
+    "postcss": "8.4.28",
+
+    "react": "^19.1.1",
+
+    "react-dom": "^19.1.1",
+
+    "react-hook-form": "^7.45.4",
+
+    "react-loading-skeleton": "^3.4.0",
+
+    "react-rnd": "^10.4.1",
+
+    "sass": "^1.85.1",
+
+    "styled-component": "^2.8.0",
+
+    "styled-components": "^6.0.7",
+
+    "tailwindcss": "3.3.3",
+
+    "three": "^0.167.1",
+
+    "typescript": "5.2.2",
+
+    "uuid": "^9.0.1",
+
+    "vanta": "^0.5.24",
+
+    "yup": "^1.2.0",
+
+    "zod": "^3.22.2"
+
+  },
+```
+
+실제 package.json에는 흥미본위로 깔아본 몇 가지의 라이브러리 말고는 크게 없는 상황. 거기다 여기서 가장 용량이 많다 할 수 있는 라이브러리는 각각 30mb의 nextjs와 three였다.
+
+## 어떤 환경에서 느려질까?
+
+현재 개발하고 있는 환경은 게임용/개발용으로 사용하는 윈도우 pc였기에, 개발용으로만 사용하는 macbook에서 다시 확인하니 총 11초밖에 걸리지 않았다.
+
+|action|cache|lockfile|node_modules|npm|pnpm|Yarn|Yarn PnP|
+|---|---|---|---|---|---|---|---|
+|install||||35.6s|8.7s|7.6s|3.6s|
+|install|✔|✔|✔|1.3s|764ms|5.2s|n/a|
+|install|✔|✔||9.2s|2.3s|5.4s|1.3s|
+|install|✔|||13.9s|6.1s|7.4s|3s|
+|install||✔||12.6s|5.2s|5.4s|1.3s|
+|install|✔||✔|1.6s|2.1s|7.3s|n/a|
+|install||✔|✔|1.3s|743ms|5.2s|n/a|
+|install|||✔|1.6s|5.2s|7.1s|n/a|
+|update|n/a|n/a|n/a|7.2s|3.7s|5.9s|3.1s|
+- [pnpm benchmark](https://pnpm.io/benchmarks) 해당 사이트의 공식 install 시간 비교 표를 봐도 14분 씩이나 걸릴 것 같지는 않았다.
+
+[official issue ticket 1](https://github.com/pnpm/pnpm/issues/7133) - 여기 discussion에서는 리눅스 및 mac m2에서도 같은 현상이 있다고 한다.
+
+그리고 위 링크에서 maintainer의 공식 답변을 확인할 수 있었다.
+
+> You can try reducing the number of the [network-concurrency](https://pnpm.io/npmrc#network-concurrency) setting to see if it helps.
+>
+I don't think I ever used HDD with pnpm. Antiviruses are known for locking files during installation, which significantly slow pnpm down.
+>
+I would still expect pnpm to be faster than Yarn and npm in these cases. Unless you use Yarn with Plug'n'play. Yarn PnP might be faster as it writes the packages into zip files, so there are less file system operations.
+>
+Also, this issue doesn't seem useful. pnpm is too slow is too broad... pnpm is not slow as we regularly benchmark it and the competitors do as well. It could be slow in some scenarios or situations. If you have a concrete reproducible scenario, we can look into it. But with this title and description the issue just attracts people with different unrelated issues.
+
+- pnpm의 setting에서 network-concurrency를 변경하는 것이 도움이 될수 있다.
+- 하드 디스크에서 pnpm을 돌려본 적이 없다. 하지만 윈도우에서는 안티바이러스 때문에 파일 설치가 느린 경우가 이미 잘 알려져 있다.
+- 그럼에도, yarn이나 npm보다는 빠를 것이다. Yarn PnP보다 빠른지는 잘 모르겠다.
+- 하지만 여기 제기한 이슈만으로는 확실히 판단할 수 없다...
+
+여기에 있어서 아직 확실한 답변은 없다. 하지만 이외 [다른 사례](https://github.com/orgs/pnpm/discussions/8489)도 있고 나 역시도 실제 pnpm과 npm 사이의 큰 딜레이를 확인했기 때문에 윈도우에서는 가급적 pnpm을 사용하지 않는 것이 나을 것 같다.
+

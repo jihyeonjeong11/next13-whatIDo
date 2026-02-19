@@ -1,0 +1,78 @@
+---
+title: ESLint V9 - 에러가 IDE에서 표시되지 않는 경우
+description: Eslint가 v9로 업데이트되면서 IDE에서 lint error가 표시되지 않아 biomejs로 교체한 경험을 설명합니다.
+---
+
+## 1. ESLint가 IDE에서 작동하지 않는다?
+
+eslint는 지금까지 vs code 및 cursor로 개발하는데 정말 도움이 되는 플러그인이었지만, 최근 새로운 프로젝트를 시작하면서 몇 가지 차이점이 생겼다.
+
+#### 1-1. eslint가 v9로 업데이트되었다.
+- [eslint v9](https://github.com/eslint/eslint/compare/v9.0.0...v9.39.0) 작년 eslint가 v9로 업데이트 되면서, 기존 ``.eslintrc`` 파일이 deprecated되고 eslint.config.js의 형태로 변경되었다.
+- 플러그인을 불러오는 방법도 
+
+```json
+{
+    "root": true,
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": { "project": ["./tsconfig.json"] },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/strict-boolean-expressions": [
+            2,
+            {
+                "allowString" : false,
+                "allowNumber" : false
+            }
+        ]
+    },
+    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+}
+
+```
+
+기존의 array를 사용한 방법에서
+
+
+```js
+
+import { FlatCompat } from '@eslint/eslintrc'
+ 
+const compat = new FlatCompat({
+  // import.meta.dirname is available after Node.js v20.11.0
+  baseDirectory: import.meta.dirname,
+})
+ 
+const eslintConfig = [
+  ...compat.config({
+    extends: ['next'],
+    settings: {
+      next: {
+        rootDir: 'packages/my-app/',
+      },
+    },
+  }),
+]
+ 
+export default eslintConfig
+
+```
+
+flatConfig 방식으로 spread operator를 사용하는 것으로 변경되었다.
+
+## 2. IDE에서 lint error가 작동하지 않음.
+
+여기서 문제는, 이전에는 잘 작동하던 nextjs 프로젝트의 린트가 9로 업데이트하니 적용되지 않는다는 점이다.
+
+찾을 수 있는 가장 최근의 레퍼런스는 [official issue](https://github.com/microsoft/vscode-eslint/issues/1856) 으로 2025년 5월 기준  
+
+
+여기서는 synckit이라는 디펜던시의 버그로 생기는 문제라고 하지만, 지금 나는 pnpm을 사용하고 있으므로 저렇게 패치를 진행해도 문제가 해결되지 않을거라고 생각하기 때문에, [biome](https://biomejs.dev/)을 사용해 일단 문제를 해결할 수 있었다.
+
+p.s.)[pnpm issue](https://github.com/microsoft/vscode-eslint/issues/1986)pnpm 을 사용하는 경우도 확인할 수 있었고 거기 제시된 해결책을 사용해보았지만, 이 프로젝트에서는 적용되지 않았다.

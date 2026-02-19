@@ -15,7 +15,11 @@
 - [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
 - [x] v2구조 격리하기
 
-- [] docs backlink
+- [x] docs backlink
+- [] 연결 docs 만들기 Customise the [default MDX preset](/docs/robust-project-structure/architecture).
+- [x] nextjs 프로젝트 반성
+- [] nextjs 프로젝트 반성기 다듬기
+- [] ai 사용기
 
 
 - [x] docs 아이콘
@@ -29,7 +33,7 @@
 - [x] Skills 카드
 - [x] Skills svg
 
-- [] Experiences 카드 추가 - 최신꺼 빼고 넣음
+- [x] Experiences 카드 추가
 
 - [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것 아님 이 프로젝트 자체를 넣던가
 
