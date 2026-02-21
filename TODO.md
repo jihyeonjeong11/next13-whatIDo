@@ -1,5 +1,5 @@
 ### V1 마일스톤
-- [] vercel deploy?
+- [x] vercel deploy?
 
 - [x] Fumadocs 헤더
 - [x] Fumadocs theme
@@ -17,7 +17,7 @@
 - [x] v2구조 격리하기
 
 - [x] docs backlink
-- [] 연결 docs 만들기 Customise the [default MDX preset](/docs/robust-project-structure/architecture).
+- [x] 연결 docs 만들기 Customise the [default MDX preset](/docs/robust-project-structure/architecture).
 - [x] nextjs 프로젝트 반성
 - [x] 통일된 규격 만들기
 - [x] 메인페이지에 graphview 구현하기
@@ -58,6 +58,8 @@
 
 
 - [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
+
+- [] 다크 테마 확인하기
 
 ### V2
 - [] biome 다시 eslint 구조로 바꾸기
