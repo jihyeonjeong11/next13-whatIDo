@@ -5,18 +5,13 @@ description: nextjs에서 tab 내비게이션을 구현하는 방법에 대해
 
 #### [예제](/practices/use-next-tab-navigation)
 
+### Problem - Nextjs에서 탭 라우팅 구조를 어떻게 만들 수 있을까?
 
-이번 Nextjs 프로젝트를 프로덕션에서 적용하면서 고민했던 것들을 하나씩 기록할 예정이다.
+Nextjs에서는 여기에 딱 맞는 예제를 찾을 수가 없었다.
 
-탭 라우팅에 대해서 기록한다.
+### Goal - Nextjs에서 Tab 라우팅을 구현해주세요. 각 탭은 url 세그먼트로 구분해야 합니다.
 
-### Nextjs에서 Tab 라우팅을 구현해주세요. 각 탭은 url 세그먼트로 구분해야 합니다.
-
-생각보다 구글에서의 예제가 많지 않았다.
-
-또한 구현해야 할 탭의 숫자가 많았으므로, 일단 react 스럽게 구현하기로 하였다.
-
-### 1. 일단 내가 아는 방법대로 구현하고, 다음에 더 나은 방법을 찾아보기
+### Implementation-1 일단 내가 아는 방법대로 구현하고, 다음에 더 나은 방법을 찾아보기
 
 Next docs 서칭 결과 내가 찾을 수 있는 가장 빠른 방법은 [Catch-All Route](https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments) 을 사용한 방법이었다.
 
@@ -76,19 +71,16 @@ export default CatchallTabPage;
 
 ```
 
+내가 생각할 수 있는 가장 리액트스럽지만 URL 변화를 감지할 수 있는 탭을 완성했다.
 
-'리액트스러운' 탭이 완성되었다.
-
-### 2. TRADEOFF
-
-물론 이 방식은 내가 생각할 수 있는 가장 빠른 방법이다. 하지만,
+#### TRADEOFF
 
 1. 최상위 page에서 state를 사용하기 때문에 app router의 서버 컴포넌트의 이점을 활용할 수 없음. 
-    e.g.) SEO같이
+    e.g.) SEO 최적화
 2. slug값을 통해서 렌더되는 컴포넌트가 복잡해지고 숫자가 많아지는 경우, 생각해야 할 것이 많아진다.
-    e.g.) 모든 컴포넌트를 한번에 렌더하므로, nextjs의 장점인 라우트 별 로딩, 에러 페이지를 따로 보여줄 수 없다.
+    e.g.) 모든 컴포넌트를 한번에 렌더하므로 nextjs의 장점인 라우트 별 로딩, 에러 페이지를 따로 보여줄 수 없다.
 
-### 3. Nextjs의 병렬 라우트
+### Impementation-2 Nextjs의 병렬 라우트
 
 당시 이해하지 못했던  [병렬 라우트](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes) 를 다시 읽어보기로 했다.
 
@@ -187,3 +179,11 @@ export default page;
 
 와 같은 형태로, 서버 컴포넌트의 이점을 살리면서 구현할 수 있었다.
 
+### Summary
+
+Nextjs에서 탭 라우팅을 구현하는 방법에 대해 고민해보고, 내가 생각하는 가장 빠른 방법과 Nextjs의 공식 문서에서 제시하는 방법을 모두 구현해보았다. Nextjs의 병렬 라우트 기능을 통해, 서버 컴포넌트의 이점을 살리면서도 깔끔한 탭 라우팅 구조를 만들 수 있었다.
+
+### Refs
+
+[nextjs catch-all segments](https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes#catch-all-segments)
+[nextjs parallel routes](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes)
