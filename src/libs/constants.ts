@@ -144,7 +144,7 @@ export const NAVIGATION_LINKS = [
 
 export const HEADER_LINKS = [
   {
-    text: 'Blog',
+    text: 'Blogs',
     url: '/docs',
   },
   // {
@@ -162,6 +162,10 @@ export const HEADER_LINKS = [
   {
     text: 'Experiences',
     url: '#experiences',
+  },
+  {
+    text: 'Graph',
+    url: '#graph',
   },
   // {
   //   text: 'Projects',

@@ -39,7 +39,6 @@
 
 - [x] Experiences 카드 추가
 
-- [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것 아님 이 프로젝트 자체를 넣던가
 
 - [x] practice 메뉴로 만든 예제들 넣어보기 - use-worker
 - [x] fumadocs 커스텀 - 오른쪽 공간 어떻게 할 것인지 고민하기
@@ -59,9 +58,11 @@
 
 - [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
 
-- [] 다크 테마 확인하기
+- [x] 다크 테마 확인하기
 
 ### V2
+- [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것 아님 이 프로젝트 자체를 넣던가
+
 - [] biome 다시 eslint 구조로 바꾸기
 - [ ] Fumadocs 도입 후 docker dev fast reload 안되는 것 확인
 

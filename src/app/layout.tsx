@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import ProgressBarProvider from './_components/ProgressBarProvider';
+import { ThemeProvider } from 'next-themes';
 // import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -46,10 +47,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className}`}>
         <RootProvider
           theme={{
-            defaultTheme: 'light',
+            defaultTheme: 'system',
+            enabled: true,
           }}
         >
-          <ProgressBarProvider>{children}</ProgressBarProvider>
+          <ThemeProvider>
+            <ProgressBarProvider>{children}</ProgressBarProvider>
+          </ThemeProvider>
         </RootProvider>
       </body>
     </html>
