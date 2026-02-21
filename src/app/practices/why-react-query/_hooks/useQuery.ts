@@ -45,7 +45,6 @@ export default function useQuery(url: string) {
 
     return () => {
       if (abortControl) {
-        console.log('abour', abortControl.signal, url);
         abortControl.abort();
       }
       ignore = true;

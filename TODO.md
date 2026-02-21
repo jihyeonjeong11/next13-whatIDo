@@ -22,8 +22,6 @@
 - [x] 통일된 규격 만들기
 - [x] 메인페이지에 graphview 구현하기
 
-- [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
-- [] ai 사용기
 
 
 - [x] docs 아이콘
@@ -50,7 +48,6 @@
 - [x] Nprogress 블로그? 안함
 - [x] docker 블로그
 
-- [] layout.shared.tsx 링크 추가
 - [x] nextjs 프로젝트 반성기 다듬기
 - [x] 지금까지 한거 다듬기
 - [] 지금까지 한거 다듬기 2차
@@ -61,6 +58,10 @@
 - [x] 다크 테마 확인하기
 
 ### V2
+- [] layout.shared.tsx 링크 추가
+
+- [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
+- [] ai 사용기
 - [] Side-projects 카드 추가: onhold: storymaker 만들고 추가할 것 아님 이 프로젝트 자체를 넣던가
 
 - [] biome 다시 eslint 구조로 바꾸기

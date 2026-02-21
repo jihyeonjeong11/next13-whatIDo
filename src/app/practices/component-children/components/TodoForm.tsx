@@ -4,7 +4,6 @@ import type { Props } from '../types';
 type TodoHandleType = Pick<Props, 'addList'>;
 
 const TodoForm = ({ addList }: TodoHandleType) => {
-  console.log('form rerender');
   return (
     <header>
       <input

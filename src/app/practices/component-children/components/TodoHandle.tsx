@@ -4,7 +4,6 @@ import type { Props } from '../types';
 type TodoHandleType = Pick<Props, 'popList'>;
 
 function TodoHandle({ popList }: TodoHandleType) {
-  console.log('this will not rerender');
   return (
     <section className="w-[300]px flex justify-center">
       <button
