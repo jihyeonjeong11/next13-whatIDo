@@ -20,7 +20,7 @@
 - [] 연결 docs 만들기 Customise the [default MDX preset](/docs/robust-project-structure/architecture).
 - [x] nextjs 프로젝트 반성
 - [x] 통일된 규격 만들기
-- [] 메인페이지에 graphview 구현하기
+- [x] 메인페이지에 graphview 구현하기
 
 - [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것
 - [] ai 사용기
@@ -46,10 +46,6 @@
 
 - [x] useworker 윈도우 테마 넣기
 
-  
-
-
- 
 - [x] fumadocs 블로그
 - [x] sitemap 블로그
 - [x] Nprogress 블로그? 안함

@@ -12,7 +12,7 @@ const BlogGraphSection = async () => {
     <Container id="Blogs">
       <Typography variant="h2">Blogs</Typography>
       <Suspense fallback={<Skeleton count={1} height={500} />}>
-        <GraphView graph={props} />
+        <GraphView graph={props} enableZoomAction={false} />
       </Suspense>
     </Container>
   );

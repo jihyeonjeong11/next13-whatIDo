@@ -30,6 +30,7 @@ export type LinkType = Record<string, unknown>;
 
 export interface GraphViewProps {
   graph: Graph;
+  enableZoomAction?: boolean;
 }
 
 const ForceGraph2D = lazy(
@@ -56,6 +57,7 @@ export function GraphView(props: GraphViewProps) {
 function ClientOnly({
   containerRef,
   graph,
+  enableZoomAction,
 }: GraphViewProps & { containerRef: RefObject<HTMLDivElement | null> }) {
   const graphRef = useRef<ForceGraphMethods<Node, Link> | undefined>(undefined);
   const hoveredRef = useRef<Node | null>(null);
@@ -172,7 +174,7 @@ function ClientOnly({
         }}
         linkWidth={2}
         enableNodeDrag
-        enableZoomInteraction
+        enableZoomInteraction={enableZoomAction ?? true}
       />
       {tooltip && (
         <div
