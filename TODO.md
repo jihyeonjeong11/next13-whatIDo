@@ -52,8 +52,10 @@
 - [x] docker 블로그
 
 - [] layout.shared.tsx 링크 추가
-- [] nextjs 프로젝트 반성기 다듬기
-- [] 지금까지 한거 다듬기
+- [x] nextjs 프로젝트 반성기 다듬기
+- [x] 지금까지 한거 다듬기
+- [] 지금까지 한거 다듬기 2차
+
 
 - [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
 
