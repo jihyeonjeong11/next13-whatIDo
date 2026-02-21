@@ -1,29 +1,19 @@
 ---
 title: Windows에서 pnpm이 느린 이유에 대한 서치
-description: Windows에서 pnpm이 느린 이유에 대한 서치입니다.
+description: Windows powershell 환경에서 pnpm이 왜 느린지에 대해 알아본다.
 ---
 
+### Problem - 시나리오를 생각해 보자.
 
-나는 두 개의 컴퓨터를 가지고 있다. 하나는 취미용(게임용) 윈도우 pc와 개발 외 잡다한 용도로 사용하는 맥북이 그것인데, 윈도우로 테스트를 하거나 개발을 하게 되면 맥에 비해 FS가 심각하게 느린 것을 인지하고 있었다.
+이번 프로젝트는 나 제외 모든 팀원이 Windows에서 개발을 했다. 패키지 매니저로는 pnpm을 사용했는데 Windows에서 `pnpm i` 및 node_modules 삭제가 심각하게 느려지는 현상을 겪었다. 여기에 대해서 확인해 본다.
 
-## 시나리오를 생각해 보자.
+- [stackoverflow](https://stackoverflow.com/questions/29395211/npm-install-extremely-slow-on-windows) 에 따르면 디펜던시를 다운 받고 설치할 때마다 Windows Defender의 안티바이러스 검사와 함께 쓰기 허가를 요청하기 때문에 npm처럼 수많은 작은 용량의 파일을 내려받을 경우 바이러스 검사 시간이 늘어나 시간이 늘어난다고 설명하고 있다.
 
-- Windows에서 어떤 프로젝트를 삭제하고 싶다. 터미널은 powershell을 사용한다면, 아래의 방법으로 rm -rf를 대체할 수 있겠지만, 커맨드를 기억하기 너무나도 어렵다. 속도도 빠르지 않다.
+테스트를 위해서 윈도우에서 직접 이 프로젝트를 다운받아 `pnpm i` 를 해보았을 때 총 14분이 걸렸다. 그냥 `npm i`으로는 총 108초가 걸렸다.
 
-```
-Get-ChildItem -Path C:\Temp -Include *.* -File -Recurse | foreach { $_.Delete()}
-```
+### Goal - Windows에서 개발할 때 어떤 패키지 매니저가 가장 나은지?
 
-- [rimraf](https://www.npmjs.com/package/rimraf) rm -rf를 사용할 수 있게 해주는 라이브러리를 깔아서 사용하지만, 그래도 여전히 느리다.
-- 하지만, 디스크의 쓰기가 필요한 부분은 어떨까? 보통 지우는 것보다 패키지 매니저를 활용해서 무언가를 설치하는 시간이 훨씬 많으니까...
-- [stackoverflow](https://stackoverflow.com/questions/29395211/npm-install-extremely-slow-on-windows) 의 답변 및 기억나지 않는 소스에 의하면, 무언가를 다운 받고 설치할 때마다 Windows Defender의 안티바이러스 검사를 거치기 때문에, npm처럼 수많은 작은 용량의 파일을 내려받을 경우 바이러스 검사 시간이 늘어나 시간이 늘어난다고 설명하고 있다.
-- Worst case scenario 는 아래와 같았다.
-
-nextjs에서 tab navigation usecase를 확인하기 위해 [nextjs app router 실험 repo](https://github.com/jihyeonjeong11/next13-whatIDo)를 다시 찾았었는데 pnpm이 심각하게 느려졌다는 사실을 깨달았다.
-
-총 14분이 걸렸다. 그냥 npm으로는 총 108초가 걸렸기 때문에 pnpm 내부적인 문제라고 생각했다.
-
-## 원인은 무엇일까?
+### 원인은 무엇일까?
 
 ```
 "dependencies": {
@@ -85,11 +75,11 @@ nextjs에서 tab navigation usecase를 확인하기 위해 [nextjs app router �
   },
 ```
 
-실제 package.json에는 흥미본위로 깔아본 몇 가지의 라이브러리 말고는 크게 없는 상황. 거기다 여기서 가장 용량이 많다 할 수 있는 라이브러리는 각각 30mb의 nextjs와 three였다.
+실제 package.json에는 흥미본위로 깔아본 몇 가지의 라이브러리 말고는 크게 없는 상황이었고 여기서 가장 용량이 많다 할 수 있는 라이브러리는 각각 30mb의 nextjs와 three였다.
 
-## 어떤 환경에서 느려질까?
+### 어떤 환경에서 느려질까?
 
-현재 개발하고 있는 환경은 게임용/개발용으로 사용하는 윈도우 pc였기에, 개발용으로만 사용하는 macbook에서 다시 확인하니 총 11초밖에 걸리지 않았다.
+Macbook에서 똑같은 액션을 수행헀을 때는 11초가 걸렸다.
 
 |action|cache|lockfile|node_modules|npm|pnpm|Yarn|Yarn PnP|
 |---|---|---|---|---|---|---|---|
@@ -102,7 +92,7 @@ nextjs에서 tab navigation usecase를 확인하기 위해 [nextjs app router �
 |install||✔|✔|1.3s|743ms|5.2s|n/a|
 |install|||✔|1.6s|5.2s|7.1s|n/a|
 |update|n/a|n/a|n/a|7.2s|3.7s|5.9s|3.1s|
-- [pnpm benchmark](https://pnpm.io/benchmarks) 해당 사이트의 공식 install 시간 비교 표를 봐도 14분 씩이나 걸릴 것 같지는 않았다.
+- [pnpm benchmark](https://pnpm.io/benchmarks) pnpm 공식 사이트의 벤치마크 정보에는 실제 pnpm과 다른 패키지 매니저간의 차이가 크게 없는 것으로 보이는데...
 
 [official issue ticket 1](https://github.com/pnpm/pnpm/issues/7133) - 여기 discussion에서는 리눅스 및 mac m2에서도 같은 현상이 있다고 한다.
 
@@ -123,3 +113,18 @@ Also, this issue doesn't seem useful. pnpm is too slow is too broad... pnpm is n
 
 여기에 있어서 아직 확실한 답변은 없다. 하지만 이외 [다른 사례](https://github.com/orgs/pnpm/discussions/8489)도 있고 나 역시도 실제 pnpm과 npm 사이의 큰 딜레이를 확인했기 때문에 윈도우에서는 가급적 pnpm을 사용하지 않는 것이 나을 것 같다.
 
+### Summary
+
+Windows에서 왜 개발이 느린지?에 대해 알아볼 수 있었다.
+
+### Notables
+
+- powershell에서 rm -rf 커맨드
+```
+Get-ChildItem -Path C:\Temp -Include *.* -File -Recurse | foreach { $_.Delete()}
+```
+- [rimraf](https://www.npmjs.com/package/rimraf) 혹은 해당 라이브러리를 전역에 깔아서 사용한다.
+
+### Refs
+
+- [stackoverflow](https://stackoverflow.com/questions/29395211/npm-install-extremely-slow-on-windows)

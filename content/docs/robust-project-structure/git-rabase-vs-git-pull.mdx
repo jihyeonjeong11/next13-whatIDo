@@ -1,17 +1,14 @@
 ---
-title: ESLint V9 - 에러가 IDE에서 표시되지 않는 경우
-description: Eslint가 v9로 업데이트되면서 IDE에서 lint error가 표시되지 않아 biomejs로 교체한 경험을 설명합니다.
+title: Git rebase와 git pull의 차이
+description: git rebase와 git pull(fetch+merge)의 차이점과 깃 플로우 관리에 있어서의 장단점에 대해서 알아본다.
 ---
 
-# git rebase와 git pull의 차이
-
-
-**Details**
+### Problem - git rebase와 git pull의 차이
 
 이번 프로젝트에서 가장 까다로웠던 것은 모든 개인(feature을 비롯한 모든) 브랜치가 main에서 git pull을 통해 최신화된다는 점이었다.
 git pull(fetch+merge)에서 주의해야 할 점은, 로컬 브랜치에서 커밋을 가진 상태로 pull을 시도해 머지하는 경우 코드가 덮어씌워질 수 있다는 점이다.
 
-## Goal
+### Goal - git pull(fetch+merge)로 깃 플로우를 관리할 시 코드가 덮어씌워지는 현상에 대해서 확인하고, 더 안전한 방법을 찾아본다
 
 - git pull(fetch+merge)로 깃 플로우를 관리할 시 코드가 덮어씌워지는 현상에 대해서 확인하고, 더 안전한 방법을 찾아본다
 
@@ -25,10 +22,14 @@ git pull(fetch+merge)에서 주의해야 할 점은, 로컬 브랜치에서 커�
 
 - 여기서 문제가 되는 것은, git pull은 머지 커밋을 생성하기 때문에 같은 부분을 수정하는 커밋을 pull 해서 머지하는 경우 머지 커밋간의 시간 우선순위에 의해서 코드가 덮어씌워지는 현상이 있을 수 있다는 것이다.
 
-### 그렇다면 어떻게 해야 하나?
+### Implementation - 그렇다면 어떻게 해야 하나?
 
 1. git rebase
 - 자식 브랜치에서는 머지 커밋을 생성하는 `pull` 대신 `rebase`를 사용한다. 먼저 `main`의 변경점을 가져온 뒤에, 그 다음에 내 커밋을 적용해서 머지 커밋을 없애고 내 커밋을 가장 최신으로 유지한다.
 
 2. git pull
 - 부모 브랜치(main)에서는 pull request만을 사용해서 자식을 병합한다.(cherry-pick?)  머지 커밋은 여기서만 생성한다. 
+
+### Refs
+
+- [git pull과 git rebase의 차이점](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
