@@ -18,8 +18,7 @@
 - [x] docs backlink
 - [] 연결 docs 만들기 Customise the [default MDX preset](/docs/robust-project-structure/architecture).
 - [x] nextjs 프로젝트 반성
-- [] nextjs 프로젝트 반성기 다듬기
-- [] 통일된 규격 만들기
+- [x] 통일된 규격 만들기
 - [] ai 사용기
 - [] 메인페이지에 graphview 구현하기
 
@@ -46,7 +45,7 @@
 
   
 
-- [] frontmatter? 블로그에 태그 넣기
+- [] frontmatter? 블로그에 태그 넣기 - Concepts랑 Use-case를 구분할 것
 - [] docs 메타데이터 추가
 
  
@@ -56,6 +55,7 @@
 - [x] docker 블로그
 
 - [] layout.shared.tsx 링크 추가
+- [] nextjs 프로젝트 반성기 다듬기
 - [] 지금까지 한거 다듬기
 
 - [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
