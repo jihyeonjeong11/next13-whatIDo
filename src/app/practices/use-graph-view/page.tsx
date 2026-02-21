@@ -1,5 +1,5 @@
-import { GraphView } from './_components/Lazy';
-import { buildGraph } from './_lib/build-graph';
+import { GraphView } from '@/app/_components/graphView/lazy';
+import { buildGraph } from '@/app/_lib/buildGraph';
 
 const GraphViewPage = async () => {
   const props = await buildGraph();

@@ -2,6 +2,7 @@ import About from '@/app/_components/sections/About';
 // import Projects from '../_components/sections/Projects';
 import Skills from '../_components/sections/Skills';
 import Experiences from '../_components/sections/Experiences';
+import BlogGraphSection from '../_components/sections/BlogGraphSection';
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <About />
       <Skills />
       <Experiences />
-      {/* <Projects /> */}
+      <BlogGraphSection />
     </div>
   );
 }

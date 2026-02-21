@@ -1,5 +1,5 @@
 import { source } from '@/libs/fumadocs/source';
-import type { Graph } from '../_components/Graph-View';
+import type { Graph } from '@/app/_components/graphView/GraphView';
 
 export async function buildGraph(): Promise<Graph> {
   const graph: Graph = { links: [], nodes: [] };
