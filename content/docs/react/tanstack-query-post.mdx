@@ -1,26 +1,28 @@
 ---
-title: Tanstack Query에서 POST 요청을 사용해도 되는가?
-description: Tanstack Query에서 POST 요청을 사용해도 되는지에 대한 서치
+title: Tanstack Query에서 useQuery에서 POST를 사용해도 될까?
+description: Tanstack Query에서 useQuery에서 POST 요청을 사용해도 되는지에 대한 서치.
 ---
 
-처음 이 Nextjs 프로젝트를 시작하게 되었을 때, 받은 첫 사양은 백엔드 수정 없음. 모든 요청을 POST로 처리하고, 프론트에서는 react-query를 사용한다는 것이었다. 
+### Problem - 모든 백엔드 요청을 POST로 처리해야할 때 Tanstack query는 어떻게 사용해야 하나?
 
-잠깐 혼란한 마음을 가라앉히고, 내가 생각한 방법은 모든 react query 신택스를 useMutation으로 작업하는 것이었다.
+처음 이 Nextjs 프로젝트를 시작하게 되었을 때 받은 첫 사양은 모든 요청을 POST로 처리하고 프론트에서는 tanstack-query를 사용한다는 것이었다. 
 
-그렇게 만들어놓고 보니, 좀 이상하다고 생각한다.
+잠깐 혼란한 마음을 가라앉히고 내가 생각한 방법은 모든 react query 신택스를 useMutation으로 작업하는 것이었다.
 
-[Official React-query docs - Mutation](https://tanstack.com/query/latest/docs/framework/react/guides/mutations)
+### Goal - Tanstack Query에서 useQuery의 fetcher에 POST 요청을 사용해도 되는가?
 
->Unlike queries, mutations are typically used to create/update/delete data or perform server side-effects. For this purpose, TanStack Query exports a useMutation hook.
+하지만 [Official React-query docs - Mutation](https://tanstack.com/query/latest/docs/framework/react/guides/mutations)에서는 이렇게 설명하고 있다.
 
-오피셜 독스에서는 C/U/D를 통해 서버 사이드 이펙트를 일으키기 위해 사용한다고 되어 있다.
+> mutation은 C/U/D 요청이나 서버 사이드 이펙트를 일으키는 작업에 사용됩니다. TanStack Query에서 useMutation을 사용하세요.
 
-따라서 데이터를 가져오는 요청이 POST라고 하더라도, 해당 요청이 R만을 수행하므로 useQuery를 사용하는 것이 맞는 것 같은데...
+따라서 데이터를 가져오는 요청이 POST라고 하더라도, 해당 요청이 R만을 수행하므로 useQuery를 사용하는 것이 맞다고 생각했다.
 
 > As long as you return with a promise with the data, you can do anything in the query function
    [reddit 댓글](https://www.reddit.com/r/reactjs/comments/1gkwpzb/tanstack_query_usequery_with_post_requests/) 
 
 이 레딧 포스트의 댓글과 리턴타입을 참고한다면, 실제로 promise를 리턴하기만 하면 어떤 비동기 로직을 넣어도 상관없는 모양이다.
+
+### Implementation - useQuery의 fetcher에 POST 요청을 넣어보자.
 
 ```typescript
 // src/queries/mainQueries.ts
@@ -52,5 +54,11 @@ const MainPage = () => {
 
 문제없이 작동한다.
 
-잠깐 당황했던 문제였다. 하지만 비슷한 유즈케이스를 빠르게 찾을 수 있었다.
+### Summary
 
+Tanstack query를 사용하는 목적은 강력한 캐싱 및 엔드포인트 관리라고 생각한다. GET/POST이건 상관 없이 데이터 페칭이 필요하다면, 위와 같이 queryFn에 POST 요청을 넣고 쿼리 키를 관리하는 것이 맞다고 생각한다.
+
+### Refs
+
+[reddit 댓글](https://www.reddit.com/r/reactjs/comments/1gkwpzb/tanstack_query_usequery_with_post_requests/) 
+[Official React-query docs - Mutation](https://tanstack.com/query/latest/docs/framework/react/guides/mutations)
