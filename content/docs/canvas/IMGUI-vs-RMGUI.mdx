@@ -1,0 +1,62 @@
+---
+title: Immediate mode vs Retained mode
+description: 그래픽 라이브러리의 두 패러다임에 대해 알아봄
+---
+
+둘 다 컴퓨터 그래픽 라이브러리의 [API design pattern](https://en.wikipedia.org/wiki/Application_programming_interface "Application programming interface") 이다.
+
+### 1. Immediate mode
+
+![Immediate](/docs/Immediate-mode-graphics-api.png)
+
+- [client](https://en.wikipedia.org/wiki/Client_\(computing\) "Client (computing)")가 Scene(complete [object model](https://en.wikipedia.org/wiki/Object_model "Object model") of the [rendering primitives](https://en.wikipedia.org/wiki/Rendering_primitive "Rendering primitive")) [rendering](https://en.wikipedia.org/wiki/Rendering_\(computer_graphics\) "Rendering (computer graphics)")을 직접 실시하고 그래픽 라이브러리는 명령을 받아 실행만 하는 경우.
+- 여기서 그려지는 대상 [rendering primitives](https://en.wikipedia.org/wiki/Rendering_primitive "Rendering primitive")는 [frame](https://en.wikipedia.org/wiki/Film_frame) by frame으로 client가 명령을 내리게 됨
+
+- Retained mode와의 가장 큰 차이점은 렌더를 위한 데이터를 저장하기 위해서 React의 가상 DOM과 같은 중간 브릿지가 존재하지 않는다는 것. [double-buffering](https://en.wikipedia.org/wiki/Multiple_buffering) 역시 사용할 수 있다.
+- [Retained mode](https://en.wikipedia.org/wiki/Retained_mode)는 위 방법의 대안이다. 역사적으로 Retained mode가 GUI 환경을 개발하는데 더 자주 사용되었지만 두 방법이 같이 공존해왔다.
+
+예시) 
+ [Direct2D](https://en.wikipedia.org/wiki/Direct2D)
+ [OpenGL](https://en.wikipedia.org/wiki/OpenGL)
+[Quartz](https://en.wikipedia.org/wiki/Quartz_\(graphics_layer\) "Quartz (graphics layer)")
+[Skia](https://medium.com/@0s.and.1s/flutter-part-iv-skia-vs-impeller-graphics-engines-33327e408ba8)
+
+### 2. Retained mode
+
+![Retained](/docs/Retail-mode-graphics-api.png)
+
+Retained mode란 
+
+- [client](https://en.wikipedia.org/wiki/Client_\(computing\) "Client (computing)")가 아닌 [graphics library](https://en.wikipedia.org/wiki/Graphics_library "Graphics library")가 Scene(complete [object model](https://en.wikipedia.org/wiki/Object_model "Object model") of the [rendering primitives](https://en.wikipedia.org/wiki/Rendering_primitive "Rendering primitive")) [rendering](https://en.wikipedia.org/wiki/Rendering_\(computer_graphics\) "Rendering (computer graphics)")을 통제하는 경우를 말함.
+- 클라이언트는 그래픽 라이브러리를 불러서 지시하는 역할을 수행함. 이에 필요한 리소스들은 그래픽 라이브러리 내부에 저장됨(retained), 역시 더블 버퍼링을 지원함.
+
+예시) 
+ [Windows Presentation Foundation](https://en.wikipedia.org/wiki/Windows_Presentation_Foundation "Windows Presentation Foundation")
+ [SceneKit](https://en.wikipedia.org/wiki/SceneKit)
+ [PHIGS](https://en.wikipedia.org/wiki/PHIGS "PHIGS").
+ [Reactjs](https://react.dev/)
+
+### 3. 게임 개발자의 시각 https://collquinn.gitlab.io/portfolio/my-article.html
+
+전통적으로 Retained mode가 지배적인 방식이었지만, 점점 Immediate mode 방식을 사용하는 추세가 늘고 있다. 특히 게임 분야에서
+
+#### IMGUI의 장단점
+
+장점 - 모든 렌더링 데이터는 개발자가 직접 구축한다. if 문이 있고 true라면 버튼을 그리고 아니라면 그리지 않음
+
+단점 - 그래픽 라이브러리가 프레임 사이에 모델을 저장하지 않기 때문에 데이터를 저장할 버퍼를 프레임마다 구축해야 한다.
+
+1인 개발자나 소규모 팀에게 추천함. 
+
+
+예시)
+Dear ImGui 
+ulkear.
+
+### RMGUI의 장단점
+
+장점 - 버튼과 관련된 모든 데이터가 위젯 안에 보관됨. 그 이후 이 객체를 장면에 그려질 객체 리스트에 추가함. 이 객체 오브젝트를 그래픽 라이브러리가 보존하기 때문에 프레임 관리를 해주지 않아도 됨.
+
+단점 - 위젯이 여러곳에서 사용되면서 의도치 않은 결과가 생길 수 있음 **react**의 예시를 생각해 보자.
+
+대규모 개발 팀이나 객체 지향 UI 시스템을 사용하는 개발자에게 추천함

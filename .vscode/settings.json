@@ -1,0 +1,32 @@
+
+{
+  "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "fronterior.biome-monorepo",
+    "editor.formatOnSave": true
+  }
+}
