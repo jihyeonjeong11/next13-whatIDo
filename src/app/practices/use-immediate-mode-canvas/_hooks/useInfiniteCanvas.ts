@@ -27,11 +27,7 @@ const MAX_SCALE = 20; // 2000% maximum zoom
 const ZOOM_SENSITIVITY = 0.001;
 const GRID_BASE_SIZE = 50; // Base grid cell size in world units
 
-export interface UseInfiniteCanvasOptions {
-  initialCamera?: Partial<CameraState>;
-  onCameraChange?: (camera: CameraState) => void;
-  /** Nodes to render on the canvas */
-}
+export type UseInfiniteCanvasOptions = {};
 
 // export interface UseInfiniteCanvasReturn {
 //   canvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -45,10 +41,48 @@ export interface UseInfiniteCanvasOptions {
 // }
 
 export function useInfiniteCanvas(options: UseInfiniteCanvasOptions = {}) {
-  const canvasRef = useRef(null);
-  return {
-    canvasRef,
-  };
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
+  const render = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const { width, height } = canvas;
+
+    // Clear canvas with background color
+    ctx.fillStyle = '#1a1a2e'; // --color-bg-primary
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.beginPath(); // Start a new path
+    ctx.moveTo(30, 50); // Move the pen to (30, 50)
+    ctx.lineTo(150, 100); // Draw a line to (150, 100)
+    ctx.stroke(); // Render the path
+
+    // Draw grid
+
+    // Draw nodes
+
+    // Draw debug info
+
+    // Schedule next frame
+    animationFrameRef.current = requestAnimationFrame(render);
+  }, []);
+
+  useEffect(() => {
+    animationFrameRef.current = requestAnimationFrame(render);
+
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [render]);
+
+  return [canvasRef];
 }
 
 export default useInfiniteCanvas;
