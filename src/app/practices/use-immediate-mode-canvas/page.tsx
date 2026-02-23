@@ -1,7 +1,5 @@
-import { CanvasView } from '@/app/_components/graphView/lazy';
-
 const useImmediateMode = () => {
-  return <CanvasView />;
+  return <>canvas</>;
 };
 
 export default useImmediateMode;
