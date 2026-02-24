@@ -16,14 +16,14 @@ import useCanvas from '../_hooks/useCanvas';
 // figma style interface 패널 구현할 것
 export const CanvasView = () => {
   //const { canvasRef, onMouseDown } = useInfiniteCanvas();
-  const { canvasRef } = useCanvas();
+  const { canvasRef, onMousedown } = useCanvas();
 
   return (
     <div className="relative w-full h-full overflow-hidden">
       <canvas
         tabIndex={0}
         ref={canvasRef}
-        // onMouseDown={onMouseDown}
+        onMouseDown={onMousedown}
         className="block w-full h-full outline-0 cursor-default"
       />
     </div>

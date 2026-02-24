@@ -11,23 +11,11 @@
  */
 
 import { useRef, useEffect, useCallback, useState } from 'react';
-import {
-  type CameraState,
-  type Point,
-  screenToWorld,
-  worldToScreen,
-  getVisibleWorldBounds,
-  isRectVisible,
-  clamp,
-} from '../_utils/coordinates';
+
 import useShapes from './useShapes';
 import useCamera from './useCamera';
-import { drawSmile } from '../_utils/shapes';
 
 // Constants
-const MIN_SCALE = 0.05; // 5% minimum zoom
-const MAX_SCALE = 20; // 2000% maximum zoom
-const ZOOM_SENSITIVITY = 0.001;
 const GRID_BASE_SIZE = 50; // Base grid cell size in world units
 
 export type UseInfiniteCanvasOptions = {};
@@ -50,7 +38,7 @@ export function useInfiniteCanvas() {
   const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
   const { drawBlocks, drawRectangle } = useShapes();
 
-  const { cameraState, moveCamera } = useCamera(canvasRef.current);
+  const { cameraState, moveCamera } = useCamera();
 
   const offset = { x: 0, y: 0, scale: 1 };
 
@@ -117,16 +105,13 @@ export function useInfiniteCanvas() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // const rect = canvas.getBoundingClientRect();
-    // canvas.width = rect.width * (window.devicePixelRatio || 1);
-    // canvas.height = rect.height * (window.devicePixelRatio || 1);
-    // ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-
     // Clear canvas with background color
     ctx.translate(0, 0);
 
     ctx.fillStyle = '#1a1a2e';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // 카메라 위치로 이동
+    ctx.translate(cameraState.x, cameraState.y);
 
     //drawBlocks(ctx);
     drawRectangle(ctx, 500, 500, 90, 100);
@@ -135,7 +120,7 @@ export function useInfiniteCanvas() {
 
     // Schedule next frame
     animationFrameRef.current = requestAnimationFrame(render);
-  }, [drawRectangle]);
+  }, [drawRectangle, cameraState.x, cameraState.y]);
 
   useEffect(() => {
     animationFrameRef.current = requestAnimationFrame(render);
