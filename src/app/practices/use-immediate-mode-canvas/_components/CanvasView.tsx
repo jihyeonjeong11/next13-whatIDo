@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useInfiniteCanvas } from '../_hooks/useInfiniteCanvas';
+import useCanvas from '../_hooks/useCanvas';
+//import { useInfiniteCanvas } from '../_hooks/useInfiniteCanvas';
 
 // https://infinitecanvas.cc/guide/what-is-an-infinite-canvas 아래 todo와 관련있는 부분만 우선 확인할 것
 // lesson 1: webGpu vs webGL
@@ -14,14 +15,15 @@ import { useInfiniteCanvas } from '../_hooks/useInfiniteCanvas';
 // todo: zoom 구현할 것
 // figma style interface 패널 구현할 것
 export const CanvasView = () => {
-  const { canvasRef, onMouseDown } = useInfiniteCanvas();
+  //const { canvasRef, onMouseDown } = useInfiniteCanvas();
+  const { canvasRef } = useCanvas();
 
   return (
     <div className="relative w-full h-full overflow-hidden">
       <canvas
         tabIndex={0}
         ref={canvasRef}
-        onMouseDown={onMouseDown}
+        // onMouseDown={onMouseDown}
         className="block w-full h-full outline-0 cursor-default"
       />
     </div>

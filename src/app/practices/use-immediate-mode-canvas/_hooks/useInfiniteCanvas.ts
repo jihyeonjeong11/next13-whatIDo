@@ -20,7 +20,7 @@ import {
   isRectVisible,
   clamp,
 } from '../_utils/coordinates';
-import useBlocks from './useBlocks';
+import useShapes from './useShapes';
 import useCamera from './useCamera';
 import { drawSmile } from '../_utils/shapes';
 
@@ -48,10 +48,9 @@ export function useInfiniteCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
-  const { drawBlocks } = useBlocks();
+  const { drawBlocks, drawRectangle } = useShapes();
 
   const { cameraState, moveCamera } = useCamera(canvasRef.current);
-  console.log(cameraState);
 
   const offset = { x: 0, y: 0, scale: 1 };
 
@@ -124,23 +123,19 @@ export function useInfiniteCanvas() {
     // ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
 
     // Clear canvas with background color
+    ctx.translate(0, 0);
+
     ctx.fillStyle = '#1a1a2e';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.translate(cameraState.x, cameraState.y);
-    drawSmile(canvas);
-    // // DrawBlocks
-    drawBlocks(ctx);
-
-    // // Draw grid
-    drawGrid(ctx, canvas.width, canvas.height);
-    // // Draw nodes
+    //drawBlocks(ctx);
+    drawRectangle(ctx, 500, 500, 90, 100);
 
     // Draw debug info
 
     // Schedule next frame
     animationFrameRef.current = requestAnimationFrame(render);
-  }, [drawGrid, drawBlocks, cameraState.x, cameraState.y]);
+  }, [drawRectangle]);
 
   useEffect(() => {
     animationFrameRef.current = requestAnimationFrame(render);
