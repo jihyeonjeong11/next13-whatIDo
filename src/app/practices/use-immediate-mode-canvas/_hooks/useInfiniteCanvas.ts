@@ -20,6 +20,9 @@ import {
   isRectVisible,
   clamp,
 } from '../_utils/coordinates';
+import useBlocks from './useBlocks';
+import useCamera from './useCamera';
+import { drawSmile } from '../_utils/shapes';
 
 // Constants
 const MIN_SCALE = 0.05; // 5% minimum zoom
@@ -40,37 +43,104 @@ export type UseInfiniteCanvasOptions = {};
 //   isSpacePressed: boolean;
 // }
 
-export function useInfiniteCanvas(options: UseInfiniteCanvasOptions = {}) {
+export function useInfiniteCanvas() {
+  const [isPanning, setIsPanning] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
+  const { drawBlocks } = useBlocks();
+
+  const { cameraState, moveCamera } = useCamera(canvasRef.current);
+  console.log(cameraState);
+
+  const offset = { x: 0, y: 0, scale: 1 };
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // 왼쪽 버튼 클릭 시 패닝 시작
+    if (e.button === 0) {
+      setIsPanning(true);
+      lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+    }
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isPanning || !lastMousePosRef.current) return;
+
+      // 이전 마우스 위치와 현재 위치의 차이(delta) 계산
+      const dx = e.clientX - lastMousePosRef.current.x;
+      const dy = e.clientY - lastMousePosRef.current.y;
+
+      // 카메라 이동 실행
+      moveCamera(dx, dy);
+
+      // 현재 위치를 다시 저장
+      lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+    },
+    [isPanning, moveCamera],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsPanning(false);
+    lastMousePosRef.current = null;
+  }, []);
+
+  const drawGrid = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#2d2d44';
+
+    const startX = Math.floor(-offset.x / offset.scale / GRID_BASE_SIZE) * GRID_BASE_SIZE;
+    const endX = startX + width / offset.scale + GRID_BASE_SIZE;
+
+    const startY = Math.floor(-offset.y / offset.scale / GRID_BASE_SIZE) * GRID_BASE_SIZE;
+    const endY = startY + height / offset.scale + GRID_BASE_SIZE;
+
+    for (let x = startX; x <= endX; x += GRID_BASE_SIZE) {
+      ctx.moveTo(x + offset.x, 0);
+      ctx.lineTo(x + offset.x, height);
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    for (let y = startY; y <= endY; y += GRID_BASE_SIZE) {
+      ctx.moveTo(0, y + offset.y);
+      ctx.lineTo(width, y + offset.y);
+    }
+    ctx.stroke();
+
+    ctx.restore();
+  }, []);
 
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const { width, height } = canvas;
+    // const rect = canvas.getBoundingClientRect();
+    // canvas.width = rect.width * (window.devicePixelRatio || 1);
+    // canvas.height = rect.height * (window.devicePixelRatio || 1);
+    // ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
 
     // Clear canvas with background color
-    ctx.fillStyle = '#1a1a2e'; // --color-bg-primary
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.beginPath(); // Start a new path
-    ctx.moveTo(30, 50); // Move the pen to (30, 50)
-    ctx.lineTo(150, 100); // Draw a line to (150, 100)
-    ctx.stroke(); // Render the path
+    ctx.translate(cameraState.x, cameraState.y);
+    drawSmile(canvas);
+    // // DrawBlocks
+    drawBlocks(ctx);
 
-    // Draw grid
-
-    // Draw nodes
+    // // Draw grid
+    drawGrid(ctx, canvas.width, canvas.height);
+    // // Draw nodes
 
     // Draw debug info
 
     // Schedule next frame
     animationFrameRef.current = requestAnimationFrame(render);
-  }, []);
+  }, [drawGrid, drawBlocks, cameraState.x, cameraState.y]);
 
   useEffect(() => {
     animationFrameRef.current = requestAnimationFrame(render);
@@ -82,7 +152,18 @@ export function useInfiniteCanvas(options: UseInfiniteCanvasOptions = {}) {
     };
   }, [render]);
 
-  return [canvasRef];
+  useEffect(() => {
+    if (isPanning) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: false });
+      window.addEventListener('mouseup', handleMouseUp, { passive: true });
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [handleMouseMove, handleMouseUp, isPanning]);
+
+  return { canvasRef, onMouseDown: handleMouseDown };
 }
 
 export default useInfiniteCanvas;
