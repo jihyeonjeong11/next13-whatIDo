@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 //import useCanvas from '../_hooks/useCanvas';
-import useInfiniteCanvas from '../_hooks/useInfiniteCanvas';
+//import useInfiniteCanvas from '../_hooks/useInfiniteCanvas';
 import useCanvas from '../_hooks/useNewCanvas';
 //import { useInfiniteCanvas } from '../_hooks/useInfiniteCanvas';
 

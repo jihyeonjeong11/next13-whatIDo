@@ -25,33 +25,31 @@ export interface CameraState {
 const useCanvas = () => {
   // Canvas reference
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  // 카메라 리렌더를 위해서 state로
   const [camera, setCameraState] = useState<CameraState>({
     x: initialCamera.x ?? 0,
     y: initialCamera.y ?? 0,
     z: initialCamera.z ?? 1,
   });
 
-  // camera ref
+  // 실제 컴포넌트에서 사용하기 위한 callback
+  const [_isPanning, setIsPanning] = useState(false);
+  const [_isSpacePressed, setIsSpacePressed] = useState(false);
+
+  // camera ref. useEffect와 useCallback에 포함시키지 않기 위해 펑션에서는 ref 의 밸류를 가져다 사용한다.
   const cameraRef = useRef(camera);
   cameraRef.current = camera;
 
-  // Set camera with callback
+  // 실제 컴포넌트에서 사용하기 위한 callback
   const setCamera = useCallback((newCamera: CameraState) => {
     setCameraState(newCamera);
     // onCameraChange?.(newCamera);
   }, []);
 
-  // state refs: rerender 최소화를 위한
+  // state refs: rerender를 억제하기 위해 스테이트는 저장, 실제 펑션에서는 ref 안의 내용을 가져다 쓴다.
   const isPanningRef = useRef(false);
   const isSpacePressedRef = useRef(false);
   const lastMousePosRef = useRef<Point>({ x: 0, y: 0 });
   const animationFrameRef = useRef<number | null>(null);
-
-  // State for exposing to component
-  const [_isPanning, setIsPanning] = useState(false);
-  const [_isSpacePressed, setIsSpacePressed] = useState(false);
 
   /**
    * 캔버스 실제 화면 리사이저
@@ -63,8 +61,7 @@ const useCanvas = () => {
     const container = canvas.parentElement;
     if (!container) return;
 
-    // Set canvas size to match container
-    const rect = container.getBoundingClientRect();
+    const rect = container.getBoundingClientRect(); // 브라우저 전역 좌표(css 픽셀)
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = rect.width * dpr;
@@ -72,7 +69,7 @@ const useCanvas = () => {
     canvas.style.width = `${rect.width}px`;
     canvas.style.height = `${rect.height}px`;
 
-    // Scale context for retina displays
+    // 레티나 디스플레이(고해상도)용 스케일링
     const ctx = canvas.getContext('2d');
     if (ctx) {
       ctx.scale(dpr, dpr);
@@ -80,7 +77,7 @@ const useCanvas = () => {
   }, []);
 
   /**
-   * Handle mouse up to stop panning
+   * 패닝 중단 리스너
    */
   const handleMouseUp = useCallback(() => {
     const canvas = canvasRef.current;
@@ -131,7 +128,7 @@ const useCanvas = () => {
   );
 
   /**
-   * Handle mouse down for panning
+   * 패닝 시작 리스너
    */
   const handleMouseDown = useCallback((e: MouseEvent) => {
     const canvas = canvasRef.current;
@@ -153,7 +150,7 @@ const useCanvas = () => {
   }, []);
 
   /**
-   * Handle key down for spacebar panning mode
+   * 스페이스바 리스너
    */
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.code === 'Space' && !e.repeat) {
@@ -168,7 +165,7 @@ const useCanvas = () => {
   }, []);
 
   /**
-   * Handle key up to exit spacebar panning mode
+   * 스페이스바 중단 리스너
    */
   const handleKeyUp = useCallback((e: KeyboardEvent) => {
     if (e.code === 'Space') {
@@ -183,7 +180,7 @@ const useCanvas = () => {
   }, []);
 
   /**
-   * Draw debug info overlay
+   * 좌표 표시용 디스플레이
    */
   const drawDebugInfo = useCallback((ctx: CanvasRenderingContext2D, currentCamera: CameraState) => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
