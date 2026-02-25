@@ -3,41 +3,28 @@ import useShapes from './useShapes';
 import useCamera from './useCamera';
 
 interface CanvasState {
-  pixelRatio: number; // our resolution for dip calculations
+  pixelRatio: number;
   container: {
-    //holds information related to our screen container
     width: number;
     height: number;
   };
   camera: {
-    //holds camera state
     x: number;
     y: number;
     z: number;
   };
 }
 
-const radians = (angle: number) => {
-  return angle * (Math.PI / 180);
-};
+const radians = (angle: number) => angle * (Math.PI / 180);
 export const CAMERA_ANGLE = radians(30);
 export const RECT_W = 500;
 export const RECT_H = 500;
 
-export const getInitialCanvasState = (): CanvasState => {
-  return {
-    pixelRatio: window.devicePixelRatio || 1,
-    container: {
-      width: 0,
-      height: 0,
-    },
-    camera: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-  };
-};
+export const getInitialCanvasState = (): CanvasState => ({
+  pixelRatio: window.devicePixelRatio || 1,
+  container: { width: 0, height: 0 },
+  camera: { x: 0, y: 0, z: 1 },
+});
 
 export const cameraToScreenCoordinates = (
   x: number,
@@ -55,19 +42,39 @@ export const cameraToScreenCoordinates = (
 
 const useCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canvasState, setCanvasState] = useState<CanvasState>(getInitialCanvasState());
+
+  const canvasStateRef = useRef<CanvasState>(getInitialCanvasState());
+
   const animationFrameRef = useRef<number | null>(null);
   const [isPanning, setIsPanning] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  const { cameraState, moveCamera } = useCamera();
-
-  const { drawBlocks } = useShapes();
-
   const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
 
+  const { cameraState, moveCamera } = useCamera();
+  const { drawBlocks } = useShapes();
+
+  const updateCanvasState = useCallback((updater: (p: CanvasState) => CanvasState) => {
+    canvasStateRef.current = updater(canvasStateRef.current);
+  }, []);
+
+  const render = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const { camera } = canvasStateRef.current; // ✅ ref에서 읽기
+
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.setTransform(camera.z, 0, 0, camera.z, camera.x, camera.y);
+    drawBlocks(ctx);
+
+    animationFrameRef.current = requestAnimationFrame(render);
+  }, [drawBlocks]); // ✅ canvasState 의존성 없음
+
+  // ── 마우스 패닝 ───────────────────────────────────────
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    // 왼쪽 버튼 클릭 시 패닝 시작
     if (e.button === 0) {
       setIsPanning(true);
       lastMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -78,25 +85,21 @@ const useCanvas = () => {
     (e: MouseEvent) => {
       if (!isPanning || !lastMousePosRef.current) return;
 
-      // 이전 마우스 위치와 현재 위치의 차이(delta) 계산
       const dx = e.clientX - lastMousePosRef.current.x;
       const dy = e.clientY - lastMousePosRef.current.y;
 
-      // 카메라 이동 실행
-      //moveCamera(dx, dy);
-      setCanvasState((p) => ({
+      updateCanvasState((p) => ({
         ...p,
         camera: {
+          ...p.camera,
           x: p.camera.x + dx,
           y: p.camera.y + dy,
-          z: p.camera.z,
         },
       }));
 
-      // 현재 위치를 다시 저장
       lastMousePosRef.current = { x: e.clientX, y: e.clientY };
     },
-    [isPanning],
+    [isPanning, updateCanvasState],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -104,112 +107,99 @@ const useCanvas = () => {
     lastMousePosRef.current = null;
   }, []);
 
-  const handleWheels = useCallback((e: WheelEvent) => {
-    e.preventDefault();
-    setCanvasState((p) => ({
-      ...p,
-      camera: {
-        ...p.camera,
-        z: p.camera.z + e.deltaY * 0.01,
-      },
-    }));
-  }, []);
+  // ── 휠 줌 ─────────────────────────────────────────────
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
 
+      updateCanvasState((p) => ({
+        ...p,
+        camera: {
+          ...p.camera,
+          z: Math.max(0.1, p.camera.z - e.deltaY * 0.001),
+        },
+      }));
+    },
+    [updateCanvasState],
+  );
+
+  // ── 리사이즈 ──────────────────────────────────────────
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    // TODO: scale 줌인 줌아웃
-    const dpr = window.devicePixelRatio || 1;
 
-    // canvas.width = rect.width * dpr;
-    // canvas.height = rect.height * dpr;
-    // canvas.style.width = `${rect.width}px`;
-    // canvas.style.height = `${rect.height}px`;
+    const { container, pixelRatio } = canvasStateRef.current;
 
-    canvas.width = canvasState.container.width * canvasState.pixelRatio;
-    canvas.height = canvasState.container.height * canvasState.pixelRatio;
-    canvas.style.width = `${canvasState.container.width}px`;
-    canvas.style.height = `${canvasState.container.height}px`;
+    canvas.width = container.width * pixelRatio;
+    canvas.height = container.height * pixelRatio;
+    canvas.style.width = `${container.width}px`;
+    canvas.style.height = `${container.height}px`;
 
     const ctx = canvas.getContext('2d');
-    if (ctx) {
-      ctx.scale(canvasState.pixelRatio, canvasState.pixelRatio);
-    }
-  }, [canvasState.container.height, canvasState.container.width, canvasState.pixelRatio]);
+    if (ctx) ctx.scale(pixelRatio, pixelRatio);
+  }, []);
 
-  const render = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    // Buffer 시작
-    // Canvas 전체 초기화
-    ctx.fillStyle = '#1a1a2e';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    console.log(canvasState);
-
-    //ctx.scale(dpr, dpr); // https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/transform-function/scale
-
-    // 카메라 위치
-    //ctx.translate(cameraState.x, cameraState.y); // https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/transform-function/translate
-    ctx.setTransform(
-      canvasState.camera.z,
-      0,
-      0,
-      canvasState.camera.z,
-      canvasState.camera.x,
-      canvasState.camera.y,
-    );
-    // draw anything
-    drawBlocks(ctx);
-    // ctx.restore(); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/restore
-
-    animationFrameRef.current = requestAnimationFrame(render);
-  }, [drawBlocks, canvasState.camera.x, canvasState.camera.y, canvasState.camera.z, canvasState]);
+  // ── Effects ───────────────────────────────────────────
 
   useEffect(() => {
-    // RAF 호출 주기는 모니터 주사율과 같음 60fps.
-    // CanvasState 추가
-    setCanvasState((p) => ({
+    updateCanvasState((p) => ({
       ...p,
-      container: { width: document.body.clientWidth, height: document.body.clientHeight },
+      container: {
+        width: document.body.clientWidth,
+        height: document.body.clientHeight,
+      },
+      // camera는 건드리지 않음 - 초기값 유지
     }));
+
     animationFrameRef.current = requestAnimationFrame(render);
     return () => {
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [render]);
+  }, [render, updateCanvasState]);
 
   useEffect(() => {
-    // 모니터 가로세로비와 canvas의 크기를 맞춤
     const canvas = canvasRef.current;
-    if (canvas) {
-      const resizeObserver = new ResizeObserver(handleResize);
-      const parent = canvas.parentElement;
-      if (parent) {
-        resizeObserver.observe(parent);
-      }
+    if (!canvas) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateCanvasState((p) => ({
+        ...p,
+        container: {
+          width: document.body.clientWidth,
+          height: document.body.clientHeight,
+        },
+      }));
       handleResize();
-    }
-  }, [handleResize]);
+    });
+
+    const parent = canvas.parentElement;
+    if (parent) resizeObserver.observe(parent);
+    handleResize();
+
+    return () => resizeObserver.disconnect();
+  }, [handleResize, updateCanvasState]);
 
   useEffect(() => {
     if (isPanning) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
-      window.addEventListener('wheel', handleWheels, { passive: false });
     }
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('wheel', handleWheels);
     };
-  }, [handleMouseMove, handleMouseUp, isPanning, handleWheels]);
-  return { canvasRef: canvasRef, onMousedown: handleMouseDown, handleWheels };
+  }, [isPanning, handleMouseMove, handleMouseUp]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.addEventListener('wheel', handleWheel, { passive: false });
+    return () => canvas.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
+
+  return { canvasRef, onMousedown: handleMouseDown };
 };
 
 export default useCanvas;
