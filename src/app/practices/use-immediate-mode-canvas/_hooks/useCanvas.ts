@@ -42,27 +42,35 @@ export const cameraToScreenCoordinates = (
 
 const useCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  /**
+   * closure를 방지하기 위한 canvas state ref
+   * todo: 따로 Store를 만들 것
+   */
   const canvasStateRef = useRef<CanvasState>(getInitialCanvasState());
-
   const animationFrameRef = useRef<number | null>(null);
-  const [isPanning, setIsPanning] = useState(false);
   const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
 
-  const { cameraState, moveCamera } = useCamera();
+  const [isPanning, setIsPanning] = useState(false);
+
   const { drawBlocks } = useShapes();
 
+  /**
+   * side effect 방지를 위해서 여기서 setState할 것
+   */
   const updateCanvasState = useCallback((updater: (p: CanvasState) => CanvasState) => {
     canvasStateRef.current = updater(canvasStateRef.current);
   }, []);
 
+  /**
+   *실제 canvas를 그리는 render loop
+   */
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const { camera } = canvasStateRef.current; // ✅ ref에서 읽기
+    const { camera } = canvasStateRef.current;
 
     ctx.fillStyle = '#1a1a2e';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -71,9 +79,8 @@ const useCanvas = () => {
     drawBlocks(ctx);
 
     animationFrameRef.current = requestAnimationFrame(render);
-  }, [drawBlocks]); // ✅ canvasState 의존성 없음
+  }, [drawBlocks]);
 
-  // ── 마우스 패닝 ───────────────────────────────────────
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.button === 0) {
       setIsPanning(true);
@@ -107,7 +114,6 @@ const useCanvas = () => {
     lastMousePosRef.current = null;
   }, []);
 
-  // ── 휠 줌 ─────────────────────────────────────────────
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
@@ -123,7 +129,6 @@ const useCanvas = () => {
     [updateCanvasState],
   );
 
-  // ── 리사이즈 ──────────────────────────────────────────
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -139,8 +144,7 @@ const useCanvas = () => {
     if (ctx) ctx.scale(pixelRatio, pixelRatio);
   }, []);
 
-  // ── Effects ───────────────────────────────────────────
-
+  // init
   useEffect(() => {
     updateCanvasState((p) => ({
       ...p,
@@ -159,6 +163,7 @@ const useCanvas = () => {
     };
   }, [render, updateCanvasState]);
 
+  // resizer
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -181,6 +186,7 @@ const useCanvas = () => {
     return () => resizeObserver.disconnect();
   }, [handleResize, updateCanvasState]);
 
+  // pan listeners
   useEffect(() => {
     if (isPanning) {
       window.addEventListener('mousemove', handleMouseMove);
@@ -192,6 +198,7 @@ const useCanvas = () => {
     };
   }, [isPanning, handleMouseMove, handleMouseUp]);
 
+  // zoom listeners
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
