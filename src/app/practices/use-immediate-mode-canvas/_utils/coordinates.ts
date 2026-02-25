@@ -18,7 +18,7 @@ export interface Point {
 export interface CameraState {
   x: number; // World X position (center of viewport)
   y: number; // World Y position (center of viewport)
-  scale: number; // Zoom level
+  z: number; // Zoom level
 }
 
 /**
@@ -35,8 +35,8 @@ export function screenToWorld(
   const centerY = canvasHeight / 2;
 
   return {
-    x: (screenPoint.x - centerX) / camera.scale + camera.x,
-    y: (screenPoint.y - centerY) / camera.scale + camera.y,
+    x: (screenPoint.x - centerX) / camera.z + camera.x,
+    y: (screenPoint.y - centerY) / camera.z + camera.y,
   };
 }
 
@@ -54,8 +54,8 @@ export function worldToScreen(
   const centerY = canvasHeight / 2;
 
   return {
-    x: (worldPoint.x - camera.x) * camera.scale + centerX,
-    y: (worldPoint.y - camera.y) * camera.scale + centerY,
+    x: (worldPoint.x - camera.x) * camera.z + centerX,
+    y: (worldPoint.y - camera.y) * camera.z + centerY,
   };
 }
 
@@ -67,8 +67,8 @@ export function getVisibleWorldBounds(
   canvasWidth: number,
   canvasHeight: number,
 ): { minX: number; maxX: number; minY: number; maxY: number } {
-  const halfWidth = canvasWidth / 2 / camera.scale;
-  const halfHeight = canvasHeight / 2 / camera.scale;
+  const halfWidth = canvasWidth / 2 / camera.z;
+  const halfHeight = canvasHeight / 2 / camera.z;
 
   return {
     minX: camera.x - halfWidth,

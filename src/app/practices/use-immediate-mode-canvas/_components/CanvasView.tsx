@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import useCanvas from '../_hooks/useCanvas';
+//import useCanvas from '../_hooks/useCanvas';
+import useInfiniteCanvas from '../_hooks/useInfiniteCanvas';
+import useCanvas from '../_hooks/useNewCanvas';
 //import { useInfiniteCanvas } from '../_hooks/useInfiniteCanvas';
 
 // https://infinitecanvas.cc/guide/what-is-an-infinite-canvas 아래 todo와 관련있는 부분만 우선 확인할 것
@@ -16,14 +18,20 @@ import useCanvas from '../_hooks/useCanvas';
 // figma style interface 패널 구현할 것
 export const CanvasView = () => {
   //const { canvasRef, onMouseDown } = useInfiniteCanvas();
-  const { canvasRef, onMousedown } = useCanvas();
+  // const { canvasRef, onMousedown } = useCanvas();
+  const { canvasRef } = useCanvas();
+
+  // const { canvasRef, camera, resetCamera, isPanning, isSpacePressed } = useInfiniteCanvas({
+  //   initialCamera: { x: 0, y: 0, scale: 1 },
+  //   onCameraChange: () => null,
+  // });
 
   return (
     <div className="relative w-full h-full overflow-hidden">
       <canvas
         tabIndex={0}
         ref={canvasRef}
-        onMouseDown={onMousedown}
+        // onMouseDown={onMousedown}
         className="block w-full h-full outline-0 cursor-default"
       />
     </div>
