@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   clamp,
-  getVisibleWorldBounds,
   isRectVisible,
   screenToWorld,
   worldToScreen,
