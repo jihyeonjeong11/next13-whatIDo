@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { clamp, screenToWorld, worldToScreen, type Point } from '../_utils/coordinates';
+import {
+  clamp,
+  getVisibleWorldBounds,
+  isRectVisible,
+  screenToWorld,
+  worldToScreen,
+  type Point,
+} from '../_utils/coordinates';
 
 //canvasref
 // render 펑션
@@ -55,6 +62,7 @@ const useCanvas = () => {
   const isPanningRef = useRef(false);
   const isSpacePressedRef = useRef(false);
   const lastMousePosRef = useRef<Point>({ x: 0, y: 0 });
+  const mouseWorldPosRef = useRef<Point>({ x: 0, y: 0 });
   const animationFrameRef = useRef<number | null>(null);
 
   /**
@@ -155,6 +163,13 @@ const useCanvas = () => {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
       };
+      mouseWorldPosRef.current = screenToWorld(
+        currentPos,
+        cameraRef.current,
+        canvas.clientWidth,
+        canvas.clientHeight,
+      );
+
       if (isSpacePressedRef.current && !isPanningRef.current) {
         canvas.style.cursor = 'grab';
       }
@@ -227,16 +242,83 @@ const useCanvas = () => {
   }, []);
 
   /**
+   * 그리드 라인
+   */
+  const drawGrid = useCallback(
+    (ctx: CanvasRenderingContext2D, currentCamera: CameraState, width: number, height: number) => {
+      const canvas = canvasRef.current;
+      if (!ctx || !canvas) return;
+
+      // 월드 좌표 시작점과 끝점.
+      const bounds = {
+        minX: currentCamera.x - width / 2 / currentCamera.z,
+        maxX: currentCamera.x + width / 2 / currentCamera.z,
+        minY: currentCamera.y - height / 2 / currentCamera.z,
+        maxY: currentCamera.y + height / 2 / currentCamera.z,
+      };
+      // 그리드 라인의 시작점.
+      const startX = Math.floor(bounds.minX / GRID_BASE_SIZE) * GRID_BASE_SIZE;
+      const startY = Math.floor(bounds.minY / GRID_BASE_SIZE) * GRID_BASE_SIZE;
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'yellow';
+      ctx.lineWidth = 1;
+
+      // Vertical lines
+      for (let x = startX; x <= bounds.maxX; x += GRID_BASE_SIZE) {
+        const screenX = (x - currentCamera.x) * currentCamera.z + width / 2;
+        ctx.moveTo(screenX, 0);
+        ctx.lineTo(screenX, height);
+      }
+
+      // Horizontal lines
+      for (let y = startY; y <= bounds.maxY; y += GRID_BASE_SIZE) {
+        const screenY = (y - currentCamera.y) * currentCamera.z + height / 2;
+        ctx.moveTo(0, screenY);
+        ctx.lineTo(width, screenY);
+      }
+      ctx.stroke();
+
+      // Draw origin crosshair
+      const originScreen = worldToScreen({ x: 0, y: 0 }, currentCamera, width, height);
+      if (
+        originScreen.x >= -10 &&
+        originScreen.x <= width + 10 &&
+        originScreen.y >= -10 &&
+        originScreen.y <= height + 10
+      ) {
+        ctx.strokeStyle = 'rgba(233, 69, 96, 0.6)'; // Accent color
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+
+        // Horizontal line
+        ctx.moveTo(originScreen.x - 20, originScreen.y);
+        ctx.lineTo(originScreen.x + 20, originScreen.y);
+
+        // Vertical line
+        ctx.moveTo(originScreen.x, originScreen.y - 20);
+        ctx.lineTo(originScreen.x, originScreen.y + 20);
+
+        ctx.stroke();
+      }
+    },
+
+    [],
+  );
+
+  /**
    * 좌표 표시용 디스플레이
    */
   const drawDebugInfo = useCallback((ctx: CanvasRenderingContext2D, currentCamera: CameraState) => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.font = '12px monospace';
 
+    const mouseWorld = mouseWorldPosRef.current;
     const info = [
       `Camera: (${currentCamera.x.toFixed(1)}, ${currentCamera.y.toFixed(1)})`,
       `Scale: ${(currentCamera.z * 100).toFixed(1)}%`,
       `Zoom: ${currentCamera.z.toFixed(3)}x`,
+      `World: (${mouseWorld.x.toFixed(1)}, ${mouseWorld.y.toFixed(1)})`,
     ];
 
     info.forEach((text, index) => {
@@ -259,6 +341,45 @@ const useCanvas = () => {
     }
   }, []);
 
+  const drawSquare = useCallback(
+    (
+      ctx: CanvasRenderingContext2D,
+      position: Point,
+      size: number,
+      currentCamera: CameraState,
+      width: number,
+      height: number,
+    ) => {
+      if (
+        !isRectVisible(
+          position.x - size / 2,
+          position.y - size / 2,
+          size,
+          size,
+          currentCamera,
+          width,
+          height,
+        )
+      )
+        return;
+
+      const screenPos = worldToScreen(position, currentCamera, width, height);
+      const screenSize = size * currentCamera.z;
+      const x = screenPos.x - screenSize / 2;
+      const y = screenPos.y - screenSize / 2;
+
+      ctx.fillStyle = 'rgba(100, 200, 255, 0.8)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.lineWidth = 2 * currentCamera.z;
+
+      ctx.beginPath();
+      ctx.rect(x, y, screenSize, screenSize);
+      ctx.fill();
+      ctx.stroke();
+    },
+    [],
+  );
+
   // 실제 캔버스 렌더러
   const render = useCallback(() => {
     const canvas = canvasRef.current;
@@ -267,31 +388,20 @@ const useCanvas = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const { width, height } = canvas;
-    const cssWidth = canvas.clientWidth;
-    const cssHeight = canvas.clientHeight;
+    const { clientWidth, clientHeight } = canvas;
 
     // Clear canvas with background color
     ctx.fillStyle = '#1a1a2e'; // --color-bg-primary
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0, 0, clientWidth, clientHeight);
+    drawGrid(ctx, camera, clientWidth, clientHeight);
 
-    // world space
-    const cam = cameraRef.current;
-    ctx.save();
-    const origin = worldToScreen({ x: 0, y: 0 }, cam, cssWidth, cssHeight);
-    ctx.translate(origin.x, origin.y);
-    ctx.scale(cam.z, cam.z);
-
-    ctx.fillStyle = 'tomato';
-    ctx.fillRect(-50, -50, 100, 100);
-
-    ctx.restore();
+    drawSquare(ctx, { x: 0, y: 0 }, GRID_BASE_SIZE * 4, camera, clientWidth, clientHeight);
 
     //debug info
-    drawDebugInfo(ctx, cam);
+    drawDebugInfo(ctx, camera);
 
     animationFrameRef.current = requestAnimationFrame(render);
-  }, [drawDebugInfo]);
+  }, [drawDebugInfo, camera, drawGrid, drawSquare]);
 
   //Event listeners
   useEffect(() => {
@@ -354,3 +464,10 @@ const useCanvas = () => {
 };
 
 export default useCanvas;
+function calculateGridSize(scale: any) {
+  throw new Error('Function not implemented.');
+}
+
+function calculateGridOpacity(scale: any, secondaryGridSize: number) {
+  throw new Error('Function not implemented.');
+}

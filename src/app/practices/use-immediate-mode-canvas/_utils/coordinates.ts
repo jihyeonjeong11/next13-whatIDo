@@ -1,9 +1,18 @@
 /**
  * Coordinate System Utilities for Infinite Canvas
  *
- * This module handles conversion between two coordinate systems:
- * - Screen Space: Pixel coordinates on the viewport (where 0,0 is top-left of canvas)
- * - World Space: Coordinates on the infinite plane (can be any value)
+ * 1. Client Space
+     - 브라우저/스크린/다큐먼트의 왼쪽 최상단 origin
+     - 이벤트 리스너를 통해 받아오는 위치값 `clientX, screenX` 등이 해당 됨
+  * 2. Screen Space
+      - Dom에 존재하는 Canvas의 왼쪽 최상단을 origin으로 하는 좌표.
+      - Client Space에서 `e.clientX - rect.left` 캔버스의 `getBoundingClientRect()`를 빼서 계산함.
+      - **컴퓨터  그래픽스 업계의 Screen과 동일한 개념! 이해 안되면 여기서 레퍼런스를 구해야 함**
+  * 3. World Space
+      - 카메라가 바라보는 무한한 평면 캔버스의 좌표
+      - 오브젝트의 위치는 이 좌표계 기준으로 저장되며 pan/zoom이 일어나도 변하지 않음
+      - pan/zoom 액션이 일어날 경우 Camera(x, y, z)가 변경되고 Screen Space와의 변환 시 새롭게 계산됨
+      - `z`값은 카메라의 높이 `zoom 레벨 (1 = 100%, 2 = 200%, 0.5 = 50%)`
  *
  * The camera state contains:
  * - x, y: The world coordinates at the center of the viewport
