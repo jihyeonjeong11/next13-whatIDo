@@ -464,10 +464,3 @@ const useCanvas = () => {
 };
 
 export default useCanvas;
-function calculateGridSize(scale: any) {
-  throw new Error('Function not implemented.');
-}
-
-function calculateGridOpacity(scale: any, secondaryGridSize: number) {
-  throw new Error('Function not implemented.');
-}
