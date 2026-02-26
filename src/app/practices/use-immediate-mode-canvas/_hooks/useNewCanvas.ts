@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { worldToScreen, type Point } from '../_utils/coordinates';
+import { clamp, screenToWorld, worldToScreen, type Point } from '../_utils/coordinates';
 
 //canvasref
 // render 펑션
@@ -21,6 +21,12 @@ export interface CameraState {
   y: number; // World Y position (center of viewport)
   z: number; // Zoom level
 }
+
+// Constants
+const MIN_SCALE = 0.05; // 5% minimum zoom
+const MAX_SCALE = 20; // 2000% maximum zoom
+const ZOOM_SENSITIVITY = 0.001;
+const GRID_BASE_SIZE = 50; // Base grid cell size in world units
 
 const useCanvas = () => {
   // Canvas reference
@@ -51,6 +57,52 @@ const useCanvas = () => {
   const lastMousePosRef = useRef<Point>({ x: 0, y: 0 });
   const animationFrameRef = useRef<number | null>(null);
 
+  /**
+   * 마우스 휠 리스너
+   */
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      // 브라우저 전역 좌표
+      const mouseX = e.clientX - rect.left; // 뷰포트 기준 마우스 x - 뷰포트 기준 canvas 시작점 = canvas 기준 마우스 x
+      const mouseY = e.clientY - rect.top;
+
+      // CSS 픽셀 기준으로 통일 (mouseX도 CSS 픽셀이므로)
+      const cssWidth = canvas.clientWidth;
+      const cssHeight = canvas.clientHeight;
+
+      // 로컬 좌표 -> 월드 변수
+      const worldBefore = screenToWorld(
+        { x: mouseX, y: mouseY },
+        cameraRef.current,
+        cssWidth,
+        cssHeight,
+      );
+
+      // 새 스케일 계산
+      const delta = -e.deltaY * ZOOM_SENSITIVITY;
+      const newScale = clamp(cameraRef.current.z * (1 + delta), MIN_SCALE, MAX_SCALE);
+
+      // 월드 카메라 좌표 새롭게 계산
+      const tempCamera = { ...cameraRef.current, z: newScale };
+      const worldAfter = screenToWorld({ x: mouseX, y: mouseY }, tempCamera, cssWidth, cssHeight);
+
+      // 마지막 월드 카메라 좌표
+      const newCamera: CameraState = {
+        x: cameraRef.current.x + (worldBefore.x - worldAfter.x),
+        y: cameraRef.current.y + (worldBefore.y - worldAfter.y),
+        z: newScale,
+      };
+
+      setCamera(newCamera);
+    },
+    [setCamera],
+  );
   /**
    * 캔버스 실제 화면 리사이저
    */
@@ -97,33 +149,28 @@ const useCanvas = () => {
     (e: MouseEvent) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-
       const rect = canvas.getBoundingClientRect();
       const currentPos = {
-        x: e.clientX - rect.left, // 뷰포트 기준 마우스 x - 뷰포트 기준 canvas 시작점 = canvas 기준 마우스 x
+        // 클라이언트 좌표 - 캔버스 좌표 = 월드 좌표
+        x: e.clientX - rect.left,
         y: e.clientY - rect.top,
       };
-
-      // Space가 눌린 상태에서만 Hand mode
       if (isSpacePressedRef.current && !isPanningRef.current) {
         canvas.style.cursor = 'grab';
       }
-
       if (isPanningRef.current) {
-        const deltaX = currentPos.x - lastMousePosRef.current.x; // 현재 좌표 - 이전 마우스 위치(이벤트로 기록하는) = 유저가 pan 한 거리
+        const deltaX = currentPos.x - lastMousePosRef.current.x; // 현재 캔버스 좌표 - 이전 캔버스 좌표 = 유저가 월드 좌표에서 이동한 거리 값
         const deltaY = currentPos.y - lastMousePosRef.current.y;
-
         const cam = cameraRef.current;
         setCamera({
           ...cam,
-          x: cam.x - deltaX / cam.z, // 현재 위치 - 픽셀 거리(실제 카메라의 이동과는 반대로 이동한것이므로 - 연산) / 줌 레벨
+          x: cam.x - deltaX / cam.z, // 뷰포트 좌표 - 월드 거리 값 / 카메라의 z 레벨
           y: cam.y - deltaY / cam.z,
         });
-
         lastMousePosRef.current = currentPos;
       }
     },
-    // 브라우저 전역 좌표(clientX) -> 캔버스 로컬 좌표(x, deltaX) -> 캔버스 월드 좌표(setCamera)로 바뀌는 것에 주목
+    // 스크린 좌표(clientX) -> 월드 좌표(x, deltaX) -> 뷰포트 좌표(setCamera)로 바뀌는 것에 주목
     [setCamera],
   );
 
@@ -257,6 +304,8 @@ const useCanvas = () => {
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('mouseleave', handleMouseUp);
 
+    canvas.addEventListener('wheel', handleWheel, { passive: false });
+
     // Keyboard events need to be on window
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
@@ -274,10 +323,21 @@ const useCanvas = () => {
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('mouseleave', handleMouseUp);
 
+      canvas.removeEventListener('wheel', handleWheel);
+
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      resizeObserver.disconnect();
     };
-  }, [handleResize, handleKeyDown, handleMouseDown, handleMouseMove, handleMouseUp, handleKeyUp]);
+  }, [
+    handleResize,
+    handleKeyDown,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleKeyUp,
+    handleWheel,
+  ]);
 
   // Start render loop
   useEffect(() => {
