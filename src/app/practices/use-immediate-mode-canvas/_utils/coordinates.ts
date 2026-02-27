@@ -14,8 +14,8 @@
       - pan/zoom 액션이 일어날 경우 Camera(x, y, z)가 변경되고 Screen Space와의 변환 시 새롭게 계산됨
       - `z`값은 카메라의 높이 `zoom 레벨 (1 = 100%, 2 = 200%, 0.5 = 50%)`
  *
- * The camera state contains:
- * - x, y: The world coordinates at the center of the viewport
+ * 카메라 스테이트:
+ * - x, y: 월드 스페이스를 바라보는 카메라의 중앙점(center of gravity)
  * - scale: Zoom level (1 = 100%, 2 = 200%, 0.5 = 50%)
  */
 

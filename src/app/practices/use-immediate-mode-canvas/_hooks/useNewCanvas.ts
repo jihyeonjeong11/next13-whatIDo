@@ -248,14 +248,15 @@ const useCanvas = () => {
       const canvas = canvasRef.current;
       if (!ctx || !canvas) return;
 
-      // 월드 좌표 시작점과 끝점.
+      // 중앙점 camera로부터 월드의 시작점과 끝점을 구함.
       const bounds = {
+        // 카메라 x(중앙점) - (스케일 없는 캔버스 width / 2 = 왼쪽 혹은 오른쪽 너비) / 줌 레벨
         minX: currentCamera.x - width / 2 / currentCamera.z,
         maxX: currentCamera.x + width / 2 / currentCamera.z,
         minY: currentCamera.y - height / 2 / currentCamera.z,
         maxY: currentCamera.y + height / 2 / currentCamera.z,
       };
-      // 그리드 라인의 시작점.
+      // 그리드가 월드 절대 좌표에 고정되도록 시작점 정렬 (Snapping) - unity 예시? 필요하면 참조할것!
       const startX = Math.floor(bounds.minX / GRID_BASE_SIZE) * GRID_BASE_SIZE;
       const startY = Math.floor(bounds.minY / GRID_BASE_SIZE) * GRID_BASE_SIZE;
 
@@ -263,43 +264,21 @@ const useCanvas = () => {
       ctx.strokeStyle = 'yellow';
       ctx.lineWidth = 1;
 
-      // Vertical lines
+      // 세로선
       for (let x = startX; x <= bounds.maxX; x += GRID_BASE_SIZE) {
+        // (시작점 - 카메라 좌표 = 캔버스 상의 거리) * 카메라 줌 레벨+ (css 너비 / 2) = 맨 처음 뺐던 카메라 시야 값을 다시 더해줌
         const screenX = (x - currentCamera.x) * currentCamera.z + width / 2;
         ctx.moveTo(screenX, 0);
         ctx.lineTo(screenX, height);
       }
 
-      // Horizontal lines
+      // 가로선
       for (let y = startY; y <= bounds.maxY; y += GRID_BASE_SIZE) {
         const screenY = (y - currentCamera.y) * currentCamera.z + height / 2;
         ctx.moveTo(0, screenY);
         ctx.lineTo(width, screenY);
       }
       ctx.stroke();
-
-      // Draw origin crosshair
-      const originScreen = worldToScreen({ x: 0, y: 0 }, currentCamera, width, height);
-      if (
-        originScreen.x >= -10 &&
-        originScreen.x <= width + 10 &&
-        originScreen.y >= -10 &&
-        originScreen.y <= height + 10
-      ) {
-        ctx.strokeStyle = 'rgba(233, 69, 96, 0.6)'; // Accent color
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-
-        // Horizontal line
-        ctx.moveTo(originScreen.x - 20, originScreen.y);
-        ctx.lineTo(originScreen.x + 20, originScreen.y);
-
-        // Vertical line
-        ctx.moveTo(originScreen.x, originScreen.y - 20);
-        ctx.lineTo(originScreen.x, originScreen.y + 20);
-
-        ctx.stroke();
-      }
     },
 
     [],
@@ -389,7 +368,7 @@ const useCanvas = () => {
 
     const { clientWidth, clientHeight } = canvas;
 
-    // Clear canvas with background color
+    // 리렌더를 위한 전체 클리어
     ctx.fillStyle = '#1a1a2e'; // --color-bg-primary
     ctx.fillRect(0, 0, clientWidth, clientHeight);
     drawGrid(ctx, camera, clientWidth, clientHeight);
