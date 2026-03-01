@@ -53,7 +53,17 @@
 - [] 지금까지 한거 다듬기 2차
 
 - [x] 다크 테마 확인하기
+
+### Roadmap-canvas 로드맵 - claude-generated
+
 - [] useCanvas 메인 컴포넌트 - 로드맵
+  - [x] HTML5 Canvas 인프라 (zoom, pan, grid, debug HUD)
+  - [x] fumadocs meta.json 생성
+  - [x] 로드맵 노드/엣지 데이터 설계 (RoadmapNode, RoadmapEdge 타입 + Nodes.json 전체 작성)
+  - [x] drawNode() — 라운드 박스, status별 색상 (done/in-progress/todo)
+  - [x] drawEdge() — 노드 간 연결선
+  - [x] 인터랙션: hover 하이라이트, click → docs 이동
+  - [x] CanvasSection 캔버스 높이 및 레이아웃 확정
 
 
 ### V2

@@ -1,37 +1,324 @@
 {
-  "width": 240,
-  "height": 49,
-  "id": "VlNNwIEDWqQXtqkHWJYzC",
-  "type": "topic",
-  "position": {
-    "x": -236.95655064838832,
-    "y": 68.27030742190215
-  },
-  "selected": false,
-  "data": {
-    "label": "Internet",
-    "style": {
-      "fontSize": 17,
-      "justifyContent": "flex-start",
-      "textAlign": "center"
+  "nodes": [
+    {
+      "id": "root",
+      "label": "개발 배움 로드맵",
+      "x": 0,
+      "y": -100,
+      "width": 200,
+      "height": 54,
+      "type": "root",
+      "status": "done"
     },
-    "oldId": "_hYN0gEi9BL24nptEtXWU"
-  },
-  "zIndex": 999,
-  "style": {
-    "width": 156,
-    "height": 49
-  },
-  "resizing": false,
-  "positionAbsolute": {
-    "x": -229.5,
-    "y": 68.27030742190215
-  },
-  "dragging": false,
-  "focusable": true,
-  "measured": {
-    "width": 240,
-    "height": 49
-  },
-  "selectable": true
+
+    {
+      "id": "cat-internet",
+      "label": "Internet",
+      "x": -770,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "todo"
+    },
+    {
+      "id": "cat-html-canvas",
+      "label": "HTML Canvas",
+      "x": -550,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "done"
+    },
+    {
+      "id": "cat-nextjs",
+      "label": "Next.js",
+      "x": -330,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "done"
+    },
+    {
+      "id": "cat-react",
+      "label": "React",
+      "x": -110,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "done"
+    },
+    {
+      "id": "cat-data-structure",
+      "label": "Data Structure",
+      "x": 110,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "done"
+    },
+    {
+      "id": "cat-ai",
+      "label": "AI",
+      "x": 330,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "in-progress"
+    },
+    {
+      "id": "cat-project-structure",
+      "label": "Project Structure",
+      "x": 550,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "done"
+    },
+    {
+      "id": "cat-projects",
+      "label": "Projects",
+      "x": 770,
+      "y": 100,
+      "width": 160,
+      "height": 44,
+      "type": "category",
+      "status": "in-progress"
+    },
+
+    {
+      "id": "topic-imgui",
+      "label": "IMGUI vs RMGUI",
+      "x": -550,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/html-canvas/IMGUI-vs-RMGUI"
+    },
+    {
+      "id": "topic-infinite-canvas",
+      "label": "Infinite Canvas",
+      "x": -550,
+      "y": 380,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/html-canvas/Infinite-canvas-implementation"
+    },
+
+    {
+      "id": "topic-next-sass",
+      "label": "Legacy Sass",
+      "x": -330,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/nextjs/next-legacy-sass"
+    },
+    {
+      "id": "topic-next-scroll",
+      "label": "Scroll Restoration",
+      "x": -330,
+      "y": 380,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/nextjs/next-scroll-restoration"
+    },
+    {
+      "id": "topic-next-sitemap",
+      "label": "Sitemap",
+      "x": -330,
+      "y": 480,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/nextjs/next-sitemap"
+    },
+    {
+      "id": "topic-next-tab",
+      "label": "Tab Navigation",
+      "x": -330,
+      "y": 580,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/nextjs/next-tab-navigation"
+    },
+
+    {
+      "id": "topic-tanstack",
+      "label": "Tanstack Query",
+      "x": -110,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/react/tanstack-query-post"
+    },
+    {
+      "id": "topic-worker",
+      "label": "Web Worker Clock",
+      "x": -110,
+      "y": 380,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/react/web-worker-clock"
+    },
+
+    {
+      "id": "topic-graph",
+      "label": "Graph",
+      "x": 110,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/data-structure/graph"
+    },
+
+    {
+      "id": "topic-agentic",
+      "label": "Agentic vs Vibe",
+      "x": 330,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/ai/agentic-coding-vs-vibe-coding"
+    },
+
+    {
+      "id": "topic-architecture",
+      "label": "Architecture",
+      "x": 550,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/robust-project-structure/architecture"
+    },
+    {
+      "id": "topic-biome",
+      "label": "Biome",
+      "x": 550,
+      "y": 380,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/robust-project-structure/biome"
+    },
+    {
+      "id": "topic-docker",
+      "label": "Docker",
+      "x": 550,
+      "y": 480,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/robust-project-structure/docker"
+    },
+    {
+      "id": "topic-fumadocs",
+      "label": "Fumadocs",
+      "x": 550,
+      "y": 580,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/robust-project-structure/fumadocs"
+    },
+    {
+      "id": "topic-git-rebase",
+      "label": "Git Rebase",
+      "x": 550,
+      "y": 680,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/robust-project-structure/git-rabase-vs-git-pull"
+    },
+    {
+      "id": "topic-pnpm",
+      "label": "pnpm is Slow?",
+      "x": 550,
+      "y": 780,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/robust-project-structure/pnpm-is-slow"
+    },
+
+    {
+      "id": "topic-next-retro",
+      "label": "Next Retrospective",
+      "x": 770,
+      "y": 280,
+      "width": 160,
+      "height": 44,
+      "type": "topic",
+      "status": "done",
+      "href": "/docs/projects/next-retrospective"
+    }
+  ],
+
+  "edges": [
+    { "id": "e-root-internet",          "from": "root", "to": "cat-internet" },
+    { "id": "e-root-html-canvas",       "from": "root", "to": "cat-html-canvas" },
+    { "id": "e-root-nextjs",            "from": "root", "to": "cat-nextjs" },
+    { "id": "e-root-react",             "from": "root", "to": "cat-react" },
+    { "id": "e-root-data-structure",    "from": "root", "to": "cat-data-structure" },
+    { "id": "e-root-ai",                "from": "root", "to": "cat-ai" },
+    { "id": "e-root-project-structure", "from": "root", "to": "cat-project-structure" },
+    { "id": "e-root-projects",          "from": "root", "to": "cat-projects" },
+
+    { "id": "e-html-canvas-imgui",    "from": "cat-html-canvas", "to": "topic-imgui" },
+    { "id": "e-html-canvas-infinite", "from": "cat-html-canvas", "to": "topic-infinite-canvas" },
+
+    { "id": "e-nextjs-sass",    "from": "cat-nextjs", "to": "topic-next-sass" },
+    { "id": "e-nextjs-scroll",  "from": "cat-nextjs", "to": "topic-next-scroll" },
+    { "id": "e-nextjs-sitemap", "from": "cat-nextjs", "to": "topic-next-sitemap" },
+    { "id": "e-nextjs-tab",     "from": "cat-nextjs", "to": "topic-next-tab" },
+
+    { "id": "e-react-tanstack", "from": "cat-react", "to": "topic-tanstack" },
+    { "id": "e-react-worker",   "from": "cat-react", "to": "topic-worker" },
+
+    { "id": "e-ds-graph", "from": "cat-data-structure", "to": "topic-graph" },
+
+    { "id": "e-ai-agentic", "from": "cat-ai", "to": "topic-agentic" },
+
+    { "id": "e-ps-architecture", "from": "cat-project-structure", "to": "topic-architecture" },
+    { "id": "e-ps-biome",        "from": "cat-project-structure", "to": "topic-biome" },
+    { "id": "e-ps-docker",       "from": "cat-project-structure", "to": "topic-docker" },
+    { "id": "e-ps-fumadocs",     "from": "cat-project-structure", "to": "topic-fumadocs" },
+    { "id": "e-ps-git-rebase",   "from": "cat-project-structure", "to": "topic-git-rebase" },
+    { "id": "e-ps-pnpm",         "from": "cat-project-structure", "to": "topic-pnpm" },
+
+    { "id": "e-projects-retro", "from": "cat-projects", "to": "topic-next-retro" }
+  ]
 }

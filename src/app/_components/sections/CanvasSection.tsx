@@ -5,15 +5,17 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { CanvasView } from '../lazy';
 
-const BlogGraphSection = async () => {
+const CanvasSection = () => {
   return (
-    <Container id="graph">
-      <Typography variant="h2">Graph</Typography>
-      <Suspense fallback={<Skeleton count={1} height={500} />}>
-        <CanvasView />
+    <Container id="roadmap">
+      <Typography variant="h2">Roadmap</Typography>
+      <Suspense fallback={<Skeleton count={1} height={600} />}>
+        <div className="h-[600px] w-full">
+          <CanvasView />
+        </div>
       </Suspense>
     </Container>
   );
 };
 
-export default BlogGraphSection;
+export default CanvasSection;

@@ -1,9 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   clamp,
   screenToWorld,
   type Point,
 } from '@/app/practices/use-immediate-mode-canvas/_utils/coordinates';
+import type { RoadmapData, RoadmapEdge, RoadmapNode } from '../types';
+import rawData from '../Nodes.json';
+
+const roadmapData = rawData as RoadmapData;
+
+// node lookup: id → node (built once at module level)
+const nodeMap = new Map<string, RoadmapNode>(
+  roadmapData.nodes.map((n) => [n.id, n]),
+);
 
 export interface CameraState {
   x: number;
@@ -26,9 +36,128 @@ const getGridStep = (zoom: number) => {
   return step * magnitude;
 };
 
+// ── Node colors ────────────────────────────────────────────────────────────
+const STATUS_COLORS = {
+  done: { fill: 'rgba(21, 128, 61, 0.25)', stroke: '#16a34a', text: '#86efac' },
+  'in-progress': { fill: 'rgba(161, 98, 7, 0.25)', stroke: '#ca8a04', text: '#fde68a' },
+  todo: { fill: 'rgba(55, 65, 81, 0.25)', stroke: '#4b5563', text: '#9ca3af' },
+} as const;
+
+const ROOT_COLORS = { fill: 'rgba(29, 78, 216, 0.3)', stroke: '#3b82f6', text: '#ffffff' };
+const CAT_COLORS = { fill: 'rgba(30, 41, 59, 0.6)', stroke: '#64748b', text: '#e2e8f0' };
+
+// ── Hit detection ──────────────────────────────────────────────────────────
+function hitTest(node: RoadmapNode, worldX: number, worldY: number): boolean {
+  return (
+    worldX >= node.x - node.width / 2 &&
+    worldX <= node.x + node.width / 2 &&
+    worldY >= node.y - node.height / 2 &&
+    worldY <= node.y + node.height / 2
+  );
+}
+
+function findHoveredNode(worldX: number, worldY: number): RoadmapNode | null {
+  // Reverse so top-drawn nodes get hit priority
+  for (let i = roadmapData.nodes.length - 1; i >= 0; i--) {
+    if (hitTest(roadmapData.nodes[i], worldX, worldY)) return roadmapData.nodes[i];
+  }
+  return null;
+}
+
+// ── Pure draw functions (no hook deps) ────────────────────────────────────
+function drawEdge(
+  ctx: CanvasRenderingContext2D,
+  edge: RoadmapEdge,
+  cam: CameraState,
+  w: number,
+  h: number,
+) {
+  const from = nodeMap.get(edge.from);
+  const to = nodeMap.get(edge.to);
+  if (!from || !to) return;
+
+  // world: bottom-center of source → top-center of target
+  const fx = from.x;
+  const fy = from.y + from.height / 2;
+  const tx = to.x;
+  const ty = to.y - to.height / 2;
+
+  // world → screen
+  const sfx = (fx - cam.x) * cam.z + w / 2;
+  const sfy = (fy - cam.y) * cam.z + h / 2;
+  const stx = (tx - cam.x) * cam.z + w / 2;
+  const sty = (ty - cam.y) * cam.z + h / 2;
+
+  const midY = (sfy + sty) / 2;
+
+  ctx.beginPath();
+  ctx.moveTo(sfx, sfy);
+  ctx.bezierCurveTo(sfx, midY, stx, midY, stx, sty);
+  ctx.strokeStyle = 'rgba(100, 116, 139, 0.4)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+function drawNode(
+  ctx: CanvasRenderingContext2D,
+  node: RoadmapNode,
+  cam: CameraState,
+  w: number,
+  h: number,
+  isHovered: boolean,
+) {
+  const sx = (node.x - cam.x) * cam.z + w / 2;
+  const sy = (node.y - cam.y) * cam.z + h / 2;
+  const sw = node.width * cam.z;
+  const sh = node.height * cam.z;
+  const radius = 8 * cam.z;
+  const left = sx - sw / 2;
+  const top = sy - sh / 2;
+
+  const colors =
+    node.type === 'root'
+      ? ROOT_COLORS
+      : node.type === 'category'
+        ? CAT_COLORS
+        : STATUS_COLORS[node.status];
+
+  // Hover outer glow
+  if (isHovered) {
+    ctx.beginPath();
+    ctx.roundRect(left - 3, top - 3, sw + 6, sh + 6, radius + 3);
+    ctx.strokeStyle = `${colors.stroke}55`;
+    ctx.lineWidth = 4;
+    ctx.stroke();
+  }
+
+  // Fill
+  ctx.beginPath();
+  ctx.roundRect(left, top, sw, sh, radius);
+  ctx.fillStyle = isHovered ? colors.stroke + '33' : colors.fill;
+  ctx.fill();
+
+  // Stroke
+  ctx.beginPath();
+  ctx.roundRect(left, top, sw, sh, radius);
+  ctx.strokeStyle = colors.stroke;
+  ctx.lineWidth = isHovered ? 2.5 : node.type === 'root' ? 2 : 1.5;
+  ctx.stroke();
+
+  // Label
+  const fontSize =
+    node.type === 'root' ? 14 * cam.z : node.type === 'category' ? 13 * cam.z : 12 * cam.z;
+  const weight = node.type === 'root' ? '600 ' : node.type === 'category' ? '500 ' : '';
+  ctx.font = `${weight}${fontSize}px sans-serif`;
+  ctx.fillStyle = colors.text;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(node.label, sx, sy);
+}
+
 const useCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [camera, setCameraState] = useState<CameraState>(INITIAL_CAMERA);
+  const router = useRouter();
 
   const cameraRef = useRef(camera);
   cameraRef.current = camera;
@@ -38,6 +167,7 @@ const useCanvas = () => {
   const lastMousePosRef = useRef<Point>({ x: 0, y: 0 });
   const mouseWorldPosRef = useRef<Point>({ x: 0, y: 0 });
   const animationFrameRef = useRef<number | null>(null);
+  const hoveredNodeIdRef = useRef<string | null>(null);
 
   const setCamera = useCallback((next: CameraState) => {
     setCameraState(next);
@@ -94,18 +224,30 @@ const useCanvas = () => {
     if (ctx) ctx.scale(dpr, dpr);
   }, []);
 
-  // ── Pan ────────────────────────────────────────────────────────────────
-  const handleMouseDown = useCallback((e: MouseEvent) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    if (isSpacePressedRef.current || e.button === 1) {
-      e.preventDefault();
-      isPanningRef.current = true;
-      const rect = canvas.getBoundingClientRect();
-      lastMousePosRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-      canvas.style.cursor = 'grabbing';
-    }
-  }, []);
+  // ── Pan + Click ────────────────────────────────────────────────────────
+  const handleMouseDown = useCallback(
+    (e: MouseEvent) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      if (isSpacePressedRef.current || e.button === 1) {
+        e.preventDefault();
+        isPanningRef.current = true;
+        const rect = canvas.getBoundingClientRect();
+        lastMousePosRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        canvas.style.cursor = 'grabbing';
+        return;
+      }
+
+      // Left click on a node with href → navigate
+      if (e.button === 0) {
+        const world = mouseWorldPosRef.current;
+        const node = findHoveredNode(world.x, world.y);
+        if (node?.href) router.push(node.href);
+      }
+    },
+    [router],
+  );
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -121,8 +263,17 @@ const useCanvas = () => {
         canvas.clientHeight,
       );
 
-      if (isSpacePressedRef.current && !isPanningRef.current) {
-        canvas.style.cursor = 'grab';
+      // Update hover
+      const hovered = findHoveredNode(mouseWorldPosRef.current.x, mouseWorldPosRef.current.y);
+      hoveredNodeIdRef.current = hovered?.id ?? null;
+
+      // Update cursor
+      if (!isPanningRef.current) {
+        if (isSpacePressedRef.current) {
+          canvas.style.cursor = 'grab';
+        } else {
+          canvas.style.cursor = hovered?.href ? 'pointer' : 'default';
+        }
       }
 
       if (isPanningRef.current) {
@@ -139,7 +290,13 @@ const useCanvas = () => {
   const handleMouseUp = useCallback(() => {
     const canvas = canvasRef.current;
     isPanningRef.current = false;
-    if (canvas) canvas.style.cursor = isSpacePressedRef.current ? 'grab' : 'default';
+    if (!canvas) return;
+    const hovered = findHoveredNode(mouseWorldPosRef.current.x, mouseWorldPosRef.current.y);
+    canvas.style.cursor = isSpacePressedRef.current
+      ? 'grab'
+      : hovered?.href
+        ? 'pointer'
+        : 'default';
   }, []);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -155,7 +312,9 @@ const useCanvas = () => {
     if (e.code === 'Space') {
       isSpacePressedRef.current = false;
       const canvas = canvasRef.current;
-      if (canvas && !isPanningRef.current) canvas.style.cursor = 'default';
+      if (!canvas) return;
+      const hovered = findHoveredNode(mouseWorldPosRef.current.x, mouseWorldPosRef.current.y);
+      canvas.style.cursor = hovered?.href ? 'pointer' : 'default';
     }
   }, []);
 
@@ -209,6 +368,27 @@ const useCanvas = () => {
     [],
   );
 
+  // ── Draw: edges ────────────────────────────────────────────────────────
+  const drawEdges = useCallback(
+    (ctx: CanvasRenderingContext2D, cam: CameraState, w: number, h: number) => {
+      for (const edge of roadmapData.edges) {
+        drawEdge(ctx, edge, cam, w, h);
+      }
+    },
+    [],
+  );
+
+  // ── Draw: nodes ────────────────────────────────────────────────────────
+  const drawNodes = useCallback(
+    (ctx: CanvasRenderingContext2D, cam: CameraState, w: number, h: number) => {
+      const hoveredId = hoveredNodeIdRef.current;
+      for (const node of roadmapData.nodes) {
+        drawNode(ctx, node, cam, w, h, node.id === hoveredId);
+      }
+    },
+    [],
+  );
+
   // ── Draw: debug HUD ────────────────────────────────────────────────────
   const drawDebugInfo = useCallback((ctx: CanvasRenderingContext2D, cam: CameraState) => {
     ctx.font = '11px monospace';
@@ -235,10 +415,12 @@ const useCanvas = () => {
     ctx.fillRect(0, 0, w, h);
 
     drawGrid(ctx, camera, w, h);
+    drawEdges(ctx, camera, w, h);
+    drawNodes(ctx, camera, w, h);
     drawDebugInfo(ctx, camera);
 
     animationFrameRef.current = requestAnimationFrame(render);
-  }, [camera, drawGrid, drawDebugInfo]);
+  }, [camera, drawGrid, drawEdges, drawNodes, drawDebugInfo]);
 
   // ── Event listener registration ────────────────────────────────────────
   useEffect(() => {
