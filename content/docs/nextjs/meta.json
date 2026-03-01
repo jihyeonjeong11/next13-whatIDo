@@ -1,0 +1,10 @@
+{
+  "title": "Next.js",
+  "icon": "Globe",
+  "pages": [
+    "next-legacy-sass",
+    "next-scroll-restoration",
+    "next-sitemap",
+    "next-tab-navigation"
+  ]
+}

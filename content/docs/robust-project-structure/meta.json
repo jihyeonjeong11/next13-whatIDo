@@ -1,0 +1,12 @@
+{
+  "title": "Robust Project Structure",
+  "icon": "Building2",
+  "pages": [
+    "architecture",
+    "biome",
+    "docker",
+    "fumadocs",
+    "git-rabase-vs-git-pull",
+    "pnpm-is-slow"
+  ]
+}

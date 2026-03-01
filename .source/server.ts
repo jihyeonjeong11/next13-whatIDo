@@ -1,22 +1,30 @@
 // @ts-nocheck
-import * as __fd_glob_17 from "../content/docs/robust-project-structure/pnpm-is-slow.mdx?collection=docs"
-import * as __fd_glob_16 from "../content/docs/robust-project-structure/git-rabase-vs-git-pull.mdx?collection=docs"
-import * as __fd_glob_15 from "../content/docs/robust-project-structure/fumadocs.mdx?collection=docs"
-import * as __fd_glob_14 from "../content/docs/robust-project-structure/docker.mdx?collection=docs"
-import * as __fd_glob_13 from "../content/docs/robust-project-structure/biome.mdx?collection=docs"
-import * as __fd_glob_12 from "../content/docs/robust-project-structure/architecture.mdx?collection=docs"
-import * as __fd_glob_11 from "../content/docs/react/web-worker-clock.mdx?collection=docs"
-import * as __fd_glob_10 from "../content/docs/react/tanstack-query-post.mdx?collection=docs"
-import * as __fd_glob_9 from "../content/docs/projects/next-retrospective.mdx?collection=docs"
-import * as __fd_glob_8 from "../content/docs/nextjs/next-tab-navigation.mdx?collection=docs"
-import * as __fd_glob_7 from "../content/docs/nextjs/next-sitemap.mdx?collection=docs"
-import * as __fd_glob_6 from "../content/docs/nextjs/next-scroll-restoration.mdx?collection=docs"
-import * as __fd_glob_5 from "../content/docs/nextjs/next-legacy-sass.mdx?collection=docs"
-import * as __fd_glob_4 from "../content/docs/html-canvas/Infinite-canvas-implementation.mdx?collection=docs"
-import * as __fd_glob_3 from "../content/docs/html-canvas/IMGUI-vs-RMGUI.mdx?collection=docs"
-import * as __fd_glob_2 from "../content/docs/data-structure/graph.mdx?collection=docs"
-import * as __fd_glob_1 from "../content/docs/ai/agentic-coding-vs-vibe-coding.mdx?collection=docs"
-import * as __fd_glob_0 from "../content/docs/index.mdx?collection=docs"
+import * as __fd_glob_25 from "../content/docs/robust-project-structure/pnpm-is-slow.mdx?collection=docs"
+import * as __fd_glob_24 from "../content/docs/robust-project-structure/git-rabase-vs-git-pull.mdx?collection=docs"
+import * as __fd_glob_23 from "../content/docs/robust-project-structure/fumadocs.mdx?collection=docs"
+import * as __fd_glob_22 from "../content/docs/robust-project-structure/docker.mdx?collection=docs"
+import * as __fd_glob_21 from "../content/docs/robust-project-structure/biome.mdx?collection=docs"
+import * as __fd_glob_20 from "../content/docs/robust-project-structure/architecture.mdx?collection=docs"
+import * as __fd_glob_19 from "../content/docs/react/web-worker-clock.mdx?collection=docs"
+import * as __fd_glob_18 from "../content/docs/react/tanstack-query-post.mdx?collection=docs"
+import * as __fd_glob_17 from "../content/docs/projects/next-retrospective.mdx?collection=docs"
+import * as __fd_glob_16 from "../content/docs/html-canvas/Infinite-canvas-implementation.mdx?collection=docs"
+import * as __fd_glob_15 from "../content/docs/html-canvas/IMGUI-vs-RMGUI.mdx?collection=docs"
+import * as __fd_glob_14 from "../content/docs/nextjs/next-tab-navigation.mdx?collection=docs"
+import * as __fd_glob_13 from "../content/docs/nextjs/next-sitemap.mdx?collection=docs"
+import * as __fd_glob_12 from "../content/docs/nextjs/next-scroll-restoration.mdx?collection=docs"
+import * as __fd_glob_11 from "../content/docs/nextjs/next-legacy-sass.mdx?collection=docs"
+import * as __fd_glob_10 from "../content/docs/data-structure/graph.mdx?collection=docs"
+import * as __fd_glob_9 from "../content/docs/ai/agentic-coding-vs-vibe-coding.mdx?collection=docs"
+import * as __fd_glob_8 from "../content/docs/index.mdx?collection=docs"
+import { default as __fd_glob_7 } from "../content/docs/robust-project-structure/meta.json?collection=docs"
+import { default as __fd_glob_6 } from "../content/docs/react/meta.json?collection=docs"
+import { default as __fd_glob_5 } from "../content/docs/projects/meta.json?collection=docs"
+import { default as __fd_glob_4 } from "../content/docs/html-canvas/meta.json?collection=docs"
+import { default as __fd_glob_3 } from "../content/docs/nextjs/meta.json?collection=docs"
+import { default as __fd_glob_2 } from "../content/docs/data-structure/meta.json?collection=docs"
+import { default as __fd_glob_1 } from "../content/docs/ai/meta.json?collection=docs"
+import { default as __fd_glob_0 } from "../content/docs/meta.json?collection=docs"
 import { server } from 'fumadocs-mdx/runtime/server';
 import type * as Config from '../source.config';
 
@@ -31,4 +39,4 @@ const create = server<typeof Config, import("fumadocs-mdx/runtime/types").Intern
   }
 }>({"doc":{"passthroughs":["extractedReferences"]}});
 
-export const docs = await create.docs("docs", "content/docs", {}, {"index.mdx": __fd_glob_0, "ai/agentic-coding-vs-vibe-coding.mdx": __fd_glob_1, "data-structure/graph.mdx": __fd_glob_2, "html-canvas/IMGUI-vs-RMGUI.mdx": __fd_glob_3, "html-canvas/Infinite-canvas-implementation.mdx": __fd_glob_4, "nextjs/next-legacy-sass.mdx": __fd_glob_5, "nextjs/next-scroll-restoration.mdx": __fd_glob_6, "nextjs/next-sitemap.mdx": __fd_glob_7, "nextjs/next-tab-navigation.mdx": __fd_glob_8, "projects/next-retrospective.mdx": __fd_glob_9, "react/tanstack-query-post.mdx": __fd_glob_10, "react/web-worker-clock.mdx": __fd_glob_11, "robust-project-structure/architecture.mdx": __fd_glob_12, "robust-project-structure/biome.mdx": __fd_glob_13, "robust-project-structure/docker.mdx": __fd_glob_14, "robust-project-structure/fumadocs.mdx": __fd_glob_15, "robust-project-structure/git-rabase-vs-git-pull.mdx": __fd_glob_16, "robust-project-structure/pnpm-is-slow.mdx": __fd_glob_17, });
+export const docs = await create.docs("docs", "content/docs", {"meta.json": __fd_glob_0, "ai/meta.json": __fd_glob_1, "data-structure/meta.json": __fd_glob_2, "nextjs/meta.json": __fd_glob_3, "html-canvas/meta.json": __fd_glob_4, "projects/meta.json": __fd_glob_5, "react/meta.json": __fd_glob_6, "robust-project-structure/meta.json": __fd_glob_7, }, {"index.mdx": __fd_glob_8, "ai/agentic-coding-vs-vibe-coding.mdx": __fd_glob_9, "data-structure/graph.mdx": __fd_glob_10, "nextjs/next-legacy-sass.mdx": __fd_glob_11, "nextjs/next-scroll-restoration.mdx": __fd_glob_12, "nextjs/next-sitemap.mdx": __fd_glob_13, "nextjs/next-tab-navigation.mdx": __fd_glob_14, "html-canvas/IMGUI-vs-RMGUI.mdx": __fd_glob_15, "html-canvas/Infinite-canvas-implementation.mdx": __fd_glob_16, "projects/next-retrospective.mdx": __fd_glob_17, "react/tanstack-query-post.mdx": __fd_glob_18, "react/web-worker-clock.mdx": __fd_glob_19, "robust-project-structure/architecture.mdx": __fd_glob_20, "robust-project-structure/biome.mdx": __fd_glob_21, "robust-project-structure/docker.mdx": __fd_glob_22, "robust-project-structure/fumadocs.mdx": __fd_glob_23, "robust-project-structure/git-rabase-vs-git-pull.mdx": __fd_glob_24, "robust-project-structure/pnpm-is-slow.mdx": __fd_glob_25, });

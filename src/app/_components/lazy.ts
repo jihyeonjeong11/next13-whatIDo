@@ -8,12 +8,6 @@ export const GraphView = dynamic(
   },
 );
 
-export const CanvasView = dynamic(
-  () =>
-    import('../practices/use-immediate-mode-canvas/_components/CanvasView').then(
-      (res) => res.CanvasView,
-    ),
-  {
-    ssr: false,
-  },
-);
+export const CanvasView = dynamic(() => import('./CanvasView/CanvasView'), {
+  ssr: false,
+});
