@@ -52,12 +52,13 @@
 - [x] 지금까지 한거 다듬기
 - [] 지금까지 한거 다듬기 2차
 
-
-- [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
-
 - [x] 다크 테마 확인하기
+- [] useCanvas 메인 컴포넌트 - 로드맵
+
 
 ### V2
+- [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
+
 - [] layout.shared.tsx 링크 추가
 
 - [ ] ai 시대에 준비된 개발자 - 인간이 할 수 있는 일과 ai가 할 수 있는 일을 구분하는 것

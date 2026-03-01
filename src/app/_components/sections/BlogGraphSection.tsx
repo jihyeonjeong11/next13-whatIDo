@@ -3,8 +3,8 @@ import Container from '../ui/Container';
 import { Suspense } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { GraphView } from '../graphView/lazy';
 import { buildGraph } from '@/app/_lib/buildGraph';
+import { GraphView } from '../lazy';
 
 const BlogGraphSection = async () => {
   const props = await buildGraph();

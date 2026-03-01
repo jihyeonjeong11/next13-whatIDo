@@ -1,4 +1,4 @@
-import { GraphView } from '@/app/_components/graphView/lazy';
+import { GraphView } from '@/app/_components/lazy';
 import { buildGraph } from '@/app/_lib/buildGraph';
 
 const GraphViewPage = async () => {
