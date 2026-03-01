@@ -1,204 +1,118 @@
-import { useCallback, useEffect, useRef } from 'react';
-import useShapes from './useShapes';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  clamp,
+  isRectVisible,
+  screenToWorld,
+  worldToScreen,
+  type Point,
+} from '../_utils/coordinates';
 
-interface CanvasState {
-  pixelRatio: number;
-  container: {
-    width: number;
-    height: number;
-  };
-  camera: {
-    x: number;
-    y: number;
-    z: number;
-  };
-}
+//canvasref
+// render 펑션
+// resize 펑션
+// 카메라
+// 팬 이벤트 리스너
+// 줌
+// 그리드
+// 디버그인포
 
-const radians = (angle: number) => angle * (Math.PI / 180);
-export const CAMERA_ANGLE = radians(30);
-export const RECT_W = 500;
-export const RECT_H = 500;
-
-export const getInitialCanvasState = (): CanvasState => ({
-  pixelRatio: window.devicePixelRatio || 1,
-  container: { width: 0, height: 0 },
-  camera: { x: 0, y: 0, z: 0 },
-});
-
-export const cameraToScreenCoordinates = (
-  x: number,
-  y: number,
-  z: number,
-  cameraAngle: number,
-  screenAspect: number,
-) => {
-  const width = 2 * z * Math.tan(cameraAngle);
-  const height = width / screenAspect;
-  const screenX = x - width / 2;
-  const screenY = y - height / 2;
-  return { x: screenX, y: screenY, width, height };
+const initialCamera = {
+  x: 0,
+  y: 0,
+  z: 1,
 };
 
+export interface CameraState {
+  x: number; // World X position (center of viewport)
+  y: number; // World Y position (center of viewport)
+  z: number; // Zoom level
+}
+
+// Constants
+const MIN_SCALE = 0.05; // 5% minimum zoom
+const MAX_SCALE = 20; // 2000% maximum zoom
+const ZOOM_SENSITIVITY = 0.001;
+const GRID_BASE_SIZE = 50; // Base grid cell size in world units
+
 const useCanvas = () => {
+  // Canvas reference
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [camera, setCameraState] = useState<CameraState>({
+    x: initialCamera.x ?? 0,
+    y: initialCamera.y ?? 0,
+    z: initialCamera.z ?? 1,
+  });
+
+  // 실제 컴포넌트에서 사용하기 위한 callback
+  const [_isPanning, setIsPanning] = useState(false);
+  const [_isSpacePressed, setIsSpacePressed] = useState(false);
+
+  // camera ref. useEffect와 useCallback에 포함시키지 않기 위해 펑션에서는 ref 의 밸류를 가져다 사용한다.
+  const cameraRef = useRef(camera);
+  cameraRef.current = camera;
+
+  // 실제 컴포넌트에서 사용하기 위한 callback
+  const setCamera = useCallback((newCamera: CameraState) => {
+    setCameraState(newCamera);
+    // onCameraChange?.(newCamera);
+  }, []);
+
+  // state refs: rerender를 억제하기 위해 스테이트는 저장, 실제 펑션에서는 ref 안의 내용을 가져다 쓴다.
+  const isPanningRef = useRef(false);
+  const isSpacePressedRef = useRef(false);
+  const lastMousePosRef = useRef<Point>({ x: 0, y: 0 });
+  const mouseWorldPosRef = useRef<Point>({ x: 0, y: 0 });
+  const animationFrameRef = useRef<number | null>(null);
 
   /**
-   * side 업데이트를 막기 위한 ref
-   * - useState 대신 useRef를 사용하여 render 함수가 클로저 캡처 없이 최신값을 참조
-   * - canvasState가 바뀌어도 render useEffect가 재실행되지 않음
+   * 마우스 휠 리스너
    */
-  const canvasStateRef = useRef<CanvasState>(getInitialCanvasState());
-
-  const animationFrameRef = useRef<number | null>(null);
-  const isPanningRef = useRef(false);
-  const lastMousePosRef = useRef<{ x: number; y: number } | null>(null);
-
-  /** 마우스 커서의 canvas 내 위치 (offsetX/Y) */
-  const pointerRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  const { drawBlocks } = useShapes();
-
-  const updateCanvasState = useCallback((updater: (p: CanvasState) => CanvasState) => {
-    canvasStateRef.current = updater(canvasStateRef.current);
-  }, []);
-
-  // ── 렌더 ──────────────────────────────────────────────
-  const render = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const { camera, container } = canvasStateRef.current;
-
-    // ✅ transform 초기화 후 배경 클리어
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = '#1a1a2e';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // 그 다음 카메라 transform 적용
-    const screenAspect = container.width / container.height;
-    const screen = cameraToScreenCoordinates(
-      camera.x,
-      camera.y,
-      camera.z,
-      CAMERA_ANGLE,
-      screenAspect,
-    );
-
-    console.log(container);
-
-    const scaleX = container.width / screen.width;
-    const scaleY = container.height / screen.height;
-
-    ctx.setTransform(scaleX, 0, 0, scaleY, -screen.x * scaleX, -screen.y * scaleY);
-
-    drawBlocks(ctx);
-
-    animationFrameRef.current = requestAnimationFrame(render);
-  }, [drawBlocks]);
-  // ── 마우스 패닝 ───────────────────────────────────────
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.button === 0) {
-      isPanningRef.current = true;
-      lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-    }
-  }, []);
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!isPanningRef.current || !lastMousePosRef.current) return;
-
-      const dx = e.clientX - lastMousePosRef.current.x;
-      const dy = e.clientY - lastMousePosRef.current.y;
-
-      updateCanvasState((p) => {
-        const { camera, container } = p;
-        const screenAspect = container.width / container.height;
-        const screen = cameraToScreenCoordinates(
-          camera.x,
-          camera.y,
-          camera.z,
-          CAMERA_ANGLE,
-          screenAspect,
-        );
-        // 스크린 → 월드 비율로 delta 변환
-        const scaleX = container.width / screen.width;
-        const scaleY = container.height / screen.height;
-
-        return {
-          ...p,
-          camera: {
-            ...camera,
-            x: camera.x - dx / scaleX,
-            y: camera.y - dy / scaleY,
-          },
-        };
-      });
-
-      lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-    },
-    [updateCanvasState],
-  );
-
-  const handleMouseUp = useCallback(() => {
-    isPanningRef.current = false;
-    lastMousePosRef.current = null;
-  }, []);
-
-  // ── 휠 줌 (targeted zoom) ─────────────────────────────
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
 
-      const { x: mouseX, y: mouseY } = pointerRef.current;
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-      updateCanvasState((p) => {
-        const { camera, container } = p;
-        const screenAspect = container.width / container.height;
+      const rect = canvas.getBoundingClientRect();
+      // 브라우저 전역 좌표
+      const mouseX = e.clientX - rect.left; // 뷰포트 기준 마우스 x - 뷰포트 기준 canvas 시작점 = canvas 기준 마우스 x
+      const mouseY = e.clientY - rect.top;
 
-        // 줌 전 scale
-        const screenBefore = cameraToScreenCoordinates(
-          camera.x,
-          camera.y,
-          camera.z,
-          CAMERA_ANGLE,
-          screenAspect,
-        );
-        const scaleBefore = container.width / screenBefore.width;
+      // CSS 픽셀 기준으로 통일 (mouseX도 CSS 픽셀이므로)
+      const cssWidth = canvas.clientWidth;
+      const cssHeight = canvas.clientHeight;
 
-        // 마우스의 월드 좌표 (줌 전)
-        const mouseWorldX = camera.x + (mouseX - container.width / 2) / scaleBefore;
-        const mouseWorldY = camera.y + (mouseY - container.height / 2) / scaleBefore;
+      // 로컬 좌표 -> 월드 변수
+      const worldBefore = screenToWorld(
+        { x: mouseX, y: mouseY },
+        cameraRef.current,
+        cssWidth,
+        cssHeight,
+      );
 
-        // 새 z (카메라 높이 - 클수록 줌아웃)
-        const newZ = Math.max(1, camera.z + e.deltaY * 0.5);
+      // 새 스케일 계산
+      const delta = -e.deltaY * ZOOM_SENSITIVITY;
+      const newScale = clamp(cameraRef.current.z * (1 + delta), MIN_SCALE, MAX_SCALE);
 
-        // 줌 후 scale
-        const screenAfter = cameraToScreenCoordinates(
-          camera.x,
-          camera.y,
-          newZ,
-          CAMERA_ANGLE,
-          screenAspect,
-        );
-        const scaleAfter = container.width / screenAfter.width;
+      // 월드 카메라 좌표 새롭게 계산
+      const tempCamera = { ...cameraRef.current, z: newScale };
+      const worldAfter = screenToWorld({ x: mouseX, y: mouseY }, tempCamera, cssWidth, cssHeight);
 
-        // 마우스 위치가 줌 전후로 동일한 월드 좌표를 가리키도록 x, y 보정
-        return {
-          ...p,
-          camera: {
-            x: mouseWorldX - (mouseX - container.width / 2) / scaleAfter,
-            y: mouseWorldY - (mouseY - container.height / 2) / scaleAfter,
-            z: newZ,
-          },
-        };
-      });
+      // 마지막 월드 카메라 좌표
+      const newCamera: CameraState = {
+        x: cameraRef.current.x + (worldBefore.x - worldAfter.x),
+        y: cameraRef.current.y + (worldBefore.y - worldAfter.y),
+        z: newScale,
+      };
+
+      setCamera(newCamera);
     },
-    [updateCanvasState],
+    [setCamera],
   );
-
-  // ── 리사이즈 ──────────────────────────────────────────
+  /**
+   * 캔버스 실제 화면 리사이저
+   */
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -206,8 +120,7 @@ const useCanvas = () => {
     const container = canvas.parentElement;
     if (!container) return;
 
-    // Set canvas size to match container
-    const rect = container.getBoundingClientRect();
+    const rect = container.getBoundingClientRect(); // 브라우저 전역 좌표(css 픽셀)
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = rect.width * dpr;
@@ -215,90 +128,317 @@ const useCanvas = () => {
     canvas.style.width = `${rect.width}px`;
     canvas.style.height = `${rect.height}px`;
 
-    // Scale context for retina displays
+    // 레티나 디스플레이(고해상도)용 스케일링
     const ctx = canvas.getContext('2d');
     if (ctx) {
       ctx.scale(dpr, dpr);
     }
   }, []);
 
-  // 초기화 & RAF 시작
-  useEffect(() => {
-    const containerWidth = document.body.clientWidth;
-    const containerHeight = document.body.clientHeight;
+  /**
+   * 패닝 중단 리스너
+   */
+  const handleMouseUp = useCallback(() => {
+    const canvas = canvasRef.current;
 
-    updateCanvasState(() => ({
-      pixelRatio: window.devicePixelRatio || 1,
-      container: {
-        width: containerWidth,
-        height: containerHeight,
-      },
-      camera: {
-        x: 1.5 * RECT_W, // 3x3 블록의 중앙
-        y: RECT_H,
-        z: containerWidth / (2 * Math.tan(CAMERA_ANGLE)), // 화면에 딱 맞는 높이
-      },
-    }));
+    isPanningRef.current = false;
+    setIsPanning(false);
+
+    if (canvas) {
+      canvas.style.cursor = isSpacePressedRef.current ? 'grab' : 'default';
+    }
+  }, []);
+
+  /**
+   * Pan으로 인한 캔버스 카메라 이동.
+   */
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const currentPos = {
+        // 클라이언트 좌표 - 캔버스 좌표 = 월드 좌표
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+      mouseWorldPosRef.current = screenToWorld(
+        currentPos,
+        cameraRef.current,
+        canvas.clientWidth,
+        canvas.clientHeight,
+      );
+
+      if (isSpacePressedRef.current && !isPanningRef.current) {
+        canvas.style.cursor = 'grab';
+      }
+      if (isPanningRef.current) {
+        const deltaX = currentPos.x - lastMousePosRef.current.x; // 현재 캔버스 좌표 - 이전 캔버스 좌표 = 유저가 월드 좌표에서 이동한 거리 값
+        const deltaY = currentPos.y - lastMousePosRef.current.y;
+        const cam = cameraRef.current;
+        setCamera({
+          ...cam,
+          x: cam.x - deltaX / cam.z, // 뷰포트 좌표 - 월드 거리 값 / 카메라의 z 레벨
+          y: cam.y - deltaY / cam.z,
+        });
+        lastMousePosRef.current = currentPos;
+      }
+    },
+    // 스크린 좌표(clientX) -> 월드 좌표(x, deltaX) -> 뷰포트 좌표(setCamera)로 바뀌는 것에 주목
+    [setCamera],
+  );
+
+  /**
+   * 패닝 시작 리스너
+   */
+  const handleMouseDown = useCallback((e: MouseEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Start panning if spacebar is pressed or middle mouse button
+    if (isSpacePressedRef.current || e.button === 1) {
+      e.preventDefault();
+      isPanningRef.current = true;
+
+      const rect = canvas.getBoundingClientRect();
+      lastMousePosRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+
+      canvas.style.cursor = 'grabbing';
+    }
+  }, []);
+
+  /**
+   * 스페이스바 리스너
+   */
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Space' && !e.repeat) {
+      e.preventDefault();
+      isSpacePressedRef.current = true;
+
+      const canvas = canvasRef.current;
+      if (canvas && !isPanningRef.current) {
+        canvas.style.cursor = 'grab';
+      }
+    }
+  }, []);
+
+  /**
+   * 스페이스바 중단 리스너
+   */
+  const handleKeyUp = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Space') {
+      isSpacePressedRef.current = false;
+      setIsSpacePressed(false);
+
+      const canvas = canvasRef.current;
+      if (canvas && !isPanningRef.current) {
+        canvas.style.cursor = 'default';
+      }
+    }
+  }, []);
+
+  /**
+   * 그리드 라인
+   */
+  const drawGrid = useCallback(
+    (ctx: CanvasRenderingContext2D, currentCamera: CameraState, width: number, height: number) => {
+      const canvas = canvasRef.current;
+      if (!ctx || !canvas) return;
+
+      // 중앙점 camera로부터 월드의 시작점과 끝점을 구함.
+      const bounds = {
+        // 카메라 x(중앙점) - (스케일 없는 캔버스 width / 2 = 왼쪽 혹은 오른쪽 너비) / 줌 레벨
+        minX: currentCamera.x - width / 2 / currentCamera.z,
+        maxX: currentCamera.x + width / 2 / currentCamera.z,
+        minY: currentCamera.y - height / 2 / currentCamera.z,
+        maxY: currentCamera.y + height / 2 / currentCamera.z,
+      };
+      // 그리드가 월드 절대 좌표에 고정되도록 시작점 정렬 (Snapping) - unity 예시? 필요하면 참조할것!
+      const startX = Math.floor(bounds.minX / GRID_BASE_SIZE) * GRID_BASE_SIZE;
+      const startY = Math.floor(bounds.minY / GRID_BASE_SIZE) * GRID_BASE_SIZE;
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'yellow';
+      ctx.lineWidth = 1;
+
+      // 세로선
+      for (let x = startX; x <= bounds.maxX; x += GRID_BASE_SIZE) {
+        // (시작점 - 카메라 좌표 = 캔버스 상의 거리) * 카메라 줌 레벨+ (css 너비 / 2) = 맨 처음 뺐던 카메라 시야 값을 다시 더해줌
+        const screenX = (x - currentCamera.x) * currentCamera.z + width / 2;
+        ctx.moveTo(screenX, 0);
+        ctx.lineTo(screenX, height);
+      }
+
+      // 가로선
+      for (let y = startY; y <= bounds.maxY; y += GRID_BASE_SIZE) {
+        const screenY = (y - currentCamera.y) * currentCamera.z + height / 2;
+        ctx.moveTo(0, screenY);
+        ctx.lineTo(width, screenY);
+      }
+      ctx.stroke();
+    },
+
+    [],
+  );
+
+  /**
+   * 좌표 표시용 디스플레이
+   */
+  const drawDebugInfo = useCallback((ctx: CanvasRenderingContext2D, currentCamera: CameraState) => {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.font = '12px monospace';
+
+    const mouseWorld = mouseWorldPosRef.current;
+    const info = [
+      `Camera: (${currentCamera.x.toFixed(1)}, ${currentCamera.y.toFixed(1)})`,
+      `Scale: ${(currentCamera.z * 100).toFixed(1)}%`,
+      `Zoom: ${currentCamera.z.toFixed(3)}x`,
+      `World: (${mouseWorld.x.toFixed(1)}, ${mouseWorld.y.toFixed(1)})`,
+    ];
+
+    info.forEach((text, index) => {
+      ctx.fillText(text, 10, 20 + index * 18);
+    });
+
+    // Instructions
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    const instructions = [
+      'Mouse wheel: Zoom at cursor',
+      'Space + Drag: Pan',
+      'Middle mouse drag: Pan',
+    ];
+
+    const canvas = canvasRef.current;
+    if (canvas) {
+      instructions.forEach((text, index) => {
+        ctx.fillText(text, canvas.width - 180, 20 + index * 18);
+      });
+    }
+  }, []);
+
+  const drawSquare = useCallback(
+    (
+      ctx: CanvasRenderingContext2D,
+      position: Point,
+      size: number,
+      currentCamera: CameraState,
+      width: number,
+      height: number,
+    ) => {
+      if (
+        !isRectVisible(
+          position.x - size / 2,
+          position.y - size / 2,
+          size,
+          size,
+          currentCamera,
+          width,
+          height,
+        )
+      )
+        return;
+
+      const screenPos = worldToScreen(position, currentCamera, width, height);
+      const screenSize = size * currentCamera.z;
+      const x = screenPos.x - screenSize / 2;
+      const y = screenPos.y - screenSize / 2;
+
+      ctx.fillStyle = 'rgba(100, 200, 255, 0.8)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.lineWidth = 2 * currentCamera.z;
+
+      ctx.beginPath();
+      ctx.rect(x, y, screenSize, screenSize);
+      ctx.fill();
+      ctx.stroke();
+    },
+    [],
+  );
+
+  // 실제 캔버스 렌더러
+  const render = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const { clientWidth, clientHeight } = canvas;
+
+    // 리렌더를 위한 전체 클리어
+    ctx.fillStyle = '#1a1a2e'; // --color-bg-primary
+    ctx.fillRect(0, 0, clientWidth, clientHeight);
+    drawGrid(ctx, camera, clientWidth, clientHeight);
+
+    drawSquare(ctx, { x: 0, y: 0 }, GRID_BASE_SIZE * 4, camera, clientWidth, clientHeight);
+
+    //debug info
+    drawDebugInfo(ctx, camera);
 
     animationFrameRef.current = requestAnimationFrame(render);
+  }, [drawDebugInfo, camera, drawGrid, drawSquare]);
+
+  //Event listeners
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Add event listeners
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mouseleave', handleMouseUp);
+
+    canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Keyboard events need to be on window
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    // Resize observer
+    const resizeObserver = new ResizeObserver(handleResize);
+    const container = canvas.parentElement;
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
+    return () => {
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseup', handleMouseUp);
+      canvas.removeEventListener('mouseleave', handleMouseUp);
+
+      canvas.removeEventListener('wheel', handleWheel);
+
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      resizeObserver.disconnect();
+    };
+  }, [
+    handleResize,
+    handleKeyDown,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleKeyUp,
+    handleWheel,
+  ]);
+
+  // Start render loop
+  useEffect(() => {
+    animationFrameRef.current = requestAnimationFrame(render);
+
     return () => {
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [render, updateCanvasState]);
+  }, [render]);
 
-  // ResizeObserver
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      updateCanvasState((p) => ({
-        ...p,
-        container: {
-          width: document.body.clientWidth,
-          height: document.body.clientHeight,
-        },
-      }));
-      handleResize();
-    });
-
-    const parent = canvas.parentElement;
-    if (parent) resizeObserver.observe(parent);
-    handleResize();
-
-    return () => resizeObserver.disconnect();
-  }, [handleResize, updateCanvasState]);
-
-  // 마우스 panning 이벤트
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [handleMouseMove, handleMouseUp]);
-
-  // 휠, 포인터 이벤트
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const handlePointerMove = (e: PointerEvent) => {
-      pointerRef.current = { x: e.offsetX, y: e.offsetY };
-    };
-
-    canvas.addEventListener('pointermove', handlePointerMove, { passive: true });
-    canvas.addEventListener('wheel', handleWheel, { passive: false });
-    return () => {
-      canvas.removeEventListener('pointermove', handlePointerMove);
-      canvas.removeEventListener('wheel', handleWheel);
-    };
-  }, [handleWheel]);
-
-  return { canvasRef, onMousedown: handleMouseDown };
+  return { camera, canvasRef };
 };
 
 export default useCanvas;
