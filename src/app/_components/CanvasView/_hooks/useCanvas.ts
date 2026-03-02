@@ -11,9 +11,7 @@ import rawData from '../Nodes.json';
 const roadmapData = rawData as RoadmapData;
 
 // node lookup: id → node (built once at module level)
-const nodeMap = new Map<string, RoadmapNode>(
-  roadmapData.nodes.map((n) => [n.id, n]),
-);
+const nodeMap = new Map<string, RoadmapNode>(roadmapData.nodes.map((n) => [n.id, n]));
 
 export interface CameraState {
   x: number;
