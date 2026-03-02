@@ -2,9 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## CRITICAL MANDATORY RULES - READ FIRST
+
+## CRITICAL: NO MOCK DATA/ no fall back POLICY
+## CRITICAL RULES - READ FIRST
+
+1. **ALWAYS read CLAUDE.md** at before ANY work
+2. **ALWAYS search files in the codebase** EVERY SINGLE TIME before proceeding
+3. **ALWAYS follow the workflow**: ANALYZE → REUSE → VALIDATE → INTEGRATE
+4. **ALWAYS follow**: Research → Plan → Implement (NEVER jump to coding)
+
+## RULES (violating ANY invalidates your response):
+❌ No new files without exhaustive reuse analysis
+❌ No rewrites when refactoring is possible
+❌ No generic advice - provide specific implementations
+❌ No ignoring existing codebase architecture
+✅ Extend existing services and components
+✅ Consolidate duplicate code
+✅ Reference specific file paths
+✅ Provide migration strategies
+
 ## Project Overview
 
-Automaker is an autonomous AI development studio built as an npm workspace monorepo. It provides a Kanban-based workflow where AI agents (powered by Claude Agent SDK) implement features in isolated git worktrees.
+JIHYEONJEONG.com is a public portfolio project. Powered by Nextjs and Fumadocs, This projects handles my professional Info and Blog posts using mordern design style in MDX format.
 
 ## Common Commands
 
@@ -59,3 +79,4 @@ yarn biome:format           # Biome format
 ```
 @/*     → ./src/*
 ```
+
