@@ -47,3 +47,9 @@ next-env.d.ts
 
 # Claude Code
 .claude/
+
+# env
+.env
+
+# temp
+./scripts/temp/**
