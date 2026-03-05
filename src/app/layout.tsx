@@ -5,7 +5,7 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import ProgressBarProvider from './_components/ProgressBarProvider';
 import { ThemeProvider } from 'next-themes';
 import WebVitals from './_components/WebVitals';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/next';
 // import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
