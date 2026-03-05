@@ -21,8 +21,20 @@ const About = () => {
               href="https://github.com/jihyeonjeong11"
               target="_blank"
             >
-              <Image src="/svgs/github.svg" width={32} height={32} alt="github" className="dark:hidden" />
-              <Image src="/svgs/github-light.svg" width={32} height={32} alt="github" className="hidden dark:block" />
+              <Image
+                src="/svgs/github.svg"
+                width={32}
+                height={32}
+                alt="github"
+                className="dark:hidden"
+              />
+              <Image
+                src="/svgs/github-light.svg"
+                width={32}
+                height={32}
+                alt="github"
+                className="hidden dark:block"
+              />
             </a>
             <a
               aria-label="linkedin"
@@ -30,8 +42,20 @@ const About = () => {
               href="https://www.linkedin.com/in/jihyeon-jeong"
               target="_blank"
             >
-              <Image src="/svgs/linkedin.svg" width={32} height={32} alt="linkedin" className="dark:hidden" />
-              <Image src="/svgs/linkedin-light.svg" width={32} height={32} alt="linkedin" className="hidden dark:block" />
+              <Image
+                src="/svgs/linkedin.svg"
+                width={32}
+                height={32}
+                alt="linkedin"
+                className="dark:hidden"
+              />
+              <Image
+                src="/svgs/linkedin-light.svg"
+                width={32}
+                height={32}
+                alt="linkedin"
+                className="hidden dark:block"
+              />
             </a>
             <a
               aria-label="mail"

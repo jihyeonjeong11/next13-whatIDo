@@ -1,4 +1,0 @@
-- ui: tailwindcss
-- ui-blocks: shadcn
-- form logic: react-hook-form
-- validator: zod
