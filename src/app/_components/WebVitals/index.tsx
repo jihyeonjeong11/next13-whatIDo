@@ -7,7 +7,7 @@ function WebVitals() {
     console.log(metric);
   });
 
-  return <></>
+  return <></>;
 }
 
 export default WebVitals;
