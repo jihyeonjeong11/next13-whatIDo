@@ -46,6 +46,10 @@ const DOC_MAP: Record<string, { label: string; docPath: string }> = {
     label: 'React Components',
     docPath: '/docs/react',
   },
+  'use-multistep-form': {
+    label: 'Multi-step Form',
+    docPath: '/docs/react',
+  },
 };
 
 function ThemeToggle() {
@@ -60,7 +64,8 @@ function ThemeToggle() {
       aria-label="Toggle theme"
       className="flex items-center justify-center w-8 h-8 rounded-md border border-border bg-transparent text-muted-foreground cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground"
     >
-      {isDark ? <Sun size={16} /> : <Moon size={16} />}
+      <Sun size={16} className="dark:hidden" />
+      <Moon size={16} className="dark:block hidden" />
     </button>
   );
 }

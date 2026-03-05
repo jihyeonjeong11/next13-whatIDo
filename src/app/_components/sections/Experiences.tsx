@@ -1,7 +1,7 @@
 import { EXPERIENCE_CARDS } from '@/libs/constants';
 import Container from '@/components/ui/Container';
 import Typography from '@/components/ui/Typography';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 
 const Experiences = () => {
   return (
@@ -9,7 +9,7 @@ const Experiences = () => {
       <Typography variant="h2">Experiences</Typography>
       <div className="flex flex-col gap-6">
         {EXPERIENCE_CARDS.map((experience) => (
-          <Card key={experience.companyName} className="items-start p-4 shadow-md">
+          <Card key={experience.companyName} className="p-4 shadow-md ">
             <div className="flex flex-col gap-2">
               <Typography variant="body2" className="text-sm text-slate-600 dark:text-slate-400">
                 {experience.period}
