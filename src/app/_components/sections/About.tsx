@@ -4,10 +4,8 @@ import { Mail } from 'lucide-react';
 import Container from '../ui/Container';
 import Typography from '../ui/Typography';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 
 const About = () => {
-  const { theme } = useTheme();
   return (
     <Container id="about">
       <div className="flex flex-col gap-6">
@@ -23,12 +21,8 @@ const About = () => {
               href="https://github.com/jihyeonjeong11"
               target="_blank"
             >
-              <Image
-                src={theme === 'dark' ? '/svgs/github-light.svg' : '/svgs/github.svg'}
-                width={32}
-                height={32}
-                alt="github"
-              />
+              <Image src="/svgs/github.svg" width={32} height={32} alt="github" className="dark:hidden" />
+              <Image src="/svgs/github-light.svg" width={32} height={32} alt="github" className="hidden dark:block" />
             </a>
             <a
               aria-label="linkedin"
@@ -36,12 +30,8 @@ const About = () => {
               href="https://www.linkedin.com/in/jihyeon-jeong"
               target="_blank"
             >
-              <Image
-                src={theme === 'dark' ? '/svgs/linkedin-light.svg' : '/svgs/linkedin.svg'}
-                width={32}
-                height={32}
-                alt="linkedin"
-              />
+              <Image src="/svgs/linkedin.svg" width={32} height={32} alt="linkedin" className="dark:hidden" />
+              <Image src="/svgs/linkedin-light.svg" width={32} height={32} alt="linkedin" className="hidden dark:block" />
             </a>
             <a
               aria-label="mail"
