@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import ProgressBarProvider from './_components/ProgressBarProvider';
 import { ThemeProvider } from 'next-themes';
+import { WebVitals } from './_components/WebVital/WebVitals';
 // import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -45,6 +46,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
+        <WebVitals />
         <RootProvider
           theme={{
             defaultTheme: 'system',
