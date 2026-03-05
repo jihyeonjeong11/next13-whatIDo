@@ -10,6 +10,12 @@ version: 1.0.0
 
 This skill orchestrates a 6-phase agile SDLC for a tech startup, integrating specialized sub-skills at each phase. TDD is applied in Phase 4 and 5.
 
+> **Beforehand**: Explain the user what to do first. Don't jump up to next phase but return what did happened first. When a phase is done, save a doc file to its root directory.
+
+## Glossary
+- root directory: root app router routing directory means where its page located. `./src/app/practices/<root>`
+- root naming: `use-anything`
+
 ---
 
 ## Phase 1 — Planning
