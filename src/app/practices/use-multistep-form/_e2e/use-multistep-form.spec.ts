@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 const URL = '/practices/use-multistep-form';
 
@@ -11,11 +11,11 @@ async function fillStep1(page: Page) {
   await page.fill('input[name="phone"]', '01012345678');
 }
 
-// Helper: 유효한 Step2 데이터로 채우기 (address는 mock)
+// Helper: 유효한 Step2 데이터로 채우기
 async function fillStep2(page: Page) {
   await page.fill('input[name="birthDate"]', '1995-06-15');
   await page.locator('input[name="gender"][value="male"]').check();
-  // address는 DaumPostcode 모달 없이 직접 setValue 불가 → 모달 테스트에서 별도 처리
+  await page.fill('input[name="address"]', '서울시 강남구 테헤란로 123');
 }
 
 // ─────────────────────────────────────────
@@ -59,7 +59,9 @@ test.describe('AC-01: username', () => {
   test('영문+숫자 6자 이상 입력 시 에러 없음', async ({ page }) => {
     await page.fill('input[name="username"]', 'user1234');
     await page.locator('input[name="username"]').blur();
-    await expect(page.locator('[role="alert"]').filter({ hasText: '영문과 숫자' })).not.toBeVisible();
+    await expect(
+      page.locator('[role="alert"]').filter({ hasText: '영문과 숫자' }),
+    ).not.toBeVisible();
   });
 });
 
@@ -101,7 +103,9 @@ test.describe('AC-03: confirmPassword', () => {
     await page.fill('input[name="password"]', 'Password1!');
     await page.fill('input[name="confirmPassword"]', 'Different1!');
     await page.locator('input[name="confirmPassword"]').blur();
-    await expect(page.locator('[role="alert"]').filter({ hasText: '비밀번호가 일치' })).toBeVisible();
+    await expect(
+      page.locator('[role="alert"]').filter({ hasText: '비밀번호가 일치' }),
+    ).toBeVisible();
   });
 });
 
@@ -209,7 +213,7 @@ test.describe('AC-07: gender', () => {
 });
 
 // ─────────────────────────────────────────
-// AC-08: address DaumPostcode 연동
+// AC-08: address 텍스트 입력 (DaumPostcode는 모노리포 전환 후 구현)
 // ─────────────────────────────────────────
 test.describe('AC-08: address', () => {
   test.beforeEach(async ({ page }) => {
@@ -218,9 +222,11 @@ test.describe('AC-08: address', () => {
     await page.click('button:has-text("다음")');
   });
 
-  test('[주소 검색] 버튼 클릭 시 DaumPostcode 모달 열림', async ({ page }) => {
+  test.fixme('[주소 검색] 버튼 클릭 시 DaumPostcode 모달 열림', async ({ page }) => {
     await page.click('button:has-text("주소 검색")');
-    await expect(page.locator('iframe[src*="daum"]').or(page.locator('[role="dialog"]'))).toBeVisible({ timeout: 5000 });
+    await expect(
+      page.locator('iframe[src*="daum"]').or(page.locator('[role="dialog"]')),
+    ).toBeVisible({ timeout: 5000 });
   });
 
   test('address 미입력 상태에서 다음 클릭 시 Step 3로 이동 안 됨', async ({ page }) => {
@@ -228,6 +234,11 @@ test.describe('AC-08: address', () => {
     await page.locator('input[name="gender"][value="male"]').check();
     await page.click('button:has-text("다음")');
     await expect(page.locator('[aria-current="step"]')).toContainText('2');
+  });
+
+  test('address 직접 입력 시 값이 반영됨', async ({ page }) => {
+    await page.fill('input[name="address"]', '서울시 강남구 테헤란로 123');
+    await expect(page.locator('input[name="address"]')).toHaveValue('서울시 강남구 테헤란로 123');
   });
 });
 
@@ -267,7 +278,9 @@ test.describe('AC-10: 이전 단계 이동 시 데이터 보존', () => {
 test.describe('AC-09: SNS 토글', () => {
   // Step 3 진입은 address 모달 없이 불가 → 구현 후 활성화
   test.fixme('SNS 카드 4개 모두 표시됨', async ({ page }) => {
-    await expect(page.locator('button:has-text("연결")').or(page.locator('button:has-text("연결 해제")'))).toHaveCount(4);
+    await expect(
+      page.locator('button:has-text("연결")').or(page.locator('button:has-text("연결 해제")')),
+    ).toHaveCount(4);
   });
 
   test.fixme('SNS 카드 클릭 시 연결/해제 토글', async ({ page }) => {

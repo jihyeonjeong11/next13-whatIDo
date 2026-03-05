@@ -1,8 +1,8 @@
 'use client';
 
 import { Mail } from 'lucide-react';
-import Container from '../ui/Container';
-import Typography from '../ui/Typography';
+import Container from '@/components/ui/Container';
+import Typography from '@/components/ui/Typography';
 import Image from 'next/image';
 
 const About = () => {

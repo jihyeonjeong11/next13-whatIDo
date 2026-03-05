@@ -1,5 +1,5 @@
-import Typography from '../ui/Typography';
-import Container from '../ui/Container';
+import Typography from '@/components/ui/Typography';
+import Container from '@/components/ui/Container';
 import { Suspense } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';

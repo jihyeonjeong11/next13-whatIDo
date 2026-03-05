@@ -1,7 +1,7 @@
 import { EXPERIENCE_CARDS } from '@/libs/constants';
-import Container from '../ui/Container';
-import Typography from '../ui/Typography';
-import Card from '../ui/Card';
+import Container from '@/components/ui/Container';
+import Typography from '@/components/ui/Typography';
+import Card from '@/components/ui/Card';
 
 const Experiences = () => {
   return (

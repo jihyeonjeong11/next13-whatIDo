@@ -1,5 +1,5 @@
-import Container from '../ui/Container';
-import Typography from '../ui/Typography';
+import Container from '@/components/ui/Container';
+import Typography from '@/components/ui/Typography';
 
 const Projects = () => {
   return (

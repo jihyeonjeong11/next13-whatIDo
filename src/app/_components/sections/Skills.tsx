@@ -1,8 +1,8 @@
 import { Skill_Cards } from '@/libs/constants';
-import Container from '../ui/Container';
-import Typography from '../ui/Typography';
+import Container from '@/components/ui/Container';
+import Typography from '@/components/ui/Typography';
 import Image from 'next/image';
-import SkillCard from '../ui/Card';
+import SkillCard from '@/components/ui/Card';
 
 const Skills = () => {
   return (

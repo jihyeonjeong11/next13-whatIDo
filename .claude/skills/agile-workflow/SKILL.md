@@ -37,12 +37,13 @@ Steps:
 ## Phase 2 — Analysis
 
 **Role**: Business Analyst + UX Researcher
-**Skills**: `product-management` (PRD), `web-design-guidelines` (UX audit)
+**Skills**: `product-management` (PRD)
+**Agents**: `ux-researcher` (UX audit — `~/.claude/agents/ux-researcher.md`)
 **Goal**: Define acceptance criteria and user flows.
 
 Steps:
 1. Generate a PRD from the roadmap using `product-management`
-2. Audit UX flows using `web-design-guidelines`
+2. Audit UX flows using `ux-researcher` agent
 3. Document user journeys and edge cases
 4. Output: `requirements.md` with Acceptance Criteria, user flow diagrams
 
@@ -138,7 +139,7 @@ Steps:
 | Phase | Role | Skill | TDD |
 |-------|------|-------|-----|
 | 1. Planning | PM | `product-management` | — |
-| 2. Analysis | BA + UX | `product-management`, `web-design-guidelines` | — |
+| 2. Analysis | BA + UX | `product-management` + agent:`ux-researcher` | — |
 | 3. Design | Architect | `architecture-skills:specification-architect` | — |
 | 4. Implementation | Developer | `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify`, `playwright-skill` | Red → Green → Refactor |
 | 5. Testing | QA + Dev | `playwright-skill`, `web-design-guidelines`, `simplify` | Integration → E2E → Feedback |
