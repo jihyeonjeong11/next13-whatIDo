@@ -58,13 +58,13 @@ Steps:
 
 Steps:
 1. Run `architecture-skills:specification-architect` with the PRD as input
-2. Generate five documents:
+2. Generate documents (always required):
    - `blueprint.md` — system scope and data flow
-   - `requirements.md` — functional requirements
    - `design.md` — component/API specs (pseudocode and interfaces only, no runnable code)
    - `tasks.md` — implementation checklist (Phase 1–N)
-   - `validation.md` — requirements-to-tasks traceability matrix
-3. Confirm 100% AC coverage before proceeding
+3. Generate conditionally:
+   - `validation.md` — AC-to-task traceability matrix. **Only when the task has explicit Acceptance Criteria** (e.g. forms, multi-step flows, data validation features). Skip for UI demos, refactoring, or exploratory tasks.
+4. Confirm all required docs are complete before proceeding
 
 ---
 
@@ -73,6 +73,13 @@ Steps:
 **Role**: Developer
 **Skills**: `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify`
 **Goal**: Build features test-first.
+
+**Testing tool**: Currently `playwright` only
+
+Steps:
+1. Create /_e2e directory from root directory
+2. Fill failing tests based on the AC
+3. Not determined yet.
 
 TDD Cycle per task in `tasks.md`:
 ```
@@ -83,7 +90,10 @@ Refactor → Clean up with `simplify` skill
 
 Tools:
 - **Unit/Integration**: Vitest + React Testing Library
-- **E2E**: Playwright
+- **E2E**: `playwright-skill` (plugin at `~/.claude/plugins/marketplaces/playwright-skill/skills/playwright-skill`)
+  - Setup (first time): `cd $SKILL_DIR && npm run setup`
+  - Always run `detectDevServers()` before writing E2E tests
+  - Write test scripts to `/tmp/playwright-test-*.js`, never to project
 
 Rules:
 - Every implementation file must have a corresponding test file
@@ -95,12 +105,12 @@ Rules:
 ## Phase 5 — Testing & Integration (TDD)
 
 **Role**: QA + Developer
-**Skills**: `web-design-guidelines` (a11y audit), `simplify` (code review)
+**Skills**: `playwright-skill` (E2E), `web-design-guidelines` (a11y audit), `simplify` (code review)
 **Goal**: Validate the full system against ACs.
 
 Steps:
-1. Run integration tests: component interaction scenarios
-2. Run E2E tests: full user flow via Playwright
+1. Run integration tests: component interaction scenarios (Vitest + RTL)
+2. Run E2E tests via `playwright-skill`: full user flow validation against `validation.md` ACs
 3. Run `web-design-guidelines` for accessibility audit
 4. Run `simplify` for final code review
 5. Failed tests → feed back to Phase 4
@@ -130,8 +140,8 @@ Steps:
 | 1. Planning | PM | `product-management` | — |
 | 2. Analysis | BA + UX | `product-management`, `web-design-guidelines` | — |
 | 3. Design | Architect | `architecture-skills:specification-architect` | — |
-| 4. Implementation | Developer | `vercel-react-best-practices`, `simplify` | Red → Green → Refactor |
-| 5. Testing | QA + Dev | `web-design-guidelines`, `simplify` | Integration → E2E → Feedback |
+| 4. Implementation | Developer | `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify`, `playwright-skill` | Red → Green → Refactor |
+| 5. Testing | QA + Dev | `playwright-skill`, `web-design-guidelines`, `simplify` | Integration → E2E → Feedback |
 | 6. Maintenance | PM | `product-management` | — |
 
 ## Usage
