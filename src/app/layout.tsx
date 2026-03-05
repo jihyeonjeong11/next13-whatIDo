@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import ProgressBarProvider from './_components/ProgressBarProvider';
 import { ThemeProvider } from 'next-themes';
-import WebVitals from './_components/WebVital/WebVitals';
+import WebVitals from './_components/WebVitals';
 // import Footer from './_components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
