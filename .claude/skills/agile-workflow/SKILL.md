@@ -10,6 +10,8 @@ version: 1.0.0
 
 This skill orchestrates a 6-phase agile SDLC for a tech startup, integrating specialized sub-skills at each phase. TDD is applied in Phase 4 and 5.
 
+> **For Future improvements - For myself!!!**: Implement monorepo structure for each practices.
+
 > **Beforehand**: Explain the user what to do first. Don't jump up to next phase but return what did happened first. When a phase is done, save a doc file to its root directory.
 
 ## Glossary
@@ -52,12 +54,14 @@ Steps:
 **Skill**: `architecture-skills:specification-architect`
 **Goal**: Produce traceable architectural documents.
 
+> **STRICT RULE**: Phase 3 outputs are DOCUMENTS ONLY. Do NOT create any source code files (`.ts`, `.tsx`, `.js`, `.css`, etc.). No component scaffolding, no schema files, no type files. Only markdown documents.
+
 Steps:
 1. Run `architecture-skills:specification-architect` with the PRD as input
 2. Generate five documents:
    - `blueprint.md` — system scope and data flow
    - `requirements.md` — functional requirements
-   - `design.md` — component/API specs
+   - `design.md` — component/API specs (pseudocode and interfaces only, no runnable code)
    - `tasks.md` — implementation checklist (Phase 1–N)
    - `validation.md` — requirements-to-tasks traceability matrix
 3. Confirm 100% AC coverage before proceeding
