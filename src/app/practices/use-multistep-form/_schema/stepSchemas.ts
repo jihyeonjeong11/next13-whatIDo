@@ -1,5 +1,20 @@
 import { z } from 'zod';
 
+const passwordSchema = z
+  .string()
+  .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' })
+  .max(20, { message: '비밀번호는 20자 이하여야 합니다.' })
+  .refine((password) => /[A-Z]/.test(password), {
+    message: '영어 대문자가 하나 이상 필요합니다.',
+  })
+  .refine((password) => /[a-z]/.test(password), {
+    message: '영어 소문자가 하나 이상 필요합니다.',
+  })
+  .refine((password) => /[0-9]/.test(password), { message: '숫자가 하나 이상 필요합니다.' })
+  .refine((password) => /[!@#$%^&*]/.test(password), {
+    message: '특수문자가 하나 이상 있어야 합니다.',
+  });
+
 export const formSchema = z
   .object({
     // Step 1
@@ -7,12 +22,9 @@ export const formSchema = z
       .string()
       .min(6, '영문과 숫자 조합 6~20자로 입력해주세요')
       .max(20, '영문과 숫자 조합 6~20자로 입력해주세요')
-      .regex(/^[a-zA-Z0-9]+$/, '영문과 숫자 조합 6~20자로 입력해주세요'),
-    password: z
-      .string()
-      .min(8, '8자 이상, 특수문자를 포함해주세요')
-      .regex(/[^a-zA-Z0-9]/, '8자 이상, 특수문자를 포함해주세요'),
-    confirmPassword: z.string(),
+      .regex(/^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/, '영문과 숫자 조합 6~20자로 입력해주세요'),
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, '비밀번호를 확인해주세요.'),
     email: z.string().email('올바른 이메일 형식을 입력해주세요'),
     phone: z.string().regex(/^010-\d{4}-\d{4}$/, '010-0000-0000 형식으로 입력해주세요'),
 
@@ -31,11 +43,16 @@ export const formSchema = z
     // Step 3
     sns: z.array(z.enum(['kakao', 'google', 'naver', 'github'])),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: '비밀번호가 일치하지 않습니다',
-    path: ['confirmPassword'],
+  .superRefine((data, ctx) => {
+    console.log('HELLO');
+    // if (Array.isArray(data.fieldCodeToConcat)) {
+    //   ctx.addIssue({
+    //     code: z.ZodIssueCode.custom,
+    //     message: "fieldCodeToConcat must be an object, not an array",
+    //     path: ["fieldCodeToConcat"],
+    //   });
+    // }
   });
-
 export type FormData = z.infer<typeof formSchema>;
 export type SnsProvider = FormData['sns'][number];
 export type Step = 1 | 2 | 3 | 'done';

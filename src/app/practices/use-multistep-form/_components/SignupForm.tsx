@@ -14,24 +14,31 @@ export const SignupForm = () => {
   const [step, setStep] = useState<Step>(1);
   const methods = useForm({
     resolver: zodResolver(formSchema),
-    mode: 'onTouched',
+    mode: 'all',
+    reValidateMode: 'onChange',
     defaultValues: { sns: [] },
   });
 
   // const onSubmit = (data: FormData) => console.log(data);
   const { trigger } = methods;
 
+  const handlePrev = () => {
+    if (step === 'done') return;
+
+    setStep((step - 1) as Step);
+  };
+
   const handleNext = async () => {
     if (step === 'done') return;
 
     const isValid = await trigger(STEP_FIELDS[step]);
-    if (isValid) setStep(step);
+    if (isValid) setStep((step + 1) as Step);
   };
 
   return (
     <FormProvider {...methods}>
       <div className="px-6 pb-4">
-        <StepIndicator step={step} setStep={setStep} handleNext={handleNext} />
+        <StepIndicator step={step} handlePrev={handlePrev} handleNext={handleNext} />
       </div>
       {step === 1 && <Step1Form />}
       {step === 2 && <Step2Form />}

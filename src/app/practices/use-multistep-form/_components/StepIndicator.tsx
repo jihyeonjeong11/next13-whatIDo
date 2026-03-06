@@ -15,19 +15,19 @@ import type { Step } from '../_schema/stepSchemas';
 
 export function StepIndicator({
   step,
-  setStep,
   handleNext,
+  handlePrev,
 }: {
   step: Step;
-  setStep: (value: Step) => void;
   handleNext: (value: Step) => void;
+  handlePrev: () => void;
 }) {
   if (step === 'done') return null;
 
   return (
     <div className="w-full">
       <Stepper value={step} className="relative flex items-center">
-        <StepperItem value={1} disabled={step < 1} className="flex-1">
+        <StepperItem value={1} disabled={step < 1} className="flex-1" {...(step === 1 ? { 'aria-current': 'step' } : {})}>
           <StepperHeader className="flex w-full items-center">
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
@@ -52,7 +52,7 @@ export function StepIndicator({
             />
           </StepperHeader>
         </StepperItem>
-        <StepperItem value={2} disabled={step < 2} className="flex-1">
+        <StepperItem value={2} disabled={step < 2} className="flex-1" {...(step === 2 ? { 'aria-current': 'step' } : {})}>
           <StepperHeader className="flex w-full items-center">
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
@@ -77,7 +77,7 @@ export function StepIndicator({
             />
           </StepperHeader>
         </StepperItem>
-        <StepperItem value={3} disabled={step < 3} className="flex-1">
+        <StepperItem value={3} disabled={step < 3} className="flex-1" {...(step === 3 ? { 'aria-current': 'step' } : {})}>
           <StepperHeader className="flex w-full items-center">
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
@@ -97,11 +97,11 @@ export function StepIndicator({
       </Stepper>
 
       <div className="mt-14 flex w-full justify-between gap-4">
-        <Button disabled={step === 1} onClick={() => setStep((step - 1) as Step)}>
-          Previous
+        <Button disabled={step === 1} onClick={handlePrev}>
+          이전
         </Button>
         <Button disabled={step === 3} onClick={() => handleNext(step)}>
-          Next
+          다음
         </Button>
       </div>
     </div>

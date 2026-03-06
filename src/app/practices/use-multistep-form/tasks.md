@@ -23,9 +23,9 @@
 | B-02 | `Step1AccountForm.tsx` 구현 — username/password/confirmPassword/email/phone | AC-01~05 | [x] |
 | B-03 | phone onChange 마스킹 로직 — 010-XXXX-XXXX 자동 포맷 | AC-05 | [ ] |
 | B-04 | password 보기/숨기기 토글 (password + confirmPassword) | AC-02~03 | [ ] |
-| B-05 | `Step2PersonalForm.tsx` 구현 — birthDate/gender/address/addressDetail | AC-06~08 | [ ] |
+| B-05 | `Step2PersonalForm.tsx` 구현 — birthDate/gender/address/addressDetail | AC-06~08 | [x] |
 | B-06 | DaumPostcode 모달 연동 — [주소 검색] 클릭 → 모달 → setValue | AC-08 | [ ] |
-| B-07 | `Step3SnsForm.tsx` 구현 — 4개 SNS 카드 토글 | AC-09 | [ ] |
+| B-07 | `Step3SnsForm.tsx` 구현 — 4개 SNS 카드 토글 | AC-09 | [x] |
 | B-08 | `SuccessView.tsx` 구현 — 입력값 요약 테이블 | AC-12 | [ ] |
 
 ---
@@ -38,7 +38,7 @@
 | C-02 | handleNext: trigger(STEP_FIELDS[step]) → 부분 검증 후 step 전환 | AC-13~14 | [x] |
 | C-03 | handlePrev: 데이터 보존하며 이전 단계 이동 | AC-10 | [ ] |
 | C-04 | handleSubmit → onSubmit → setStep('done') | AC-12 | [ ] |
-| C-05 | Step3SnsForm에 watch('sns') / setValue('sns') 연결 | AC-09 | [ ] |
+| C-05 | Step3SnsForm에 watch('sns') / setValue('sns') 연결 | AC-09 | [x] |
 
 ---
 
@@ -46,9 +46,9 @@
 
 | ID | Task | AC | 완료 |
 |----|------|----|------|
-| D-01 | 모든 input에 label[htmlFor] + input[id] + aria-describedby 연결 | AC-01~09 | [x] | → Step1 완료, Step2~3 미완 |
-| D-02 | 에러 메시지 span에 role="alert" 추가 | AC-01~09 | [x] | → Step1 완료, Step2~3 미완 |
-| D-03 | birthDate max 속성 = 오늘 날짜 (YYYY-MM-DD) 동적 설정 | AC-06 | [ ] |
+| D-01 | 모든 input에 label[htmlFor] + input[id] + aria-describedby 연결 | AC-01~09 | [x] | → Step1~2 완료 |
+| D-02 | 에러 메시지 span에 role="alert" 추가 | AC-01~09 | [x] | → Step1~2 완료 |
+| D-03 | birthDate max 속성 = 오늘 날짜 (YYYY-MM-DD) 동적 설정 | AC-06 | [x] |
 | D-04 | phone input에 inputMode="tel" 설정 | AC-05 | [ ] |
 | D-05 | 키보드 탭 순서 확인 (상단→하단) | 전체 | [ ] |
 
