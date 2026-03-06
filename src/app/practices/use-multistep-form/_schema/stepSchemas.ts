@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // https://blog.logrocket.com/building-reusable-multi-step-form-react-hook-form-zod/
-
+// https://blog.borristw.com/confirm-password-using-schema-zod-with-react-hook-form
 const passwordSchema = z
   .string()
   .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' })
