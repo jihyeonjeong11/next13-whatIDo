@@ -60,12 +60,23 @@ export const step3Schema = z.object({
   sns: z.array(z.enum(['kakao', 'google', 'naver', 'github'])),
 });
 
+// step2/3를 optional로 만들어 step1 real-time validation 시 superRefine이 실행되도록 함
 // https://zod.dev/api .merge 는 deprecated 되었음.
-export const formSchema = z.object({
-  ...step1BaseSchema.shape,
-  ...step2Schema.shape,
-  ...step3Schema.shape,
-});
+export const formSchema = z
+  .object({
+    ...step1BaseSchema.shape,
+    ...step2Schema.partial().shape,
+    ...step3Schema.shape,
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '비밀번호가 일치하지 않습니다',
+        path: ['confirmPassword'],
+      });
+    }
+  });
 
 export type FormData = z.infer<typeof formSchema>;
 export type SnsProvider = FormData['sns'][number];

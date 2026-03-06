@@ -14,8 +14,8 @@ export const SignupForm = () => {
   const methods = useForm({
     resolver: zodResolver(formSchema),
     mode: 'all',
-    reValidateMode: 'onChange',
     defaultValues: { sns: [] },
+    shouldFocusError: false,
   });
 
   const handlePrev = () => {

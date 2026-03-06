@@ -18,7 +18,8 @@ export const Step1Form = () => {
     register,
     formState: { errors },
     setValue,
-    trigger,
+    getValues,
+    clearErrors,
   } = useFormContext<FormData>();
 
   const [showPassword, setShowpassword] = useState(false);
@@ -57,7 +58,12 @@ export const Step1Form = () => {
               aria-describedby={errors.password ? 'password-error' : undefined}
               type={showPassword ? 'text' : 'password'}
               {...register('password', {
-                onChange: () => trigger('confirmPassword'),
+                onChange: (e) => {
+                  const value = e.target.value;
+                  if (value === getValues('confirmPassword')) {
+                    clearErrors('confirmPassword');
+                  }
+                },
               })}
             />
             <button
@@ -79,7 +85,12 @@ export const Step1Form = () => {
             type="password"
             aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
             {...register('confirmPassword', {
-              onBlur: () => trigger(['password', 'confirmPassword']),
+              onChange: (e) => {
+                const value = e.target.value;
+                if (value === getValues('password')) {
+                  clearErrors('confirmPassword');
+                }
+              },
             })}
           />
           <span role="alert" className="text-red-500 text-sm block h-5" id="confirmPassword-error">
