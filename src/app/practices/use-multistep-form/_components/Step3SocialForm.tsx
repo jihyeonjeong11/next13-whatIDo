@@ -17,7 +17,10 @@ export const Step3Form = () => {
 
   const toggle = (provider: SnsProvider) => {
     if (sns.includes(provider)) {
-      setValue('sns', sns.filter((p) => p !== provider));
+      setValue(
+        'sns',
+        sns.filter((p) => p !== provider),
+      );
     } else {
       setValue('sns', [...sns, provider]);
     }

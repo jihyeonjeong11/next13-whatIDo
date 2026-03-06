@@ -27,7 +27,12 @@ export function StepIndicator({
   return (
     <div className="w-full">
       <Stepper value={step} className="relative flex items-center">
-        <StepperItem value={1} disabled={step < 1} className="flex-1" {...(step === 1 ? { 'aria-current': 'step' } : {})}>
+        <StepperItem
+          value={1}
+          disabled={step < 1}
+          className="flex-1"
+          {...(step === 1 ? { 'aria-current': 'step' } : {})}
+        >
           <StepperHeader className="flex w-full items-center">
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
@@ -52,7 +57,12 @@ export function StepIndicator({
             />
           </StepperHeader>
         </StepperItem>
-        <StepperItem value={2} disabled={step < 2} className="flex-1" {...(step === 2 ? { 'aria-current': 'step' } : {})}>
+        <StepperItem
+          value={2}
+          disabled={step < 2}
+          className="flex-1"
+          {...(step === 2 ? { 'aria-current': 'step' } : {})}
+        >
           <StepperHeader className="flex w-full items-center">
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
@@ -77,7 +87,12 @@ export function StepIndicator({
             />
           </StepperHeader>
         </StepperItem>
-        <StepperItem value={3} disabled={step < 3} className="flex-1" {...(step === 3 ? { 'aria-current': 'step' } : {})}>
+        <StepperItem
+          value={3}
+          disabled={step < 3}
+          className="flex-1"
+          {...(step === 3 ? { 'aria-current': 'step' } : {})}
+        >
           <StepperHeader className="flex w-full items-center">
             <div className="flex flex-col items-center gap-1">
               <StepperIcon

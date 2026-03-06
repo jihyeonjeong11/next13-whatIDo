@@ -6,9 +6,8 @@ import { Step2Form } from './Step2PersonnalForm';
 import { Step3Form } from './Step3SocialForm';
 
 import { useForm, FormProvider } from 'react-hook-form';
-import { type Step, STEP_FIELDS } from '../_schema/stepSchemas';
+import { type Step, STEP_SCHEMAS, formSchema, type FormData } from '../_schema/stepSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formSchema } from '../_schema/stepSchemas';
 
 export const SignupForm = () => {
   const [step, setStep] = useState<Step>(1);
@@ -19,20 +18,25 @@ export const SignupForm = () => {
     defaultValues: { sns: [] },
   });
 
-  // const onSubmit = (data: FormData) => console.log(data);
-  const { trigger } = methods;
-
   const handlePrev = () => {
     if (step === 'done') return;
-
     setStep((step - 1) as Step);
   };
 
   const handleNext = async () => {
     if (step === 'done') return;
 
-    const isValid = await trigger(STEP_FIELDS[step]);
-    if (isValid) setStep((step + 1) as Step);
+    const values = methods.getValues();
+    const result = STEP_SCHEMAS[step].safeParse(values);
+
+    if (result.success) {
+      setStep((step + 1) as Step);
+    } else {
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof FormData;
+        if (field) methods.setError(field, { message: issue.message });
+      });
+    }
   };
 
   return (

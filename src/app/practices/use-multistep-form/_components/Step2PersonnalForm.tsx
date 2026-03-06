@@ -61,11 +61,7 @@ export const Step2Form = () => {
           </span>
 
           <FieldLabel htmlFor="addressDetail">상세주소</FieldLabel>
-          <Input
-            id="addressDetail"
-            placeholder="상세주소 입력"
-            {...register('addressDetail')}
-          />
+          <Input id="addressDetail" placeholder="상세주소 입력" {...register('addressDetail')} />
         </FieldSet>
       </FieldGroup>
     </form>
