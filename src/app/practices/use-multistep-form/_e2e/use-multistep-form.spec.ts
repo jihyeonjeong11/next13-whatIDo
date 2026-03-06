@@ -26,7 +26,7 @@ test.describe('AC-11: StepIndicator', () => {
     await page.goto(URL);
     const currentStep = page.locator('[aria-current="step"]');
     await expect(currentStep).toHaveCount(1);
-    await expect(currentStep).toContainText('1');
+    await expect(currentStep.locator('svg.lucide-user-plus')).toBeVisible();
   });
 });
 

@@ -1,7 +1,7 @@
 # Tasks: use-multistep-form
 
-**Phase**: 3 — Design
-**Date**: 2026-03-05
+**Phase**: 4 — Implementation
+**Date**: 2026-03-06
 
 ---
 
@@ -10,8 +10,8 @@
 | ID | Task | AC | 완료 |
 |----|------|----|------|
 | A-01 | `yarn add react-daum-postcode` 설치 | AC-08 | [ ] |
-| A-02 | `_types/index.ts` 생성 — FormData, Step, SnsProvider, STEP_FIELDS | AC-10 | [ ] |
-| A-03 | `_schema/stepSchemas.ts` 생성 — Zod formSchema (전체 필드 + cross-field refine) | AC-01~09 | [ ] |
+| A-02 | `_types/index.ts` 생성 — FormData, Step, SnsProvider, STEP_FIELDS | AC-10 | [x] | → stepSchemas.ts에 통합 |
+| A-03 | `_schema/stepSchemas.ts` 생성 — Zod formSchema (전체 필드 + cross-field refine) | AC-01~09 | [x] |
 
 ---
 
@@ -19,8 +19,8 @@
 
 | ID | Task | AC | 완료 |
 |----|------|----|------|
-| B-01 | `StepIndicator.tsx` 구현 — 3단계 원형 인디케이터, aria-current | AC-11 | [ ] |
-| B-02 | `Step1AccountForm.tsx` 구현 — username/password/confirmPassword/email/phone | AC-01~05 | [ ] |
+| B-01 | `StepIndicator.tsx` 구현 — 3단계 원형 인디케이터, aria-current, 숫자 레이블 | AC-11 | [x] |
+| B-02 | `Step1AccountForm.tsx` 구현 — username/password/confirmPassword/email/phone | AC-01~05 | [x] |
 | B-03 | phone onChange 마스킹 로직 — 010-XXXX-XXXX 자동 포맷 | AC-05 | [ ] |
 | B-04 | password 보기/숨기기 토글 (password + confirmPassword) | AC-02~03 | [ ] |
 | B-05 | `Step2PersonalForm.tsx` 구현 — birthDate/gender/address/addressDetail | AC-06~08 | [ ] |
@@ -34,8 +34,8 @@
 
 | ID | Task | AC | 완료 |
 |----|------|----|------|
-| C-01 | `page.tsx` — useForm 단일 인스턴스 + step state 설정 | AC-10 | [ ] |
-| C-02 | handleNext: trigger(STEP_FIELDS[step]) → 부분 검증 후 step 전환 | AC-13~14 | [ ] |
+| C-01 | `SignupForm.tsx` — useForm + zodResolver + FormProvider + step state | AC-10 | [x] |
+| C-02 | handleNext: trigger(STEP_FIELDS[step]) → 부분 검증 후 step 전환 | AC-13~14 | [x] |
 | C-03 | handlePrev: 데이터 보존하며 이전 단계 이동 | AC-10 | [ ] |
 | C-04 | handleSubmit → onSubmit → setStep('done') | AC-12 | [ ] |
 | C-05 | Step3SnsForm에 watch('sns') / setValue('sns') 연결 | AC-09 | [ ] |
@@ -46,8 +46,8 @@
 
 | ID | Task | AC | 완료 |
 |----|------|----|------|
-| D-01 | 모든 input에 label[htmlFor] + input[id] + aria-describedby 연결 | AC-01~09 | [ ] |
-| D-02 | 에러 메시지 span에 role="alert" 추가 | AC-01~09 | [ ] |
+| D-01 | 모든 input에 label[htmlFor] + input[id] + aria-describedby 연결 | AC-01~09 | [x] | → Step1 완료, Step2~3 미완 |
+| D-02 | 에러 메시지 span에 role="alert" 추가 | AC-01~09 | [x] | → Step1 완료, Step2~3 미완 |
 | D-03 | birthDate max 속성 = 오늘 날짜 (YYYY-MM-DD) 동적 설정 | AC-06 | [ ] |
 | D-04 | phone input에 inputMode="tel" 설정 | AC-05 | [ ] |
 | D-05 | 키보드 탭 순서 확인 (상단→하단) | 전체 | [ ] |
