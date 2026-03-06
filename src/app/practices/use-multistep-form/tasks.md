@@ -9,7 +9,7 @@
 
 | ID | Task | AC | 완료 |
 |----|------|----|------|
-| A-01 | `yarn add react-daum-postcode` 설치 | AC-08 | [ ] |
+| A-01 | `yarn add react-daum-postcode` 설치 | AC-08 | [x] |
 | A-02 | `_types/index.ts` 생성 — FormData, Step, SnsProvider, STEP_FIELDS | AC-10 | [x] | → stepSchemas.ts에 통합 |
 | A-03 | `_schema/stepSchemas.ts` 리팩터링 — step1/step2/step3 분리 + STEP_SCHEMAS + formSchema(step2 optional + superRefine) | AC-01~09 | [x] |
 
@@ -24,9 +24,9 @@
 | B-03 | phone onChange 마스킹 로직 — 010-XXXX-XXXX 자동 포맷 | AC-05 | [x] |
 | B-04 | password 보기/숨기기 토글 + confirmPassword 불일치 에러 | AC-02~03 | [x] |
 | B-05 | `Step2PersonalForm.tsx` 구현 — birthDate/gender/address/addressDetail | AC-06~08 | [x] |
-| B-06 | DaumPostcode 모달 연동 — [주소 검색] 클릭 → 모달 → setValue | AC-08 | [ ] |
+| B-06 | DaumPostcode 모달 연동 — [주소 검색] 클릭 → 모달 → setValue | AC-08 | [x] |
 | B-07 | `Step3SnsForm.tsx` 구현 — 4개 SNS 카드 토글 | AC-09 | [x] |
-| B-08 | `SuccessView.tsx` 구현 — 입력값 요약 테이블 | AC-12 | [ ] |
+| B-08 | `SuccessView.tsx` 구현 — 입력값 요약 테이블 | AC-12 | [x] |
 
 ---
 
@@ -36,8 +36,8 @@
 |----|------|----|------|
 | C-01 | `SignupForm.tsx` — useForm + zodResolver + FormProvider + step state | AC-10 | [x] |
 | C-02 | handleNext: STEP_SCHEMAS[step].safeParse() → step별 검증 + setError | AC-13~14 | [x] |
-| C-03 | handlePrev: 데이터 보존하며 이전 단계 이동 | AC-10 | [ ] |
-| C-04 | handleSubmit → onSubmit → setStep('done') | AC-12 | [ ] |
+| C-03 | handlePrev: 데이터 보존하며 이전 단계 이동 | AC-10 | [x] |
+| C-04 | handleSubmit → onSubmit → setStep('done') | AC-12 | [x] |
 | C-05 | Step3SnsForm에 watch('sns') / setValue('sns') 연결 | AC-09 | [x] |
 
 ---

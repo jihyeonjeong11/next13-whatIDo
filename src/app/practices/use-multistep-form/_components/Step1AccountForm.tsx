@@ -32,7 +32,6 @@ export const Step1Form = () => {
     if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
     return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
   };
-  console.log(errors);
   return (
     <form>
       <FieldGroup>

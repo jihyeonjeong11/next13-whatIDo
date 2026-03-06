@@ -1,5 +1,6 @@
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useFormContext } from 'react-hook-form';
-import { useKakaoPostcodePopup } from 'react-daum-postcode';
 import {
   FieldDescription,
   FieldGroup,
@@ -9,9 +10,15 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import type { FormData } from '../_schema/stepSchemas';
 
-const POSTCODE_SCRIPT_URL = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+const DaumPostcode = dynamic(() => import('react-daum-postcode'), { ssr: false });
 
 // 생일 성별 주소
 export const Step2Form = () => {
@@ -24,15 +31,11 @@ export const Step2Form = () => {
 
   const today = new Date().toISOString().split('T')[0];
   const address = watch('address');
+  const [isOpen, setIsOpen] = useState(false);
 
-  const openPostcode = useKakaoPostcodePopup(POSTCODE_SCRIPT_URL);
-
-  const handleAddressSearch = () => {
-    openPostcode({
-      onComplete: (data) => {
-        setValue('address', data.address, { shouldValidate: true });
-      },
-    });
+  const handleComplete = (data: { address: string }) => {
+    setValue('address', data.address, { shouldValidate: true });
+    setIsOpen(false);
   };
 
   return (
@@ -77,11 +80,8 @@ export const Step2Form = () => {
               placeholder="주소 검색을 눌러주세요"
               value={address ?? ''}
               aria-describedby={errors.address ? 'address-error' : undefined}
-              className="cursor-pointer"
-              onClick={handleAddressSearch}
-              disabled={true}
             />
-            <Button type="button" onClick={handleAddressSearch}>
+            <Button type="button" onClick={() => setIsOpen(true)}>
               주소 검색
             </Button>
           </div>
@@ -93,6 +93,15 @@ export const Step2Form = () => {
           <Input id="addressDetail" placeholder="상세주소 입력" {...register('addressDetail')} />
         </FieldSet>
       </FieldGroup>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="p-0 max-w-[500px]">
+          <DialogHeader className="p-4 pb-0">
+            <DialogTitle>주소 검색</DialogTitle>
+          </DialogHeader>
+          <DaumPostcode onComplete={handleComplete} style={{ height: 450 }} />
+        </DialogContent>
+      </Dialog>
     </form>
   );
 };

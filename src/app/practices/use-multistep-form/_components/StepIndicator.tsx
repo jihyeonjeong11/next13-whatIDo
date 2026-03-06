@@ -115,8 +115,8 @@ export function StepIndicator({
         <Button disabled={step === 1} onClick={handlePrev}>
           이전
         </Button>
-        <Button disabled={step === 3} onClick={() => handleNext(step)}>
-          다음
+        <Button onClick={() => handleNext(step)}>
+          {step === 3 ? '가입하기' : '다음'}
         </Button>
       </div>
     </div>

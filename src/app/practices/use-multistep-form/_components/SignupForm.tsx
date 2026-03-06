@@ -4,6 +4,7 @@ import { Step1Form } from './Step1AccountForm';
 import { StepIndicator } from './StepIndicator';
 import { Step2Form } from './Step2PersonnalForm';
 import { Step3Form } from './Step3SocialForm';
+import { SuccessModal } from './SuccessModal';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { type Step, STEP_SCHEMAS, formSchema, type FormData } from '../_schema/stepSchemas';
@@ -30,7 +31,11 @@ export const SignupForm = () => {
     const result = STEP_SCHEMAS[step].safeParse(values);
 
     if (result.success) {
-      setStep((step + 1) as Step);
+      if (step === 3) {
+        setStep('done');
+      } else {
+        setStep((step + 1) as Step);
+      }
     } else {
       result.error.issues.forEach((issue) => {
         const field = issue.path[0] as keyof FormData;
@@ -47,6 +52,14 @@ export const SignupForm = () => {
       {step === 1 && <Step1Form />}
       {step === 2 && <Step2Form />}
       {step === 3 && <Step3Form />}
+      <SuccessModal
+        open={step === 'done'}
+        data={methods.getValues()}
+        onClose={() => {
+          methods.reset();
+          setStep(1);
+        }}
+      />
     </FormProvider>
   );
 };
