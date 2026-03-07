@@ -1,5 +1,5 @@
-import Container from '@/components/ui/Container';
-import Typography from '@/components/ui/Typography';
+import Container from '@/components/ui/container';
+import Typography from '@/components/ui/typography';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { SignupForm } from './_components/SignupForm';
 

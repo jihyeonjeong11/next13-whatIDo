@@ -74,6 +74,7 @@
 
 
 ### V2
+- [] 컴포넌트 구조 네이밍 통일하기 - 파일 이름 소문자, export default 없앨 것
 - [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
 
 - [] layout.shared.tsx 링크 추가
