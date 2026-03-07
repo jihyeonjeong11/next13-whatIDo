@@ -5,7 +5,7 @@ import { SignupForm } from './_components/SignupForm';
 
 export default function UseMultistepForm() {
   return (
-    <div className="h-dvh flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <Container>
         <Card className="p-4">
           <CardHeader>
