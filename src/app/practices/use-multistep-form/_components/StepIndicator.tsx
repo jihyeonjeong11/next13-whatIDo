@@ -3,7 +3,6 @@
 import { ClipboardList, Link2, UserPlus } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import {
   Stepper,
   StepperHeader,
@@ -13,15 +12,7 @@ import {
 } from '@/components/ui/stepper';
 import type { Step } from '../_schema/stepSchemas';
 
-export function StepIndicator({
-  step,
-  handleNext,
-  handlePrev,
-}: {
-  step: Step;
-  handleNext: (value: Step) => void;
-  handlePrev: () => void;
-}) {
+export function StepIndicator({ step }: { step: Step }) {
   if (step === 'done') return null;
 
   return (
@@ -37,7 +28,7 @@ export function StepIndicator({
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
                 className={cn(
-                  'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                  'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors motion-reduce:transition-none',
                   step === 1
                     ? 'border-primary bg-primary text-primary-foreground'
                     : step > 1
@@ -45,13 +36,13 @@ export function StepIndicator({
                       : 'border-neutral-300 bg-neutral-100 text-neutral-400',
                 )}
               >
-                <UserPlus className="h-6 w-6" />
+                <UserPlus className="h-6 w-6" aria-hidden="true" />
               </StepperIcon>
               <span className="text-xs text-neutral-500">1</span>
             </div>
             <StepperSeparator
               className={cn(
-                'mx-2 h-0.5 flex-1 transition-colors',
+                'mx-2 h-0.5 flex-1 transition-colors motion-reduce:transition-none',
                 step > 1 ? 'bg-primary' : 'bg-neutral-200',
               )}
             />
@@ -67,7 +58,7 @@ export function StepIndicator({
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
                 className={cn(
-                  'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                  'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors motion-reduce:transition-none',
                   step === 2
                     ? 'border-primary bg-primary text-primary-foreground'
                     : step > 2
@@ -75,13 +66,13 @@ export function StepIndicator({
                       : 'border-neutral-300 bg-neutral-100 text-neutral-400',
                 )}
               >
-                <ClipboardList className="h-6 w-6" />
+                <ClipboardList className="h-6 w-6" aria-hidden="true" />
               </StepperIcon>
               <span className="text-xs text-neutral-500">2</span>
             </div>
             <StepperSeparator
               className={cn(
-                'mx-2 h-0.5 flex-1 transition-colors',
+                'mx-2 h-0.5 flex-1 transition-colors motion-reduce:transition-none',
                 step > 2 ? 'bg-primary' : 'bg-neutral-200',
               )}
             />
@@ -97,26 +88,19 @@ export function StepIndicator({
             <div className="flex flex-col items-center gap-1">
               <StepperIcon
                 className={cn(
-                  'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                  'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 transition-colors motion-reduce:transition-none',
                   step === 3
                     ? 'border-primary bg-primary text-primary-foreground'
                     : 'border-neutral-300 bg-neutral-100 text-neutral-400',
                 )}
               >
-                <Link2 className="h-6 w-6" />
+                <Link2 className="h-6 w-6" aria-hidden="true" />
               </StepperIcon>
               <span className="text-xs text-neutral-500">3</span>
             </div>
           </StepperHeader>
         </StepperItem>
       </Stepper>
-
-      <div className="mt-14 flex w-full justify-between gap-4">
-        <Button disabled={step === 1} onClick={handlePrev}>
-          이전
-        </Button>
-        <Button onClick={() => handleNext(step)}>{step === 3 ? '가입하기' : '다음'}</Button>
-      </div>
     </div>
   );
 }

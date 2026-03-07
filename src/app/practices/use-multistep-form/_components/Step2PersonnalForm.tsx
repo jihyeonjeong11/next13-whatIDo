@@ -15,6 +15,8 @@ import type { FormData } from '../_schema/stepSchemas';
 
 const DaumPostcode = dynamic(() => import('react-daum-postcode'), { ssr: false });
 
+const TODAY = new Date().toISOString().split('T')[0];
+
 // 생일 성별 주소
 export const Step2Form = () => {
   const {
@@ -24,7 +26,6 @@ export const Step2Form = () => {
     formState: { errors },
   } = useFormContext<FormData>();
 
-  const today = new Date().toISOString().split('T')[0];
   const address = watch('address');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,7 +46,8 @@ export const Step2Form = () => {
             <Input
               id="birthDate"
               type="date"
-              max={today}
+              max={TODAY}
+              autoComplete="bday"
               aria-describedby={errors.birthDate ? 'birthDate-error' : undefined}
               {...register('birthDate')}
             />
@@ -72,7 +74,7 @@ export const Step2Form = () => {
             <Input
               id="address"
               readOnly
-              placeholder="주소 검색을 눌러주세요"
+              placeholder="주소 검색을 눌러주세요…"
               value={address ?? ''}
               aria-describedby={errors.address ? 'address-error' : undefined}
             />
@@ -85,7 +87,7 @@ export const Step2Form = () => {
           </span>
 
           <FieldLabel htmlFor="addressDetail">상세주소</FieldLabel>
-          <Input id="addressDetail" placeholder="상세주소 입력" {...register('addressDetail')} />
+          <Input id="addressDetail" placeholder="상세주소 입력…" {...register('addressDetail')} />
         </FieldSet>
       </FieldGroup>
 

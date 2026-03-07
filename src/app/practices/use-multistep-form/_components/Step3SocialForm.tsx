@@ -1,8 +1,7 @@
+'use client';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from '@/components/ui/field';
-import { Button } from '@/components/ui/button';
 import type { FormData, SnsProvider } from '../_schema/stepSchemas';
 import { LoadingButton } from '@/components/ui/loading-button';
 
@@ -15,21 +14,20 @@ const SNS_LIST: { provider: SnsProvider; label: string }[] = [
 
 // 소셜 연결 버튼
 export const Step3Form = () => {
-  const { watch, setValue } = useFormContext<FormData>();
+  const { watch, setValue, getValues } = useFormContext<FormData>();
   const sns = watch('sns');
   const [loadingProvider, setLoadingProvider] = useState<SnsProvider | null>(null);
 
   const toggle = (provider: SnsProvider) => {
     setLoadingProvider(provider);
     setTimeout(() => {
-      if (sns.includes(provider)) {
-        setValue(
-          'sns',
-          sns.filter((p) => p !== provider),
-        );
-      } else {
-        setValue('sns', [...sns, provider]);
-      }
+      const currentSns = getValues('sns');
+      setValue(
+        'sns',
+        currentSns.includes(provider)
+          ? currentSns.filter((p) => p !== provider)
+          : [...currentSns, provider],
+      );
       setLoadingProvider(null);
     }, 1500);
   };

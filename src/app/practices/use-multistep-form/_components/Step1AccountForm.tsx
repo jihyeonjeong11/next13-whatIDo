@@ -12,6 +12,13 @@ import type { FormData } from '../_schema/stepSchemas';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
+const formatPhone = (value: string) => {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+};
+
 // 회원명 비밀번호 비밀번호 확인 이메일 전화번호
 export const Step1Form = () => {
   const {
@@ -26,12 +33,6 @@ export const Step1Form = () => {
 
   const { ref: registerRef, onChange: registerOnChange, ...restPhone } = register('phone');
 
-  const formatPhone = (value: string) => {
-    const digits = value.replace(/\D/g, '').slice(0, 11);
-    if (digits.length <= 3) return digits;
-    if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
-  };
   return (
     <form>
       <FieldGroup>
@@ -43,6 +44,8 @@ export const Step1Form = () => {
           <Input
             id="username"
             placeholder="anything1356"
+            autoComplete="username"
+            spellCheck={false}
             aria-describedby={errors.username ? 'username-error' : undefined}
             {...register('username')}
           />
@@ -54,6 +57,7 @@ export const Step1Form = () => {
           <div className="relative">
             <Input
               id="password"
+              autoComplete="new-password"
               aria-describedby={errors.password ? 'password-error' : undefined}
               type={showPassword ? 'text' : 'password'}
               {...register('password', {
@@ -71,7 +75,7 @@ export const Step1Form = () => {
               onClick={() => setShowpassword(!showPassword)}
               className="absolute right-2 top-1/2 -translate-y-1/2"
             >
-              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
             </button>
           </div>
           <span role="alert" className="text-red-500 text-sm block h-5" id="password-error">
@@ -82,6 +86,7 @@ export const Step1Form = () => {
           <Input
             id="confirmPassword"
             type="password"
+            autoComplete="new-password"
             aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
             {...register('confirmPassword', {
               onChange: (e) => {
@@ -100,6 +105,8 @@ export const Step1Form = () => {
           <Input
             id="email"
             type="email"
+            autoComplete="email"
+            spellCheck={false}
             aria-describedby={errors.email ? 'email-error' : undefined}
             {...register('email')}
           />
@@ -111,6 +118,7 @@ export const Step1Form = () => {
           <Input
             id="phone"
             inputMode="tel"
+            autoComplete="tel"
             aria-describedby={errors.phone ? 'phone-error' : undefined}
             ref={registerRef}
             onChange={(e) => {

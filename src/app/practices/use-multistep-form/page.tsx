@@ -9,7 +9,7 @@ export default function UseMultistepForm() {
       <Container>
         <Card className="p-4">
           <CardHeader>
-            <Typography variant={'h2'}>Signup form</Typography>
+            <Typography variant={'h2'}>Signup Form</Typography>
           </CardHeader>
           <CardContent>
             <SignupForm />
@@ -20,4 +20,4 @@ export default function UseMultistepForm() {
   );
 }
 
-// https://blog.logrocket.com/building-reusable-multi-step-form-react-hook-form-zod/ design
+// https://blog.logrocket.com/building-reusable-multi-step-form-react-hook-form-zod/ Overall design

@@ -9,6 +9,7 @@ import { SuccessModal } from './SuccessModal';
 import { useForm, FormProvider } from 'react-hook-form';
 import { type Step, STEP_SCHEMAS, formSchema, type FormData } from '../_schema/stepSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Buttons } from './Buttons';
 
 export const SignupForm = () => {
   const [step, setStep] = useState<Step>(1);
@@ -47,11 +48,9 @@ export const SignupForm = () => {
   return (
     <FormProvider {...methods}>
       <div className="px-6 pb-4">
-        <StepIndicator step={step} handlePrev={handlePrev} handleNext={handleNext} />
+        <StepIndicator step={step} />
       </div>
-      {step === 1 && <Step1Form />}
-      {step === 2 && <Step2Form />}
-      {step === 3 && <Step3Form />}
+      {step === 1 ? <Step1Form /> : step === 2 ? <Step2Form /> : step === 3 ? <Step3Form /> : null}
       <SuccessModal
         open={step === 'done'}
         data={methods.getValues()}
@@ -60,6 +59,7 @@ export const SignupForm = () => {
           setStep(1);
         }}
       />
+      <Buttons step={step} handlePrev={handlePrev} handleNext={handleNext} />
     </FormProvider>
   );
 };

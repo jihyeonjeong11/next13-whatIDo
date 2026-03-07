@@ -236,7 +236,8 @@ test.describe('AC-08: address', () => {
     await expect(page.locator('[aria-current="step"]')).toContainText('2');
   });
 
-  test('address 직접 입력 시 값이 반영됨', async ({ page }) => {
+  test.fixme('address 직접 입력 시 값이 반영됨', async ({ page }) => {
+    // address는 readOnly — DaumPostcode 모달로만 입력 가능. 모달 E2E 테스트와 함께 처리
     await page.fill('input[name="address"]', '서울시 강남구 테헤란로 123');
     await expect(page.locator('input[name="address"]')).toHaveValue('서울시 강남구 테헤란로 123');
   });

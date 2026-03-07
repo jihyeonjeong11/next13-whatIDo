@@ -50,7 +50,7 @@
 | D-02 | 에러 메시지 span에 role="alert" 추가 | AC-01~09 | [x] | → Step1~2 완료 |
 | D-03 | birthDate max 속성 = 오늘 날짜 (YYYY-MM-DD) 동적 설정 | AC-06 | [x] |
 | D-04 | phone input에 inputMode="tel" 설정 | AC-05 | [x] |
-| D-05 | 키보드 탭 순서 확인 (상단→하단) | 전체 | [ ] |
+| D-05 | 키보드 탭 순서 확인 (상단→하단) | 전체 | [x] | → Buttons.tsx 분리, form 하단으로 이동 |
 
 ---
 
