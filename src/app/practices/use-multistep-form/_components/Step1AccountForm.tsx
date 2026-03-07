@@ -75,7 +75,11 @@ export const Step1Form = () => {
               onClick={() => setShowpassword(!showPassword)}
               className="absolute right-2 top-1/2 -translate-y-1/2"
             >
-              {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
+              {showPassword ? (
+                <EyeOff size={16} aria-hidden="true" />
+              ) : (
+                <Eye size={16} aria-hidden="true" />
+              )}
             </button>
           </div>
           <span role="alert" className="text-red-500 text-sm block h-5" id="password-error">

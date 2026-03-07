@@ -1,11 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from '@/components/ui/field';
 import type { FormData, SnsProvider } from '../_schema/stepSchemas';
 import { LoadingButton } from '@/components/ui/loading-button';
 
-const SNS_LIST: { provider: SnsProvider; label: string }[] = [
+export const SNS_LIST: { provider: SnsProvider; label: string }[] = [
   { provider: 'kakao', label: '카카오' },
   { provider: 'naver', label: '네이버' },
   { provider: 'google', label: '구글' },
@@ -17,10 +17,17 @@ export const Step3Form = () => {
   const { watch, setValue, getValues } = useFormContext<FormData>();
   const sns = watch('sns');
   const [loadingProvider, setLoadingProvider] = useState<SnsProvider | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const toggle = (provider: SnsProvider) => {
     setLoadingProvider(provider);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       const currentSns = getValues('sns');
       setValue(
         'sns',

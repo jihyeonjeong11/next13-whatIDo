@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import type { FormData } from '../_schema/stepSchemas';
+import { SNS_LIST } from './Step3SocialForm';
 
 const GENDER_LABEL: Record<string, string> = {
   male: '남성',
@@ -15,12 +16,7 @@ const GENDER_LABEL: Record<string, string> = {
   other: '기타',
 };
 
-const SNS_LABEL: Record<string, string> = {
-  kakao: '카카오',
-  naver: '네이버',
-  google: '구글',
-  github: '깃허브',
-};
+const SNS_LABEL = Object.fromEntries(SNS_LIST.map(({ provider, label }) => [provider, label]));
 
 const Row = ({ label, value }: { label: string; value: string }) => (
   <tr className="border-b last:border-0">

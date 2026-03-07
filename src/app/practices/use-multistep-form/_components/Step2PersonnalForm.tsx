@@ -42,16 +42,14 @@ export const Step2Form = () => {
           <FieldDescription>단계2: 개인정보를 입력하세요</FieldDescription>
 
           <FieldLabel htmlFor="birthDate">생년월일</FieldLabel>
-          <div className="relative">
-            <Input
-              id="birthDate"
-              type="date"
-              max={TODAY}
-              autoComplete="bday"
-              aria-describedby={errors.birthDate ? 'birthDate-error' : undefined}
-              {...register('birthDate')}
-            />
-          </div>
+          <Input
+            id="birthDate"
+            type="date"
+            max={TODAY}
+            autoComplete="bday"
+            aria-describedby={errors.birthDate ? 'birthDate-error' : undefined}
+            {...register('birthDate')}
+          />
           <span role="alert" className="text-red-500 text-sm block h-5" id="birthDate-error">
             {errors.birthDate?.message ?? ''}
           </span>
