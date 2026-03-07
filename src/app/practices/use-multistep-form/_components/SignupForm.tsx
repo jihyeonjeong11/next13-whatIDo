@@ -42,6 +42,10 @@ export const SignupForm = () => {
         const field = issue.path[0] as keyof FormData;
         if (field) methods.setError(field, { message: issue.message });
       });
+      const firstField = result.error.issues[0]?.path[0] as keyof FormData | undefined;
+      if (firstField) {
+        methods.setFocus(firstField);
+      }
     }
   };
 
