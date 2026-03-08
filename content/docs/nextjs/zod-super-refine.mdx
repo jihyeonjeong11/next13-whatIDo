@@ -1,0 +1,78 @@
+---
+title: Zod superRefine으로 비밀번호 확인 필드 처리
+description: Zod + React Hook Form 환경에서 비밀번호 확인 필드 구현
+author: 정지현
+---
+
+[Claude code를 끼얹는 개발 - 멀티스탭 폼 구현하기](/docs/ai/claude-code-agile-workflow)
+
+### Problem
+
+React-hook-form을 사용하다 보면 수동으로 어떠한 필드의 validation 체크를 진행해야 할 때가 있다.
+
+내가 경험한 대표적인 케이스는 비밀번호 확인 필드인데 여기서는
+
+1. React-hook-form 레이어에서 [watch](https://react-hook-form.com/docs/useform/watch) 로 password 필드의 변화를 인지해 confirmPassword와 연결해서 에러를 표시한다.
+2. Zod validation 레이어에서 `.refine({})`이나 `SuperRefine({})`, `check({})`을 통해 이벤트를 검증해서 에러 메시지를 표시한다.
+
+1.의 방법이 간단하지만 `watch()`를 사용함으로써 해당 폼을 전부 리렌더하게 되는 문제가 있다!
+
+```typescript
+
+  const passwordValue = watch('password');
+  ...
+  
+   <Input
+     id="passwordConfirm"
+     autoComplete="new-password"
+     aria-describedby={isPasswordConfirmError ? 'password-error' : undefined}
+     type={'password'}
+     {...register('passwordConfirm', {
+       onChange: (v: string) => {
+         // 여기서 password watch 값과 현재 값을 비교해서 에러를 준다.
+         // password 필드도 마찬가지로 걸어준다.
+         ...
+       }
+     })}
+   />
+  
+
+```
+
+### Use-case
+
+필요한 것은 필드의 값이 변경될 때 마다, zod 레이어에서 패스워드와 패스워드 확인 필드의 내용을 검정해서 에러를 hook에 내려 주는 것이다.
+
+```typescript
+//  아래 superRefine은 resolver가 실행되는 시점에서 실행되기 때문에 mode를 기본 onSubmit이 아닌 onChange나 all로 바꿔 준다.
+  const methods = useForm({
+    resolver: zodResolver(formSchema),
+    mode: 'all',
+    defaultValues: { sns: [] },
+    shouldFocusError: false,
+  });
+```
+
+```typescript
+// https://zod.dev/api .merge 는 deprecated 되었음.
+export const formSchema = z
+  .object({
+    ...step1BaseSchema.shape,
+    ...step2Schema.partial().shape,
+    ...step3Schema.shape,
+  })
+  // refine()은 form 검증이 실패하면 실행되지 않으므로 superRefine()이나 check()를 활용할 것.
+  .superRefine((data, ctx) => {
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: 'custom', // z.ZodIssueCode.custom deprecated 되었음
+        message: '비밀번호가 일치하지 않습니다',
+        path: ['confirmPassword'],
+      });
+    }
+  });
+``````
+### References
+
+- [Confirm-password-using-zod-and-RHF](https://blog.borristw.com/confirm-password-using-schema-zod-with-react-hook-form)
+- [official zod issue](https://github.com/colinhacks/zod/issues/5197)

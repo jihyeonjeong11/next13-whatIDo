@@ -19,5 +19,3 @@ export default function UseMultistepForm() {
     </div>
   );
 }
-
-// https://blog.logrocket.com/building-reusable-multi-step-form-react-hook-form-zod/ Overall design

@@ -14,7 +14,7 @@
 
 이 카테고리의 경우 배움이 주 목적이므로 대부분 참고한 내용의 구조를 따라 작성함.
 
-## 3. Use-case
+## 3. Use-cases
 
 예시 - `docs/nextjs/*`
 
@@ -22,4 +22,7 @@
 2. Concept - 위 Goal을 해결하기 위한 개념적인 백그라운드.
 3. Implementation - 실제로 해결한 코드 스니펫 및 과정 기록.
 4. Result - 실제 결과
-5. Drawbacks & Lessons - 사용한 해결책에서 생각해보아야 할 시나리오
+
+## 4. Drawbacks & limitations
+
+어떤 부분에서 어려움을 겪었는지?

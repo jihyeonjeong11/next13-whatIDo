@@ -1,24 +1,25 @@
 ---
 name: agile-workflow
 description: Tech startup agile SDLC workflow with TDD. Use this skill when the user asks to "start a new feature", "begin planning", "run agile workflow", "follow SDLC", "start sprint", or wants to go through the full development lifecycle from planning to maintenance.
-version: 1.0.0
+metadata:
+  author: jihyeonjeong
+  version: "1.0.0"
+  website: https://jihyeonjeong.com
 ---
 
 # Agile Workflow Skill
 
 ## Overview
 
-This skill orchestrates a 6-phase agile SDLC for a tech startup, integrating specialized sub-skills at each phase. TDD is applied in Phase 4 and 5.
-
-> **For Future improvements - For myself!!!**: Implement monorepo structure for each practices.
+This skill orchestrates a 7-phase agile SDLC for a tech startup, integrating specialized sub-skills at each phase. TDD is split: Phase 4 writes all failing tests, Phase 5 implements task-by-task to make them pass.
 
 > **Beforehand**: Explain the user what to do first. Don't jump up to next phase but return what did happened first. When a phase is done, save a doc file to its root directory.
 
 > **Beforehand**: Generated md file must be placed at root directory/_docs routing
 
-## Glossary
+## Glossary(for only this project!)
 - root directory: root app router routing directory means where its page located. `./src/app/practices/<root>`
-- root naming: `use-anything`
+- root naming: `<use-something>`
 
 ---
 
@@ -71,57 +72,100 @@ Steps:
 
 ---
 
-## Phase 4 — Implementation (TDD)
+## Phase 4 — Test Writing (Red Phase)
 
-**Role**: Developer
-**Skills**: `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify`
-**Goal**: Build features test-first.
+**Role**: QA Engineer
+**Goal**: Write ALL failing tests upfront before any implementation code is written.
 
 **Testing tool**: Currently `playwright` only
 
-Steps:
-1. Create /_e2e directory from root directory
-2. Fill failing tests based on the AC
-3. Not determined yet.
+> **STRICT RULE**: Do NOT write any implementation code in this phase. Only test files.
 
-TDD Cycle per task in `tasks.md`:
-```
-Red   → Write a failing test based on the AC
-Green → Write the minimum code to pass the test
-Refactor → Clean up with `simplify` skill
-```
+Steps:
+1. Create `/_e2e` directory under root directory (if not exists)
+2. For each task `T` in `tasks.md`, write a failing test derived from `validation.md` ACs:
+   - Map each AC → one or more test cases
+   - Use descriptive test names that reflect the AC
+3. Run all tests → confirm **every test FAILS** (all Red)
+4. Show the user the full failing output
+5. Output: test file(s) in `/_e2e/`, all in Red state
 
 Tools:
-- **Unit/Integration**: Vitest + React Testing Library
 - **E2E**: `playwright-skill` (plugin at `~/.claude/plugins/marketplaces/playwright-skill/skills/playwright-skill`)
   - Setup (first time): `cd $SKILL_DIR && npm run setup`
   - Always run `detectDevServers()` before writing E2E tests
   - Write test scripts to `/tmp/playwright-test-*.js`, never to project
+- **Unit/Integration**: Vitest + React Testing Library (when E2E is insufficient)
 
 Rules:
-- Every implementation file must have a corresponding test file
-- Tests are derived directly from `validation.md` Acceptance Criteria
-- No code is written without a failing test first
+- No implementation code — tests only
+- Tests must fail for the right reason (missing feature, not syntax error)
+- All tasks in `tasks.md` must have test coverage before proceeding
 
 ---
 
-## Phase 5 — Testing & Integration (TDD)
+## Phase 5 — Implementation (Green + Refactor, task-by-task)
+
+**Role**: Developer
+**Skills**: `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify`
+**Goal**: Make each failing test pass, one task at a time.
+
+> **RULE**: Understand the existing codebase before proposing any changes. Ask for approval before adding new
+  dependencies.
+> **RULE**: Do NOT proceed to the next task until the current task is Green + Refactored and the user confirms.
+
+For each task `T` in `tasks.md` (in order):
+
+```
+──────────────────────────────────────────
+TASK T: <task title from tasks.md>
+──────────────────────────────────────────
+
+[Announce] State which task is starting and which tests it must satisfy.
+
+[Green]
+  1. Write the minimum implementation code to pass task T's tests
+  2. Apply vercel-react-best-practices and vercel-composition-patterns
+  3. Run only task T's tests → confirm PASSES
+  4. Run ALL tests → confirm no regressions
+  5. Show the user the passing output
+
+[Refactor]
+  6. Run `simplify` skill on the new code
+  7. Re-run all tests → still green
+
+[Confirm]
+  8. "Task T complete ✓. Move to next task? (y/n)"
+  9. Wait for user approval before advancing
+──────────────────────────────────────────
+```
+
+Rules:
+- Never write new tests here — only implementation code
+- Never skip the [Confirm] step
+- If a test can't be made green, surface the blocker to the user before continuing
+
+---
+
+## Phase 6 — Testing & Integration
 
 **Role**: QA + Developer
 **Skills**: `playwright-skill` (E2E), `web-design-guidelines` (a11y audit), `simplify` (code review)
 **Goal**: Validate the full system against ACs.
 
+**Beforehand**: Respect current codebase. Ask the user if the change is absolutely needed.
+
 Steps:
-1. Run integration tests: component interaction scenarios (Vitest + RTL)
-2. Run E2E tests via `playwright-skill`: full user flow validation against `validation.md` ACs
+1. Run the full E2E suite via `playwright-skill` against `validation.md` ACs
+2. Run integration tests: component interaction scenarios (Vitest + RTL)
 3. Run `web-design-guidelines` for accessibility audit
 4. Run `simplify` for final code review
-5. Failed tests → feed back to Phase 4
+5. Failed tests → feed back to Phase 5
 6. Output: test coverage report, audit results
 
 ---
 
-## Phase 6 — Feedback & Maintenance
+## Phase 7 — Feedback & Maintenance
 
 **Role**: PM
 **Skill**: `product-management`
@@ -138,14 +182,15 @@ Steps:
 
 ## Workflow Summary
 
-| Phase | Role | Skill | TDD |
-|-------|------|-------|-----|
-| 1. Planning | PM | `product-management` | — |
-| 2. Analysis | BA + UX | `product-management` + agent:`ux-researcher` | — |
-| 3. Design | Architect | `architecture-skills:specification-architect` | — |
-| 4. Implementation | Developer | `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify`, `playwright-skill` | Red → Green → Refactor |
-| 5. Testing | QA + Dev | `playwright-skill`, `web-design-guidelines`, `simplify` | Integration → E2E → Feedback |
-| 6. Maintenance | PM | `product-management` | — |
+| Phase | Role | Skill | Focus |
+|-------|------|-------|-------|
+| 1. Planning | PM | `product-management` | What & Why |
+| 2. Analysis | BA + UX | `product-management` + agent:`ux-researcher` | AC & User Flows |
+| 3. Design | Architect | `architecture-skills:specification-architect` | Docs only |
+| 4. Test Writing | QA Engineer | `playwright-skill` | **Red** — all tests failing |
+| 5. Implementation | Developer | `vercel-react-best-practices`, `vercel-composition-patterns`, `simplify` | **Green → Refactor** per task |
+| 6. Testing & Integration | QA + Dev | `playwright-skill`, `web-design-guidelines`, `simplify` | Full suite + a11y |
+| 7. Maintenance | PM | `product-management` | Next sprint |
 
 ## Usage
 

@@ -30,17 +30,6 @@ const step1BaseSchema = z.object({
   phone: z.string().regex(/^010-\d{4}-\d{4}$/, '010-0000-0000 형식으로 입력해주세요'),
 });
 
-// Step 1 with cross-field validation
-export const step1Schema = step1BaseSchema.superRefine((data, ctx) => {
-  if (data.password !== data.confirmPassword) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: '비밀번호가 일치하지 않습니다',
-      path: ['confirmPassword'],
-    });
-  }
-});
-
 // Step 2
 export const step2Schema = z.object({
   birthDate: z
@@ -60,7 +49,6 @@ export const step3Schema = z.object({
   sns: z.array(z.enum(['kakao', 'google', 'naver', 'github'])),
 });
 
-// step2/3를 optional로 만들어 step1 real-time validation 시 superRefine이 실행되도록 함
 // https://zod.dev/api .merge 는 deprecated 되었음.
 export const formSchema = z
   .object({
@@ -71,7 +59,7 @@ export const formSchema = z
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: 'custom', // z.ZodIssueCode.custom deprecated 되었음
         message: '비밀번호가 일치하지 않습니다',
         path: ['confirmPassword'],
       });
@@ -83,7 +71,7 @@ export type SnsProvider = FormData['sns'][number];
 export type Step = 1 | 2 | 3 | 'done';
 
 export const STEP_SCHEMAS = {
-  1: step1Schema,
+  1: step1BaseSchema,
   2: step2Schema,
   3: step3Schema,
 } as const;

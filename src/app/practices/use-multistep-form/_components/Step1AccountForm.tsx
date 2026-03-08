@@ -60,14 +60,7 @@ export const Step1Form = () => {
               autoComplete="new-password"
               aria-describedby={errors.password ? 'password-error' : undefined}
               type={showPassword ? 'text' : 'password'}
-              {...register('password', {
-                onChange: (e) => {
-                  const value = e.target.value;
-                  if (value === getValues('confirmPassword')) {
-                    clearErrors('confirmPassword');
-                  }
-                },
-              })}
+              {...register('password')}
             />
             <button
               type="button"
