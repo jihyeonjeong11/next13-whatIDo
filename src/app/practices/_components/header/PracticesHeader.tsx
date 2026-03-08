@@ -48,7 +48,7 @@ const DOC_MAP: Record<string, { label: string; docPath: string }> = {
   },
   'use-multistep-form': {
     label: 'Multi-step Form',
-    docPath: '/docs/react',
+    docPath: '/docs/ai/claude-code-agile-workflow',
   },
 };
 
@@ -74,6 +74,8 @@ export default function PracticesHeader() {
   const pathname = usePathname();
   const slug = pathname.split('/').at(-1) ?? '';
   const meta = DOC_MAP[slug];
+
+  console.log(meta);
 
   return (
     <header className="sticky top-0 z-50 w-full border-bbackdrop-blur-md mb-2">
