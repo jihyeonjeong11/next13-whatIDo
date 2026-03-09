@@ -52,12 +52,18 @@
 - [x] 지금까지 한거 다듬기
 - [] 지금까지 한거 다듬기 2차
 
+- [x] tag?
+- [x] 수정한 시간?
+- [] new?
+- [] https://github.com/fuma-nama/fumadocs/blob/dev/apps/docs/content/docs/mdx/include.mdx include
+
 - [x] 다크 테마 확인하기
 
 ### Claude code
 
-  - [] CLAUDE.md
+  - [x] CLAUDE.md
   - [] Skills.md - MD-STRUCTURE.md 내용 바꿀 것
+
 
 
 
@@ -74,6 +80,8 @@
 
 
 ### V2
+- [] https://github.com/rjvim/rjvim.github.io/blob/main/apps/web/source.config.ts
+
 - [] 컴포넌트 구조 네이밍 통일하기 - 파일 이름 소문자, export default 없앨 것
 - [] experiences 확인하고 여기 예제 만들기 django, webRTC, echarts, bigquery?
 

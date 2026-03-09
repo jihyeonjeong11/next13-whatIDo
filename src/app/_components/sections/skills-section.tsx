@@ -4,7 +4,7 @@ import Typography from '@/components/ui/typography';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 
-const Skills = () => {
+export const SkillsSection = () => {
   return (
     <Container id="skills">
       <Typography variant="h2">Skills</Typography>
@@ -21,5 +21,3 @@ const Skills = () => {
     </Container>
   );
 };
-
-export default Skills;

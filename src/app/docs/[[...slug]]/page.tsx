@@ -9,14 +9,27 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
-
+  console.log(page.data);
   const MDX = page.data.body;
-
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
+      {page.data.lastModified?.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
-      <div className="flex flex-row gap-2 items-center border-b pb-6"></div>
+      <div className="flex flex-row gap-2 items-center border-b pb-6">
+        {page.data.tags?.map((tag) => (
+          <span
+            key={tag}
+            className="text-xs font-medium px-2 py-0.5 rounded-full bg-fd-secondary text-fd-secondary-foreground"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
       <DocsBody>
         <MDX
           components={getMDXComponents({

@@ -5,11 +5,11 @@ import Container from '@/components/ui/container';
 import Typography from '@/components/ui/typography';
 import Image from 'next/image';
 
-const About = () => {
+export const AboutSection = () => {
   return (
     <Container id="about">
       <div className="flex flex-col gap-6">
-        <Typography variant="h2">안녕하세요! 웹 개발자 정지현입니다.👋</Typography>
+        <Typography variant="h2">끊임없이 배우고 끊임없이 개발합니다.👋</Typography>
         <Typography variant="body2">
           끊임없는 학습과 이해를 통해 최대한 빠른 경로로 문제를 해결하는 것을 좋아합니다.
         </Typography>
@@ -71,5 +71,3 @@ const About = () => {
     </Container>
   );
 };
-
-export default About;

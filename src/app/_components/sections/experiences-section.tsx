@@ -3,7 +3,7 @@ import Container from '@/components/ui/container';
 import Typography from '@/components/ui/typography';
 import { Card } from '@/components/ui/card';
 
-const Experiences = () => {
+export const ExperiencesSection = () => {
   return (
     <Container id="experiences">
       <Typography variant="h2">Experiences</Typography>
@@ -37,5 +37,3 @@ const Experiences = () => {
     </Container>
   );
 };
-
-export default Experiences;

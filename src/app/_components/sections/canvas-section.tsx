@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { CanvasView } from '../lazy';
 
-const BlogGraphSection = async () => {
+export const CanvasSection = async () => {
   return (
     <Container id="graph">
       <Typography variant="h2">Graph</Typography>
@@ -15,5 +15,3 @@ const BlogGraphSection = async () => {
     </Container>
   );
 };
-
-export default BlogGraphSection;

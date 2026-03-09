@@ -1,7 +1,7 @@
 import Container from '@/components/ui/container';
 import Typography from '@/components/ui/typography';
 
-const Projects = () => {
+export const ProjectsSection = () => {
   return (
     <Container id="projects">
       <div className="flex flex-col gap-6">
@@ -17,5 +17,3 @@ const Projects = () => {
     </Container>
   );
 };
-
-export default Projects;

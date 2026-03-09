@@ -2,13 +2,13 @@
   "title": "Docs",
   "pages": [
     "index",
+    "ai",
     "projects",
     "nextjs",
     "react",
     "robust-project-structure",
     "html-canvas",
     "data-structure",
-    "ai",
     "needsReview"
   ]
 }

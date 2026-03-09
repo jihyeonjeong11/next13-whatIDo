@@ -3,7 +3,7 @@ import Container from '@/components/ui/container';
 import { buildGraph } from '@/app/_lib/buildGraph';
 import { GraphView } from '../lazy';
 
-const BlogGraphSection = async () => {
+export const BlogGraphSection = async () => {
   const props = await buildGraph();
   return (
     <Container id="graph">
@@ -12,5 +12,3 @@ const BlogGraphSection = async () => {
     </Container>
   );
 };
-
-export default BlogGraphSection;
