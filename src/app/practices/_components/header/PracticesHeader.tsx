@@ -75,8 +75,6 @@ export default function PracticesHeader() {
   const slug = pathname.split('/').at(-1) ?? '';
   const meta = DOC_MAP[slug];
 
-  console.log(meta);
-
   return (
     <header className="sticky top-0 z-50 w-full border-bbackdrop-blur-md mb-2">
       <div className="flex items-center justify-between h-14 px-4 mx-auto">
