@@ -27,14 +27,10 @@ export const metadata: Metadata = {
     title,
     description,
     siteName: title,
-    images: [
-      {
-        url: '/favicon.ico',
-        width: 1200,
-        height: 630,
-        alt: title,
-      },
-    ],
+    images: [{ url: '/api/og?title=JIHYEON', width: 1200, height: 630 }],
+  },
+  twitter: {
+    images: [{ url: '/api/og?title=JIHYEON', width: 1200, height: 630 }],
   },
 
   icons: {
