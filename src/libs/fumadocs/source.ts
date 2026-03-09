@@ -3,6 +3,14 @@ import { type InferPageType, loader } from 'fumadocs-core/source';
 import { icons } from 'lucide-react';
 import { createElement } from 'react';
 
+export function getPageImage(page: InferPageType<typeof source>) {
+  const segments = [...page.slugs, 'image.png'];
+  return {
+    segments,
+    url: `api/og/docs/${segments.join('/')}`,
+  };
+}
+
 export const source = loader({
   baseUrl: '/docs',
   source: docs.toFumadocsSource(),

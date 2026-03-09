@@ -4508,6 +4508,120 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@takumi-rs/core-darwin-arm64@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-darwin-arm64@npm:0.71.4"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-darwin-x64@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-darwin-x64@npm:0.71.4"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-linux-arm64-gnu@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-linux-arm64-gnu@npm:0.71.4"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-linux-arm64-musl@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-linux-arm64-musl@npm:0.71.4"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-linux-x64-gnu@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-linux-x64-gnu@npm:0.71.4"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-linux-x64-musl@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-linux-x64-musl@npm:0.71.4"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-win32-arm64-msvc@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-win32-arm64-msvc@npm:0.71.4"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core-win32-x64-msvc@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core-win32-x64-msvc@npm:0.71.4"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/core@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/core@npm:0.71.4"
+  dependencies:
+    "@takumi-rs/core-darwin-arm64": "npm:0.71.4"
+    "@takumi-rs/core-darwin-x64": "npm:0.71.4"
+    "@takumi-rs/core-linux-arm64-gnu": "npm:0.71.4"
+    "@takumi-rs/core-linux-arm64-musl": "npm:0.71.4"
+    "@takumi-rs/core-linux-x64-gnu": "npm:0.71.4"
+    "@takumi-rs/core-linux-x64-musl": "npm:0.71.4"
+    "@takumi-rs/core-win32-arm64-msvc": "npm:0.71.4"
+    "@takumi-rs/core-win32-x64-msvc": "npm:0.71.4"
+  dependenciesMeta:
+    "@takumi-rs/core-darwin-arm64":
+      optional: true
+    "@takumi-rs/core-darwin-x64":
+      optional: true
+    "@takumi-rs/core-linux-arm64-gnu":
+      optional: true
+    "@takumi-rs/core-linux-arm64-musl":
+      optional: true
+    "@takumi-rs/core-linux-x64-gnu":
+      optional: true
+    "@takumi-rs/core-linux-x64-musl":
+      optional: true
+    "@takumi-rs/core-win32-arm64-msvc":
+      optional: true
+    "@takumi-rs/core-win32-x64-msvc":
+      optional: true
+  checksum: 10c0/e9b02234fc6b6a2d5ece0d5d31ba54d2cc744e2a0e21ee1e3ef0d401c78da36c4e94ca6e090cb2a2487adf9c040f6da9a4649becce3be1dbc4c477cb33e901ea
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/helpers@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/helpers@npm:0.71.4"
+  checksum: 10c0/745c7bd3e4f1c19b611f7c5145c066391481e1294d5d0f24b7a12ad6491b8a8f9434aaa54812ef85adc0cc158b4af959b494198ad3ecb090c480d0d73009ec77
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/image-response@npm:^0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/image-response@npm:0.71.4"
+  dependencies:
+    "@takumi-rs/core": "npm:0.71.4"
+    "@takumi-rs/helpers": "npm:0.71.4"
+    "@takumi-rs/wasm": "npm:0.71.4"
+  checksum: 10c0/97527454d62ec63c1be61098584930a276400affb9d3ff18cd52901f1ebfd6f0107b60ae786ef8fe7ef59241fe5265c2420c61fd8bd05587930b229c12694a44
+  languageName: node
+  linkType: hard
+
+"@takumi-rs/wasm@npm:0.71.4":
+  version: 0.71.4
+  resolution: "@takumi-rs/wasm@npm:0.71.4"
+  checksum: 10c0/28b5cf47038dce51a33826c5acf5ae9da734c4ee82ea5c5d06188756b4f4ddb35c22fa714d1949a158628e148f0454e9d7a4480a3eec9853f11ca3e1ac9f0cd1
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:5.90.20":
   version: 5.90.20
   resolution: "@tanstack/query-core@npm:5.90.20"
@@ -13244,6 +13358,7 @@ __metadata:
     "@radix-ui/react-switch": "npm:^1.2.6"
     "@svgr/webpack": "npm:^8.1.0"
     "@tailwindcss/postcss": "npm:^4.1.14"
+    "@takumi-rs/image-response": "npm:^0.71.4"
     "@tanstack/react-query": "npm:^5.36.0"
     "@types/d3-force": "npm:^3"
     "@types/mdx": "npm:^2.0.13"

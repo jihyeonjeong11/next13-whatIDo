@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { getMDXComponents } from 'mdx-components';
-import { source } from '@/libs/fumadocs/source';
+import { getPageImage, source } from '@/libs/fumadocs/source';
 import { Badge } from '@/components/ui/badge';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
@@ -52,7 +52,7 @@ export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): P
     title: page.data.title,
     description: page.data.description,
     openGraph: {
-      //images: getPageImage(page).url,
+      images: getPageImage(page).url,
     },
   };
 }
