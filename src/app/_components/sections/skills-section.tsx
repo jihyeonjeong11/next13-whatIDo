@@ -1,6 +1,6 @@
 import { Skill_Cards } from '@/libs/constants';
-import Container from '@/components/ui/container';
-import Typography from '@/components/ui/typography';
+import { Container } from '@/components/ui/container';
+import { Typography } from '@/components/ui/typography';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 

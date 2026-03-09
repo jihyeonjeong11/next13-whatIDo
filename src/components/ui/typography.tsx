@@ -53,4 +53,4 @@ const Typography = React.forwardRef<HTMLHeadingElement | HTMLParagraphElement, T
 
 Typography.displayName = 'Typography';
 
-export default Typography;
+export { Typography };

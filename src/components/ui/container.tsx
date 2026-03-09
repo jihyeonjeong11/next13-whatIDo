@@ -3,7 +3,7 @@ import * as React from 'react';
 
 interface ContainerProps extends React.HTMLAttributes<HTMLElement> {}
 
-const Container = React.forwardRef<HTMLElement, ContainerProps>(
+export const Container = React.forwardRef<HTMLElement, ContainerProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <section ref={ref} {...props} className={cn('w-full py-16 md:py-20 2xl:py-24', className)}>
@@ -16,4 +16,3 @@ const Container = React.forwardRef<HTMLElement, ContainerProps>(
 );
 
 Container.displayName = 'Container';
-export default Container;

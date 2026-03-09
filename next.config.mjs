@@ -18,6 +18,12 @@ const nextConfig = {
     implementation: 'sass-embedded',
   },
   images: {
+    localPatterns: [
+      {
+        pathname: '/api/og',
+        search: '*',
+      },
+    ],
     remotePatterns: [
       {
         protocol: 'https',

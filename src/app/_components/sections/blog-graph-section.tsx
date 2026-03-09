@@ -1,5 +1,5 @@
-import Typography from '@/components/ui/typography';
-import Container from '@/components/ui/container';
+import { Typography } from '@/components/ui/typography';
+import { Container } from '@/components/ui/container';
 import { buildGraph } from '@/app/_lib/buildGraph';
 import { GraphView } from '../lazy';
 

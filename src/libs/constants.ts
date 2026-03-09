@@ -164,9 +164,13 @@ export const HEADER_LINKS = [
     url: '#experiences',
   },
   {
-    text: 'Graph',
-    url: '#graph',
+    text: 'Posts',
+    url: '#posts',
   },
+  // {
+  //   text: 'Graph',
+  //   url: '#graph',
+  // },
   // {
   //   text: 'Projects',
   //   url: '#projects',

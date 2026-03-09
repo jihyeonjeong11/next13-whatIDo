@@ -1,6 +1,6 @@
-import Container from '@/components/ui/container';
+import { Container } from '@/components/ui/container';
 import { SignupForm } from './_components/SignupForm';
-import Typography from '@/components/ui/typography';
+import { Typography } from '@/components/ui/typography';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function UseMultistepForm() {
