@@ -27,8 +27,6 @@ export const PostsSection = () => {
     })
     .filter((p) => p.data.description && !p.data.title.includes('outdated'));
 
-  console.log(posts);
-
   return (
     <Container id="posts">
       <Typography variant="h2">Posts</Typography>

@@ -9,9 +9,10 @@ export const AboutSection = () => {
   return (
     <Container id="about">
       <div className="flex flex-col gap-6">
-        <Typography variant="h2">끊임없이 배우고 끊임없이 개발합니다.👋</Typography>
+        <Typography variant="h2">시작부터 완성까지, 길을 닦는 개발자입니다.👋</Typography>
         <Typography variant="body2">
-          끊임없는 학습과 이해를 통해 최대한 빠른 경로로 문제를 해결하는 것을 좋아합니다.
+          목표까지의 가장 빠른 길에 대해 가설을 세우고 검증하는 것을 좋아합니다. 소통을 통해
+          요구사항을, 요구사항을 통해 실제로 배운 뒤 만들고 기록합니다.
         </Typography>
         <ul>
           <li className="flex gap-2">
