@@ -1,5 +1,5 @@
 {
   "title": "AI",
   "icon": "Brain",
-  "pages": ["agentic-coding-vs-vibe-coding", "claude-code-agile-workflow"]
+  "pages": ["agentic-coding-vs-vibe-coding", "agentic-workflow", "claude-code-agile-workflow"]
 }
