@@ -1,158 +1,100 @@
 ---
-title: Agentic Coding vs Vibe Coding
+title: Agentic Coding이란 뭐죠?
 description: Agentic Coding이란 무엇인지?에 대해 탐구해봅니다.
+created-at: 2025-04-16
 tags: [AI, workflow, development-tools, conceptual]
 ---
 
+나는 코딩을 통해 문제를 해결하는 것을 좋아한다. 하지만 우리 모두는 어떤 문제를 만족스럽게 해결할 만한 시간이 많지 않다는 것도 알고 있다. 그 점에서 이번 프로젝트는 [SI에서 Nextjs 첫 프로젝트 반성 및 후기](../projects/next-retrospective) 로 다이어그램을 각 task로 쪼갠 뒤 실제 구현을 맡기고 내가 직접 확인하는 것이었다.
+결과는 훌륭했다. 여러 다른 작업들을 병행하면서도 나에게 주어진 작업 역시 끝마칠 수 있었다. 
 
-[SI에서 Nextjs 첫 프로젝트 반성 및 후기](/docs/projects/next-retrospective) 글에서 잠깐 언급했던 것처럼, AI 코딩 툴이 정말 많이 발전했다.
+그래서 Agentic 코딩, 정확히는 Claude code로 내가 정확히 무엇을 할 수 있는지 알아보기로 했다. 물론 내가 Agentic coding의 전문가는 아니므로 아직도 각종 용어들 - Tools, MCP Servers, Commands, Subagents 등에 익숙한 것은 아니고 AI slop을 직접 지우거나 환각을 보는 문제를 직접 구현하는 등의 일이 있었지만 점점 **나에게 최적화된, 효율적인 워크플로우**에 다가가고 있다고 생각한다.
 
-1년 전에 정확히 같은 주제로 글을 썼던 것으로 기억하지만, 그때와는 너무나도 많은 것이 바뀌었다. 당시에는 agentic workflow 초창기였다면, 지금은 바야흐로 수많은 ai 코딩 툴이 등장하고 또 사라지는 시기인 것으로 보인다. 
+가장 중요한 것은, 이 과정에서 실제로 흥미를 느낀다는 점이다. 그래서 이 블로그 포스트를 쓰고 유지하며 헷갈릴 수 있는 컨셉들을 정리해보려고 생각한다. [Agentic coding basic concepts](https://annjose.com/post/agentic-coding-basics/)의 관점을 따라 여기서는 세 가지 레이어로 **Foundation(agents, models, tools)**, **Extensions(skills, commands, hooks)**, **Integrations(MCP, plugins)** 로 나누어서 정리해 보려고 한다.
 
-Cursor ide, Claude code, Gemini cli, Github Copilot... 
+다른 agentic tool 역시 용어는 다르지만 비슷한 컨셉을 사용하므로 충분히 재사용 할 수 있을 거라고 생각한다.
 
-### GOAL
+### Foundations
 
-AI를 사용한 코딩에 대한 관념 및, **실제로 사용할 만 한가?** 에 대한 재정리
+#### Agentic Coding
 
-### Vibe coding 이란 무엇인가?
+AI-assisted coding과 다르게 독립된 역할을 수행하는 AI Agents들이 설계, 코딩, 테스트, 피드백 과정을 수행하고 인간의 개입을 최소화 한다.
 
-[wikipedia](https://en.wikipedia.org/wiki/Vibe_coding) 에서는 다음과 같이 정의한다.
+#### Agents
 
-> Vibe coding이란  [AI-assisted software development](https://en.wikipedia.org/wiki/AI-assisted_software_development "AI-assisted software development") 을 쓰는 행위를 뜻함.
-> chatbot을 사용해서 개발자가 요구 사항이나 태스크를  [large language model](https://en.wikipedia.org/wiki/Large_language_model "Large language model") (LLM)에 전달하고, 프롬프팅을 통해 소스 코드를 생성하는 행위이다.
-> 개발자는 이 과정에서 코드 리뷰나 수정을 하지 않으며, 결과나 관리 툴을 통해 문제를 확인하고 수정을 프롬프팅하게 된다. 전통적인 AI의 도움을 받는 코딩이나 페어 프로그래밍과는 다르게, 인간인 개발자는 코드 리뷰를 하지 않으므로 생성된 소스 코드를 설명하지 않으며, 코드의 정확성이나 구조의 효율성 대신 프롬프팅을 통한 반복 생성 및 수정(iterative experimentation)을 더 중시한다.
+유저가 제공하는 Context를 통해 독립적으로 결정을 내리고 필요한 작업을 수행함.
+Agentic loop을 통해 주어진 태스크에 필요한 작업을 반복적으로 실시하고 이 과정에서 필요한 권한을 통한 tool 사용을 통해 복잡한 작업을 수행하는데 최적화 되어있음. 
 
-따라서 내가 알고 있던 것과는 다르게 바이브 코딩이란 인간의 개입이 최소화 되는 것이다.
-내가 지금까지 알고 있고, 활용하고 있던 바이브 코딩이라는 개념은 사실 AI-assisted coding인 것이고...
+![agent loop](https://mintcdn.com/claude-code/TBPmHzr19mDCuhZi/images/agentic-loop.svg?w=1650&fit=max&auto=format&n=TBPmHzr19mDCuhZi&q=85&s=3bf3319e76669f11513c6bcc5bf86feb)
 
-1. AI-assisted coding
-2. pair programming
-3. vibe coding
-4. agentic coding?
+Agent loop는 컨텍스트를 이해하고, 작업을 수행하며, 결과를 확인하는 단계로 실행 됨.
 
+#### Models
 
-### 1. AI assisted coding
+에이전트의 under the hood에서 작동하는 LLM. 코드를 이해하고, 테스크 단위로 쪼개 실제로 실행하는 역할을 함.
 
-내가 바이브 코딩인 줄 알고 해왔던 것. Cursor나 여러 ai 프롬프팅 인풋창에 실제로 물어보는 것.
-[reddit about ai assisted coding](https://www.reddit.com/r/ChatGPTCoding/comments/1kw43at/aiassisted_programming_whats_working_for_you/) 에서는 자신의 경험을 나와 거의 비슷하게 소개하고 있다.
+#### Tools
 
->내 경험에 따르면, 효과가 있었던 경우는 다음과 같습니다.
->- 제가 경험을 해보지 않았던 분야: 잘 알고 있지 않는 경우의 일반적인 유즈케이스를 물어볼 때
->- 어떤 특정한 테크 스택에 대한 정보가 필요할 때
->- 한 번 쓰고 버릴 프로젝트일 때: 데모, MVP 등. 
->- 레거시 소프트웨어를 다룰 때: 여기에 공부할 시간을 ai로 단축할 수 있습니다.
+에이전트가 태스크를 수행하기 위한 툴. 파일 시스템, 웹 서치, 쉘 커맨드 등을 통해 태스크를 수행하기 위한 필수적인 도구들.
+빌트인 툴이 있고 **Skill**이나 **MCP** **Subagent**라는 이름으로 커스텀한 툴을 만들어 줄 수 있음. 
 
-[[언제 AI를 사용해야 할까]] 따라서 내가 전에 정리했던 케이스와 비슷하다고 생각한다.
+### Extensions
 
-### 2. Pair programming
+주어진 빌트인들 외에 어떠한 특정한 작업을 수행하거나 능력을 확장하기 위해 유저가 만드는 레이어.
 
-전통적인 케이스. 이것은 내가 개발을 배울 때를 제외하고 많이 사용해 보지는 않았다.
+#### CLAUDE.md (공용 용어로는 AGENTS.md)
 
-### 3. Vibe coding
+프로젝트 단위나 그 상위 전역 단위에서 에이전트에게 지속되는 지시를 내리기 위한 컨텍스트 파일. [official claude code](https://code.claude.com/docs/en/memory)
 
-[medium blog - vibe coding vs agentic coding](https://dev.to/dumebii/vibe-coding-vs-agentic-coding-2025-beginners-guide-to-ai-driven-development-2oao) 에 따르면 이렇게 정의함.
+#### Commands
 
-> 문제를 발견함 -> 자연어로 명령함 -> 모델이 써주는대로 확인함.
-> 하지만 Andrew Ng가 경고한 바에 따르면, 현재 바이브 코딩의 문제는 여전히 코드의 구조, 보안, QA를 확인해야 한다는 것이다.
+`/{commands}`를 통해 특정한 빌트인 에이전트를 실행하거나 `/usage`, `/clear`, `/help`, 특정한 커스텀 스킬을 로드할 수 있음.
 
-> Vibe하게 MVP 데모나 배우는 목적에 유용함.
-### 4. Agentic coding
+#### Skills
 
-> 자연어로 주어지는 어떠한 목표를 독립적인 에이전트들이 조합해서 해결하는 것.
-> ex) 이 repo를 장고5로 업그레이드하고, 모든 테스트를 통과하게 해줘: 각각의 에이전트는 태스크를 계획하고, 파일을 수정하고, CI를 실행하며 pull-request까지를 실행한다.
+현재 세션 전체에서 사용되는 지시사항과 워크플로우를 로드하는 파일. Skill은 에이전트가 직접 실행하는 Python, JS, Bash 등 어떤 언어로든 실행 가능한 스크립트를 포함할 수 있으며, 이 실행 결과를 에이전트가 참조해서 태스크를 수행할 수 있다.
+AGENTS.md는 세션의 시작 시, skill은 에이전트나 유저가 on-demand로 로드한다. Skill은 /explain-code와 같은 슬래시 커맨드로 명시적으로 호출하거나, "이 코드를 설명해줘"처럼 컨텍스트에 따라 자동으로 호출될 수 있다.                                                       
+  
+  Claude에서 Skill은 세 가지 레벨로 로드된다:
 
-> 실제 개발에서 필요한 여러 반복적인 작업을 줄여 준다. 특히 스케일이 큰 리팩토링과 같은 유지보수 작업에 유리함.
+  - 메타데이터: 시작 시 로드되어 시스템 프롬프트에 포함됨
+  - 지시사항(SKILL.md): 트리거될 때 로드됨 (모델이 자동으로, 또는 유저가 수동으로)
+  - 참조(references): 참조될 때만 로드됨
 
+#### Subagents
 
-**Production level에서 문제없이 사용할 수 있는지?**
+독립된 워커 프로세스로 메인 컨텍스트와 분리되어 해당 시점의 컨텍스트를 참조해 자체적인 컨텍스트를 가지고 실행 결과를 요약해서 제공함.
 
-작년에는 내 짧은 이해도로 생각하면 ai의 발전이 아직 미흡하다고 느꼈다.
-그렇다면 이번 기회에는 어떨까?
+#### Hooks
 
-[Brendan O'Neill 블로그](https://stoptheslop.dev/blog/stop-the-slop-an-internal-guide-for-devs) 에서는 7명의 개발팀을 이끄는 저자가 agentic 코딩을 사용하며 정한 내부 룰을 소개하고 있다.
+워크플로우 자동화를 위한 라이프사이클 이벤트. git hooks와 비슷함.
 
-> - AI Slop을 피하기 위한 내부 룰. 과하게 복잡하고, 퀄리티가 낮고, 리뷰하기 힘든 코드가 생성되는 것.
+### Integrations
 
-#### 1. Think Before You Generate
+#### MCP
 
-작업을 시작하기 전, 10~15분 동안 충분히 생각을 할 것.
+에이전트가 외부 툴 및 데이터 소스에 접근하기 위한 표준. 여러 종류의 mcp를 만들거나 추가해 에이전트가 데이터베이스에 접근하거나 git에서 액션을 수행하거나 등을 할 수 있다.
 
-프롬프트가 가장 간단한 단위의 작업을 수행하도록 할 것:
+#### Plugins
 
-- 이 프롬프트가 어떤 커밋을 생성하게 될 것인가?
-- 여러 단계로 나뉜 작업을 진행할 때 어떤 순서대로 진행할 것인가?
-- 어떤 파일을 생성하게 할 것인가?
-- 프롬프트에 어떤 레퍼런스 파일이나 코드를 첨부할 것인가?
+위 여러 개념들을 한 가지 패키지로 포장해서 deploy 받을 수 있는 개념.
 
-그리고 워크스페이스에 밑준비를 한다:
+### 어떻게 워크플로우를 만들 것인가?
 
-- 새 파일을 생성하려 한다면 빈 파일을 직접 생성한다.
-- 레퍼런스 파일이나 스니펫을 따로 정리해 놓는다.
+- foundation과 빌트인들이 무엇을 할 수 있는지? 무엇에 약한지를 파악하기
+- CLAUDE.md와 AGENTS.md에 프로젝트의 특징과 패턴을 기록하기.
+- 반복적인 작업에 Skill을 사용하기: 코드 리뷰 패턴, docs 생성, 테스팅...
+- 자동화가 필요한 경우 Hook을 사용하기
+- 외부 api 연결이나 데이터페이스 연결이 필요한 경우 MCP를 사용하기
+- 작업이 복잡하고 메인 컨텍스트를 오염시킬 위험이 있다면 subagent를 사용하기
+- 워크플로우를 plugin으로 만들어서 관리하기.
 
-명확한 셋업과 설계가 중요하다.
+### 결론
 
-## 2. 일찍 그리고 자주 커밋할 것(가장 중요!)
+[Claude code를 끼얹어 보는 개발 - multistep form](./claude-code-agile-workflow) 에서 이미 Agentic coding을 조금이나마 경험해 보았지만, 다시 정리해 보니 개선해야 할 점들이 많다고 느껴진다. 실제로 완성된 앱을 만들어보면서 개선해보면 좋을 것 같다.
 
-ai가 잘못된 결과를 내놓았을 경우, git reset --hard로 곧바로 롤백해야 함. 만약 하기 망설여진 다면, 하나 이상의 작업을 커밋한 것임.
+### References
 
-최대한 자주 커밋을 진행해 ai가 생성한 코드를 곧바로 되돌릴 수 있도록 할 것.,
-
-리뷰 시에도 마찬가지.
-
-- 작업자가 최소한의 단위를 프롬프팅하였는지?
-- 하나의 커밋이 하나의 명확한 목적을 가지는지?
-- 프롬프트에 의도에 맞게 생성되었는지?
-- 하나 이상의 프롬프팅이 커밋에 반영되었는지?
-
-#### 3. 한 번에 한 파일만 작성할 것
-
-#### 4. 오버프롬프팅을 피할 것.
-
-한 번에 두 가지 작업을 시키지 말 것.
-
-이런 패턴이 발견될 경우:
-
-1. 프롬프트 작성
-2. 코드 리뷰
-3. 리젝트
-4. 표현을 바꿔서 다시 프롬프팅.
-
-이 경우 ai가 실패했다면, 다시 프롬프트하지 말고 수동으로 처리해야 함. 이전 코드가 도움이 되지 않는다면 `git reset --hard` 한 뒤 원하는 작업을 수동으로 처리할 것.
-
-####  5. 자기자신을 믿을 것
-
-ai가 준 코드가 마음에 들지 않는다면, 직접 쓸 것.
-
-ai의 코드가 이해되지 않는다면, 커밋하지 말 것.
-
-## 6. Work in Private Mode
-
-AI를 사용할 때 로컬에서 작업할 것.
-
-## 7. Stay In-Sync With the Team (Model and Settings Consistency)
-
-모든 팀원이 하나의 통일된 모델을 사용할 것.
-
-AI 툴을 사용하는 경우 공통화된 룰을 공유할 것.
-
-조금씩 그림이 그려지는 것 같다. 이 규칙들은 
-'팀 단위에서 어떻게 Shared한 코드 베이스를 최대한 문제 없이 처리하는지?'에 대한 나름의 해결책이 될 거라고 생각한다.
-
-위 규칙들을 적용해 Agentic 코딩을 직접 경험해보기로 했다.
-
-아래의 아주 흥미로운 오픈 소스 ai 코드 툴을 찾을 수 있었다.
-
-[automaker](https://automaker.app/) 
-
-> Your Autonomous AI Software Engineer.
-> 코드를 카피-페이스트 하지 마세요. 에이전트가 직접 기획, 코딩, 수정까지를 진행하고 유저는 칸반 보드를 통해 태스크를 관리할 수 있습니다.  에이전트들을 병렬 관리해서 코드를 **10배** 빠르게 완성하세요.
-
-여러가지 툴 중 해당 프로젝트에 끌렸던 이유는
-
-1. 해당 프로젝트는 4명의 개발자들이 실제 agentic coding으로 일주일(a week)만에 작성했다.
-2. 아직 베타 버전이라 개선의 여지가 있다.(코드의 변화하는 추이를 확인할 수 있다)
-3. 오픈 소스이다.
-4. '비개발자를 위한'이라는 광고문구가 없다.
-
-위 개념을 증명하기 위해 한번 실제로 해당 툴을 통해 Agentic Coding을 경험해보기로 하자.
+- [Agentic coding basic concepts](https://annjose.com/post/agentic-coding-basics/)
+- [AGENTS.md](https://agents.md/)
+- [Claude code docs](https://code.claude.com/docs)
