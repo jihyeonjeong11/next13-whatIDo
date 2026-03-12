@@ -8,7 +8,7 @@ tags: [React, TanStack Query, data-fetching, API, use-case]
 
 처음 이 Nextjs 프로젝트를 시작하게 되었을 때 받은 첫 사양은 모든 요청을 POST로 처리하고 프론트에서는 tanstack-query를 사용한다는 것이었다. 
 
-잠깐 혼란한 마음을 가라앉히고 내가 생각한 방법은 모든 react query 신택스를 useMutation으로 작업하는 것이었다.
+처음으로 내가 생각한 방법은 모든 Tanstack query 신택스를 useMutation으로 작업하는 것이었다.
 
 ### Goal - Tanstack Query에서 useQuery의 fetcher에 POST 요청을 사용해도 되는가?
 
@@ -57,7 +57,7 @@ const MainPage = () => {
 
 ### Summary
 
-Tanstack query를 사용하는 목적은 강력한 캐싱 및 엔드포인트 관리라고 생각한다. GET/POST이건 상관 없이 데이터 페칭이 필요하다면, 위와 같이 queryFn에 POST 요청을 넣고 쿼리 키를 관리하는 것이 맞다고 생각한다.
+GET/POST 상관없이 데이터 페칭이면 useQuery, 서버 사이드 이펙트가 있으면 useMutation. queryFn에 POST를 넣고 쿼리 키로 관리하면 된다.
 
 ### Refs
 
