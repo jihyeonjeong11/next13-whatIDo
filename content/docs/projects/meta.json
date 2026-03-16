@@ -1,5 +1,5 @@
 {
   "title": "Projects",
   "icon": "FolderOpen",
-  "pages": ["next-retrospective"]
+  "pages": ["next-retrospective", "monkmode-chrome-extension"]
 }
