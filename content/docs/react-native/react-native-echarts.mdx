@@ -1,0 +1,162 @@
+---
+title: React Native로 대용량 차트 그리기 - react native echarts
+description: react native로 15년간의 데이터를 차트로 그려내면서 생각했던 과정입니다.
+tags: [react-native, conceptual, use-case, skia]
+---
+
+
+**이 포스트는 React Native의 예전 버전인 Bridge structure 기준으로 제작되었습니다.**
+
+React native로 서비스 개발을 해온 사람은 모두 공감하겠지만 UI 부분이 삐걱거리는(=Janking) 경우는 모두가 흔하게 겪어보았을 문제라고 생각한다. Flatlist를 사용하거나, 재사용되는 React 컴포넌트에 메모이제이션을 하거나 등등... 
+하지만 차트의 경우는 어떨까? 차트는 대부분 라이브러리로 구현할 텐데, 해당 라이브러리 자체가 앱에 부하를 주는 경우라면? 
+
+아래 예제는 리액트 네이티브의 새 Fabric 렌더러가 나오기 이전의 예시지만, 여전히 차트의 경우에는 유효할 것이라고 생각하기 때문에 기록한다.
+
+### 1. Goal - 15년 간의 아이 성장 데이터를 담은 차트를 그려 주세요. WHO에서 제공하는 권장 성장값과 비교할 수 있도록 두 가지의 꺾은 선이 있어야 합니다.
+
+[열달후에](https://www.after10m.com/ko)의 아이 성장 그래프는 WHO에서 제시한 태아 및 아이의 평균 성장값과 부모님들이 하루하루 기록하는 자신의 아이와의 성장 평균값을 비교할 수 있는 기능이다.
+
+데이터는 서버에서 json 형태로 받아오고, 해당 json을 이미 설치되어 있는 [차트 라이브러리](https://github.com/JesperLekland/react-native-svg-charts) 에 넘겨주기만 하면 되는 일이니까... 그렇지 않았다.
+
+
+![growth-standard](/images/growth-standard.png)
+*이러한 형태의 꺾은 선 그래프가 15년 동안 이어지고 drag를 지원해 모든 기록을 확인할 수 있도록 해야했다.*
+
+### 2. Problem - 앱이 죽어버린다.
+
+구현 자체는 간단했고 그려지는 시간이 그렇게 길지도 않았다. 다만, 15년 분량의 json을 렌더하는 순간 안드로이드 테스트 기기를 중심으로 프레임 드랍과 크래시가 일어났다. 문제의 원인은 역시 RN을 경험해본 개발자들이 모두 경험했을 JS 쓰레드 단의 과부하였다.
+
+1. 15년 간의 아이 성장 데이터포인트
+2. 15년 간 WHO가 제시하는 성장값의 데이터포인트
+3. 1.과 2.를 잇게 하는 꺾은 선
+4. 차트 자체의 grid 가로세로 선
+
+이 15년 분량의 데이터를 react-native-svg-charts로 그리는 과정에서 JS Thread의 과도한 부담이 문제의 원인이었고, 기존에 사용했던 방법: Flatlist를 통해 Progressive한 렌더를 구현하거나, react 메모 기법을 사용한다거나 하는 것은 **현재의 라이브러리 구조 - svg를 동기적으로 그리는** 지금 라이브러리의 구조로는 힘들어 보였다.
+
+### 3. Concept - React Native의 쓰레딩 모델
+
+[Medium blog React native old vs new structure](https://medium.com/@jalalmohammed1818/react-native-new-architecture-fabric-old-vs-new-a-visual-deep-dive-d8436c103457) 에서는 이렇게 설명한다.
+
+```
+┌────────────────────┐
+│ JavaScript thread │
+│ (React reconciler) │
+└────────┬───────────┘
+         │
+         │ 리액트 레이어(JS Thread)는 업데이트 해야 할 부분에 대해 정리한다.
+         ▼
+┌──────────────────────────┐
+│ Batched JSON commands    │
+│ over the Bridge (async)  │
+└────────┬─────────────────┘
+         │ Async Bridge를 통해 json화 된 새 트리를 Native 단으로 전송한다.
+         ▼
+┌──────────────────────────┐
+│ Native UI Manager        │
+│ (Java / Obj-C)           │
+│ builds Shadow Tree in    │
+│ native memory            │
+└────────┬─────────────────┘
+         │
+         ▼
+┌──────────────────────────┐
+│ Native View Tree         │
+│ (UIView / ViewGroup etc.)│
+└──────────────────────────┘
+```
+
+리액트를 다룬 개발자라면 알다시피, 리액트 레이어에서는 그려야 할 엘리먼트들을 트리의 형태로 가상 돔(RN이라면 Shadow node)의 형태로 저장한 객체를 비교하면서 리렌더를 수행하게 된다.
+
+우리의 usecase는 규모가 큰 데이터를 **SVG 형태로 그리기 위해 Shadow tree 객체 수천 개를 작성하는 과정에서 JS Thread 과부하로 인한 병목 발생**으로 JS Thread의 과도한 부담이 일어나는 것이 원인이었다.
+
+이 과정에서 해결해야 할 문제는:
+1. JS Thread의 부담을 줄이는 렌더링 방식을 찾는다.
+
+### 4. Usecase - react-native-echarts + Skia 렌더링 라이브러리
+
+[react-native-echarts](https://github.com/wuba/react-native-echarts) 에서는 이에 대한 해결책을 제시한다.
+
+> 해당 라이브러리는 Apache Echarts의 React Native 버전으로, svg와 skia 버전을 동시에 제공합니다. 기존 웹뷰 버전으로 차트를 제공하는 것에 비해 퍼포먼스적으로 훨씬 나은 방법을 제공합니다.
+
+이 설명에서 이미 위 1.의 문제에 대한 나름대로의 해결책을 얻을 수 있었다. Webview를 통해 차트를 렌더한다면 RN이 존재하는 JS Thread와 차트 렌더링을 분리해서 처리할 수 있다는 것. 하지만, 여기서는 차트를 Native하게 렌더링하는 것에 중점을 두고 해당 라이브러리에 대해 더 알아보기로 했다. SVG 방식은 이미 시도해 보았으므로, Skia 방식에 대해 알아본다.
+
+react-native-echarts에서 skia renderer를 선택하게 된다면, 하나의 Source of Truth인 json 스테이트 아래 react-native-skia의 Canvas를 호출해 실제 렌더 작업을 진행하게 된다.
+
+```ts
+// skia/skiaCharts.tsx
+import { Canvas, useCanvasRef } from '@shopify/react-native-skia';
+...
+
+function SkiaComponent(
+  props: SkiaChartProps,
+  ref: ForwardedRef<(ChartElement & any) | null>
+) {
+  ...
+  const [children, setChildren] = useState<ReactElement[]>([]);
+  ...
+  useImperativeHandle(
+    ref,
+    () => ({
+      ...
+      elm: {
+        patch: (elms: ReactElement[]) => {
+          // console.log('patch', elms);
+          setChildren(elms); // children은 prop으로 받아온 json을 element로 변화시켜서 skia 내부적으로 처리함.
+        },
+      ...
+      },
+    }),
+    [dispatchEvents, initialWidth, initialHeight, canvasRef]
+  );
+...
+  // 내부적으로 @shopify/react-native-skia를 사용해 렌더한다.
+  return (
+    <View testID="component" style={{ ...style, width, height }}>
+      <Canvas
+        style={{ ...style, width, height }}
+        pointerEvents="auto"
+        ref={canvasRef}
+      >
+        {children}
+      </Canvas>
+      {handleGesture ? (
+        <GestureHandler dispatchEvents={dispatchEvents} {...gestureProps} />
+      ) : null}
+    </View>
+  );
+}
+
+```
+
+그리고 [react-native-skia 웹 그래픽에 대한 블로그](https://shopify.engineering/webgpu-skia-web-graphics)에서는 이렇게 설명한다.
+
+> react-native-skia에서 Canvas 컴포넌트로 RN 컴포넌트 뿐 아니라 캔버스를 위한 컴포넌트를 렌더할 수 있습니다. 여기서는 Skia 내부에 탑재된 리액트 렌더러를 사용합니다.
+
+> SkiaDOM이라고 부르는 C++ 기반 새로운 그래프 모델을 통해 많은 성능적인 개선을 이룰 수 있었습니다.
+
+따라서 React-Native-Skia를 통해 **SkiaDOM이라는 새로운 모델을 통해 이 레이어를 렌더하는 방식으로 차트를 그리는 것**이 react-native-echarts의 Usecase 였고, 나 역시도 이 방법을 채택하여 테스트 기기 중 가장 낮은 사양인 갤럭시 S7에서도 해당 차트를 fps 드롭을 최소화하고 크래쉬 문제를 해결할 수 있었다.
+이외에도 [progressive](https://echarts.apache.org/en/option.html#series-bar.progressive) 옵션을 통해 긴 json을 청크 단위로 나누어서 렌더할 수 있는 전략도 제공하니 대용량의 데이터를 차트로 네이티브하게 그리는 경우 해당 라이브러리를 고려해 보는 것이 큰 도움이 될 것이라 생각한다.
+
+
+**현 React Native Fabric renderer 기반은 더 많은 개선이 이루어졌다.**
+
+> 기존 Paper reconciler를 Fabric으로 바꾼 결과, 대부분의 concurrency issues를 해결할 수 있었습니다.
+> - Animation time에서는 ios에서 50%, 안드로이드에서 200%의 성능 향상을 기록했습니다.
+> - Time to first animation frame: 양 측 플랫폼에서 200%의 성능 향상을 기록했습니다.
+> - 코드베이스의 사이즈를 13% 줄였습니다.
+> - 안드로이드에서 98%의 크래쉬 보고 사례를 제거했습니다.
+
+### 5. 결론
+
+이전 [web worker를 통한 멈추지 않는 시계 만들기](../react/web-worker-clock)를 통해 배운 것처럼 이 Usecase에서도 복잡한 렌더링 작업을 해당 작업만을 담당하는 추가 레이어를 통해 진행하는 것이 퍼포먼스 향상에 큰 효과가 있다는 것을 알게 되었다.
+
+### 6. Tradeoff
+
+다만 여기서 언급된 가벼운 차트 라이브러리를 활용하거나, 웹뷰로 렌더하는 방식과 비교해 echarts와 skia를 활용한 방법을 사용할 경우 실제 앱의 사이즈가 4mb 정도로 늘어날 수 있다.
+
+### References
+
+- [react native thread 모델](https://reactnative.dev/architecture/threading-model)
+- [react native ultimate debugging guide](https://medium.com/@anisurrahmanbup/react-native-ultimate-guide-on-debugging-profiling-performance-optimization-ios-android-7e44b8690cbe)
+- [Medium blog React native old vs new structure](https://medium.com/@jalalmohammed1818/react-native-new-architecture-fabric-old-vs-new-a-visual-deep-dive-d8436c103457)
+- [react-native-skia 웹 그래픽에 대한 블로그](https://shopify.engineering/webgpu-skia-web-graphics)

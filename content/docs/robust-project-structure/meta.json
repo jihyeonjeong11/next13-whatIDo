@@ -3,7 +3,6 @@
   "icon": "Building2",
   "pages": [
     "architecture",
-    "biome",
     "docker",
     "fumadocs",
     "git-rabase-vs-git-pull",
