@@ -21,17 +21,18 @@ React native로 서비스 개발을 해온 사람은 모두 공감하겠지만 U
 
 ![growth-standard](/images/growth-standard.png)
 *이러한 형태의 꺾은 선 그래프가 15년 동안 이어지고 drag를 지원해 모든 기록을 확인할 수 있도록 해야했다.*
-
 ### 2. Problem - 앱이 죽어버린다.
 
-구현 자체는 간단했고 그려지는 시간이 그렇게 길지도 않았다. 다만, 15년 분량의 json을 렌더하는 순간 안드로이드 테스트 기기를 중심으로 프레임 드랍과 크래시가 일어났다. 문제의 원인은 역시 RN을 경험해본 개발자들이 모두 경험했을 JS 쓰레드 단의 과부하였다.
+구현 자체는 간단했다. 동기적으로 모든 json을 그려버리는 svg의 특성 상 렌더 타임을 걱정했지만 100ms 정도로 약간의 딜레이가 있는 수준이었다.
+다만, 15년 분량의 json을 렌더하는 순간 안드로이드 테스트 기기를 중심으로 프레임 드랍과 크래시가 일어났다. Perf monitor로 확인한 결과 원인은 역시 RN을 경험해본 개발자들이 모두 경험했을 JS 쓰레드 단의 과부하였다.
 
 1. 15년 간의 아이 성장 데이터포인트
 2. 15년 간 WHO가 제시하는 성장값의 데이터포인트
 3. 1.과 2.를 잇게 하는 꺾은 선
 4. 차트 자체의 grid 가로세로 선
 
-이 15년 분량의 데이터를 react-native-svg-charts로 그리는 과정에서 JS Thread의 과도한 부담이 문제의 원인이었고, 기존에 사용했던 방법: Flatlist를 통해 Progressive한 렌더를 구현하거나, react 메모 기법을 사용한다거나 하는 것은 **현재의 라이브러리 구조 - svg를 동기적으로 그리는** 지금 라이브러리의 구조로는 힘들어 보였다.
+이 15년 분량의 데이터를 react-native-svg-charts로 그리는 과정에서 **수천 개 이상의 가상 돔 tree 노드가 생성되는 것이 JS Thread의 과도한 부담을 주었고,** 
+기존에 사용했던 방법: Flatlist를 통해 Progressive한 렌더를 구현하거나, react의 메모 기법을 사용하는 것 역시 해당 문제의 근본적인 해결책 **SVG를 동기적으로 한번에 모두 그려내는** 현재의 라이브러리 로직에는 적용할 수 없다고 생각해 다른 해결책이 필요했다.
 
 ### 3. Concept - React Native의 쓰레딩 모델
 
@@ -39,38 +40,37 @@ React native로 서비스 개발을 해온 사람은 모두 공감하겠지만 U
 
 ```
 ┌────────────────────┐
-│ JavaScript thread │
-│ (React reconciler) │
-└────────┬───────────┘
-         │
-         │ 리액트 레이어(JS Thread)는 업데이트 해야 할 부분에 대해 정리한다.
-         ▼
-┌──────────────────────────┐
-│ Batched JSON commands    │
-│ over the Bridge (async)  │
-└────────┬─────────────────┘
-         │ Async Bridge를 통해 json화 된 새 트리를 Native 단으로 전송한다.
-         ▼
-┌──────────────────────────┐
-│ Native UI Manager        │
-│ (Java / Obj-C)           │
-│ builds Shadow Tree in    │
-│ native memory            │
-└────────┬─────────────────┘
-         │
-         ▼
-┌──────────────────────────┐
-│ Native View Tree         │
-│ (UIView / ViewGroup etc.)│
+│ JavaScript thread │  
+│ (React reconciler) │  
+└────────┬───────────┘  
+│  
+│ 리액트 레이어(JS Thread)는 업데이트 해야 할 부분에 대해 정리한다.
+▼  
+┌──────────────────────────┐  
+│ Batched JSON commands │  
+│ over the Bridge (async)│  
+└────────┬─────────────────┘  
+│ Async Bridge를 통해 json화 된 새 트리를 Native 단으로 전송한다.
+▼  
+┌──────────────────────────┐  
+│ Native UI Manager │  
+│ (Java / Obj-C) │  
+│ builds Shadow Tree in │  
+│ native memory │  
+└────────┬─────────────────┘  
+│  
+▼  
+┌──────────────────────────┐  
+│ Native View Tree │  
+│ (UIView / ViewGroup etc.)│  
 └──────────────────────────┘
 ```
 
 리액트를 다룬 개발자라면 알다시피, 리액트 레이어에서는 그려야 할 엘리먼트들을 트리의 형태로 가상 돔(RN이라면 Shadow node)의 형태로 저장한 객체를 비교하면서 리렌더를 수행하게 된다.
 
-우리의 usecase는 규모가 큰 데이터를 **SVG 형태로 그리기 위해 Shadow tree 객체 수천 개를 작성하는 과정에서 JS Thread 과부하로 인한 병목 발생**으로 JS Thread의 과도한 부담이 일어나는 것이 원인이었다.
+우리의 usecase는 규모가 큰 데이터를 **SVG 형태로 그리기 위해 돔 트리 객체를 작성하는 과정에서 JS Thread 과부하로 인한 병목 발생**으로 JS Thread의 과도한 부담이 일어나는 것이 원인이었다.
 
-이 과정에서 해결해야 할 문제는:
-1. JS Thread의 부담을 줄이는 렌더링 방식을 찾는다.
+이 과정에서 해결해야 할 문제는 **JS Thread의 부담을 줄이는 렌더링 방식을 찾는 것이었다.**
 
 ### 4. Usecase - react-native-echarts + Skia 렌더링 라이브러리
 
@@ -81,6 +81,7 @@ React native로 서비스 개발을 해온 사람은 모두 공감하겠지만 U
 이 설명에서 이미 위 1.의 문제에 대한 나름대로의 해결책을 얻을 수 있었다. Webview를 통해 차트를 렌더한다면 RN이 존재하는 JS Thread와 차트 렌더링을 분리해서 처리할 수 있다는 것. 하지만, 여기서는 차트를 Native하게 렌더링하는 것에 중점을 두고 해당 라이브러리에 대해 더 알아보기로 했다. SVG 방식은 이미 시도해 보았으므로, Skia 방식에 대해 알아본다.
 
 react-native-echarts에서 skia renderer를 선택하게 된다면, 하나의 Source of Truth인 json 스테이트 아래 react-native-skia의 Canvas를 호출해 실제 렌더 작업을 진행하게 된다.
+
 
 ```ts
 // skia/skiaCharts.tsx
@@ -101,7 +102,7 @@ function SkiaComponent(
       elm: {
         patch: (elms: ReactElement[]) => {
           // console.log('patch', elms);
-          setChildren(elms); // children은 prop으로 받아온 json을 element로 변화시켜서 skia 내부적으로 처리함.
+          setChildren(elms); // 여기서 메인 쓰레드에 속한 children은 prop으로 받아온 json을 element로 변화시켜서 내부적으로 처리함.
         },
       ...
       },
@@ -109,7 +110,7 @@ function SkiaComponent(
     [dispatchEvents, initialWidth, initialHeight, canvasRef]
   );
 ...
-  // 내부적으로 @shopify/react-native-skia를 사용해 렌더한다.
+  // svg-charts에서는 메인 리액트 Layer에서 svg를 그리지만, 여기서는 내부적인 Skia에서 제공하는 layer에서 Canvas 이하 변하지 않는 state json을 Skia 단에서 렌더하게 된다.
   return (
     <View testID="component" style={{ ...style, width, height }}>
       <Canvas
@@ -128,13 +129,15 @@ function SkiaComponent(
 
 ```
 
+
 그리고 [react-native-skia 웹 그래픽에 대한 블로그](https://shopify.engineering/webgpu-skia-web-graphics)에서는 이렇게 설명한다.
 
 > react-native-skia에서 Canvas 컴포넌트로 RN 컴포넌트 뿐 아니라 캔버스를 위한 컴포넌트를 렌더할 수 있습니다. 여기서는 Skia 내부에 탑재된 리액트 렌더러를 사용합니다.
 
 > SkiaDOM이라고 부르는 C++ 기반 새로운 그래프 모델을 통해 많은 성능적인 개선을 이룰 수 있었습니다.
 
-따라서 React-Native-Skia를 통해 **SkiaDOM이라는 새로운 모델을 통해 이 레이어를 렌더하는 방식으로 차트를 그리는 것**이 react-native-echarts의 Usecase 였고, 나 역시도 이 방법을 채택하여 테스트 기기 중 가장 낮은 사양인 갤럭시 S7에서도 해당 차트를 fps 드롭을 최소화하고 크래쉬 문제를 해결할 수 있었다.
+따라서 React-Native-Skia를 통해 **SkiaDOM이라는 새로운 모델을 통해 이 레이어를 렌더하는 방식으로 차트를 그리는 것**이 react-native-echarts의 Usecase 였고, 
+나 역시도 이 방법을 채택하여 테스트 기기 중 가장 낮은 사양인 갤럭시 S7에서도 차트 렌더 시 JS Thread 부하로 인한 프레임 드랍을 50 선으로 유지하고 크래쉬되는 문제를 해결할 수 있었다.
 이외에도 [progressive](https://echarts.apache.org/en/option.html#series-bar.progressive) 옵션을 통해 긴 json을 청크 단위로 나누어서 렌더할 수 있는 전략도 제공하니 대용량의 데이터를 차트로 네이티브하게 그리는 경우 해당 라이브러리를 고려해 보는 것이 큰 도움이 될 것이라 생각한다.
 
 
